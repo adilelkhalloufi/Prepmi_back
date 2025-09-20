@@ -23,6 +23,11 @@ class User extends Authenticatable implements HasName
         'last_name',
         'email',
         'password',
+        'phone',
+        'address',
+        'city',
+        'postal_code',
+        'country',
     ];
 
     /**
@@ -78,6 +83,42 @@ class User extends Authenticatable implements HasName
     public function profil(): HasOne
     {
         return $this->hasOne(Profil::class, 'user_id', 'id');
+    }
+
+    // Prepmi Platform Relationships
+    public function preferences(): HasOne
+    {
+        return $this->hasOne(UserPreference::class);
+    }
+
+    public function addresses(): HasMany
+    {
+        return $this->hasMany(Address::class);
+    }
+
+    public function subscriptions(): HasMany
+    {
+        return $this->hasMany(Subscription::class);
+    }
+
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function payments(): HasMany
+    {
+        return $this->hasMany(Payment::class);
+    }
+
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(Review::class);
+    }
+
+    public function defaultAddress(): BelongsTo
+    {
+        return $this->belongsTo(Address::class, 'default_address_id');
     }
 
 
