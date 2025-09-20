@@ -1,0 +1,47 @@
+name,description,family_id
+"{""en"": ""heavy tools"", ""ar"": ""معدات تقيله"", ""fr"": ""outils lourds""}","{""en"": """", ""ar"": """", ""fr"": """"}",2
+"{""en"": ""Battery"", ""ar"": ""بطاريات"", ""fr"": ""Batterie""}","{""en"": """", ""ar"": """", ""fr"": """"}",2
+"{""en"": ""marines scrap"", ""ar"": ""مراكب خرده"", ""fr"": ""Marines Scrap""}","{""en"": """", ""ar"": """", ""fr"": """"}",2
+"{""en"": ""CONCRETE PLANT"", ""ar"": ""محطة خرسانة"", ""fr"": ""Plante en béton""}","{""en"": """", ""ar"": """", ""fr"": """"}",2
+"{""en"": ""Mix scrap"", ""ar"": ""لوط  خرده متنوع"", ""fr"": ""Mélanger""}","{""en"": """", ""ar"": """", ""fr"": """"}",2
+"{""en"": ""stainless steel"", ""ar"": ""استانلس"", ""fr"": ""acier inoxydable""}","{""en"": """", ""ar"": """", ""fr"": """"}",2
+"{""en"": ""Cars"", ""ar"": ""سيارات وقطع غيار"", ""fr"": ""Voitures""}","{""en"": """", ""ar"": """", ""fr"": """"}",2
+"{""en"": ""Foam"", ""ar"": ""فوم"", ""fr"": ""Mousse""}","{""en"": """", ""ar"": """", ""fr"": """"}",2
+"{""en"": ""Fire extinguishers"", ""ar"": ""طفايات حريق"", ""fr"": ""Extincteurs""}","{""en"": """", ""ar"": """", ""fr"": """"}",2
+"{""en"": ""Office Furniture"", ""ar"": ""اثاث مكتبي"", ""fr"": ""Meubles de bureau""}","{""en"": """", ""ar"": """", ""fr"": """"}",2
+"{""en"": ""air conditioners"", ""ar"": ""تكييفات"", ""fr"": ""climatiseurs""}","{""en"": """", ""ar"": """", ""fr"": """"}",2
+"{""en"": ""Tanks"", ""ar"": ""براميل وتانكات"", ""fr"": ""Chars""}","{""en"": """", ""ar"": """", ""fr"": """"}",2
+"{""en"": ""Cables"", ""ar"": ""كابلات"", ""fr"": ""Câbles""}","{""en"": """", ""ar"": """", ""fr"": """"}",2
+"{""en"": ""white foam"", ""ar"": ""فل ابيض"", ""fr"": ""mousse blanche""}","{""en"": """", ""ar"": """", ""fr"": """"}",2
+"{""en"": ""Batteries"", ""ar"": ""بطاريات"", ""fr"": ""Batteurs""}","{""en"": """", ""ar"": """", ""fr"": """"}",2
+"{""en"": ""Electrical devices"", ""ar"": ""اجهزة الكترونية"", ""fr"": ""Dispositifs électriques""}","{""en"": """", ""ar"": """", ""fr"": """"}",2
+"{""en"": ""machines"", ""ar"": ""معدات مولدات"", ""fr"": ""machines""}","{""en"": """", ""ar"": """", ""fr"": """"}",2
+"{""en"": ""cladding"", ""ar"": ""كلادينج"", ""fr"": ""revêtement""}","{""en"": """", ""ar"": """", ""fr"": """"}",2
+"{""en"": ""rubber"", ""ar"": ""كاوتش"", ""fr"": ""caoutchouc""}","{""en"": """", ""ar"": """", ""fr"": """"}",2
+"{""en"": ""steel"", ""ar"": ""حديد وصاج"", ""fr"": ""acier""}","{""en"": """", ""ar"": """", ""fr"": """"}",2
+"{""en"": ""Glass"", ""ar"": ""كسر زجاج"", ""fr"": ""Verre""}","{""en"": """", ""ar"": """", ""fr"": """"}",2
+"{""en"": ""Papers and Cartoon"", ""ar"": ""ورق وكرتون"", ""fr"": ""Papiers et dessin animé""}","{""en"": """", ""ar"": """", ""fr"": """"}",2
+"{""en"": ""Plastic"", ""ar"": ""بلاستيك"", ""fr"": ""Plastique""}","{""en"": """", ""ar"": """", ""fr"": """"}",2
+"{""en"": ""copper"", ""ar"": ""نحاس"", ""fr"": ""cuivre""}","{""en"": """", ""ar"": """", ""fr"": """"}",2
+"{""en"": ""timber"", ""ar"": ""خشب"", ""fr"": ""bois""}","{""en"": """", ""ar"": """", ""fr"": """"}",2
+"{""en"": ""aluminium"", ""ar"": ""الومنيوم"", ""fr"": ""aluminium""}","{""en"": """", ""ar"": """", ""fr"": """"}",2
+"{""en"": ""IT"", ""ar"": ""أدوات كومبيوتر"", ""fr"": ""IL""}","{""en"": """", ""ar"": """", ""fr"": """"}",1
+"{""en"": ""Caravans and containers"", ""ar"": ""كرفانات و حويات"", ""fr"": ""Caravanes et conteneurs""}","{""en"": """", ""ar"": """", ""fr"": """"}",1
+"{""en"": ""Building materials"", ""ar"": ""مواد بناء"", ""fr"": ""Matériaux de construction""}","{""en"": """", ""ar"": """", ""fr"": """"}",1
+"{""en"": ""fire fighting"", ""ar"": ""مكافحة الحرائق"", ""fr"": ""lutte contre les incendies""}","{""en"": """", ""ar"": """", ""fr"": """"}",1
+"{""en"": ""Flooring"", ""ar"": ""الارضيات"", ""fr"": ""Sol""}","{""en"": """", ""ar"": """", ""fr"": """"}",1
+"{""en"": ""Lock & Lock"", ""ar"": ""اقفال و كوالين"", ""fr"": ""Verrouillage et verrouillage""}","{""en"": """", ""ar"": """", ""fr"": """"}",1
+"{""en"": ""Doors"", ""ar"": ""ابواب"", ""fr"": ""Portes""}","{""en"": """", ""ar"": """", ""fr"": """"}",1
+"{""en"": ""Paints"", ""ar"": ""الدهانات"", ""fr"": ""Peintures""}","{""en"": """", ""ar"": """", ""fr"": """"}",1
+"{""en"": ""Mixers and sanitary"", ""ar"": ""خلاطات و صحي"", ""fr"": ""Mélangeurs et sanitaires""}","{""en"": """", ""ar"": """", ""fr"": """"}",1
+"{""en"": ""machines&tools"", ""ar"": ""عدد والات"", ""fr"": ""machines et outils""}","{""en"": """", ""ar"": """", ""fr"": """"}",1
+"{""en"": ""Office furniture"", ""ar"": ""اثاث مكتبي"", ""fr"": ""Meubles de bureau""}","{""en"": """", ""ar"": """", ""fr"": """"}",1
+"{""en"": ""Heavy Equipment"", ""ar"": ""معدات ثقيله"", ""fr"": ""Matériel lourd""}","{""en"": """", ""ar"": """", ""fr"": """"}",1
+"{""en"": ""air conditioners   and ventilation"", ""ar"": ""تكييفات وتهويه"", ""fr"": ""climatiseurs et ventilation""}","{""en"": """", ""ar"": """", ""fr"": """"}",1
+"{""en"": ""Industrial"", ""ar"": ""مستلزمات الورش والمصانع"", ""fr"": ""Industriel""}","{""en"": """", ""ar"": """", ""fr"": """"}",1
+"{""en"": ""Insulation Products"", ""ar"": ""منتجات عزل"", ""fr"": ""Produits d'isolation""}","{""en"": """", ""ar"": """", ""fr"": """"}",1
+"{""en"": ""chemicals"", ""ar"": ""كيماويات"", ""fr"": ""produits chimiques""}","{""en"": """", ""ar"": """", ""fr"": """"}",1
+"{""en"": ""Plumping"", ""ar"": ""سباكه"", ""fr"": ""Repoussant""}","{""en"": """", ""ar"": """", ""fr"": """"}",1
+"{""en"": ""Electrical"", ""ar"": ""كهرباء"", ""fr"": ""Électrique""}","{""en"": """", ""ar"": """", ""fr"": """"}",1
+"{""en"": ""wood"", ""ar"": ""اخشاب"", ""fr"": ""bois""}","{""en"": """", ""ar"": """", ""fr"": """"}",1
+"{""en"": ""Steel"", ""ar"": ""حديد وصاج"", ""fr"": ""Acier""}","{""en"": """", ""ar"": """", ""fr"": """"}",1

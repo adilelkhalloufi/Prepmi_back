@@ -1,0 +1,600 @@
+[
+    {
+        "name": {
+            "en": "heavy tools",
+            "ar": "معدات تقيله",
+            "fr": "outils lourds"
+        },
+        "description": {
+            "en": "",
+            "ar": "",
+            "fr": ""
+        },
+        "type": 2
+    },
+    {
+        "name": {
+            "en": "Battery",
+            "ar": "بطاريات",
+            "fr": "Batterie"
+        },
+        "description": {
+            "en": "",
+            "ar": "",
+            "fr": ""
+        },
+        "type": 2
+    },
+    {
+        "name": {
+            "en": "marines scrap",
+            "ar": "مراكب خرده",
+            "fr": "Marines Scrap"
+        },
+        "description": {
+            "en": "",
+            "ar": "",
+            "fr": ""
+        },
+        "type": 2
+    },
+    {
+        "name": {
+            "en": "CONCRETE PLANT",
+            "ar": "محطة خرسانة",
+            "fr": "Plante en béton"
+        },
+        "description": {
+            "en": "",
+            "ar": "",
+            "fr": ""
+        },
+        "type": 2
+    },
+    {
+        "name": {
+            "en": "Mix scrap",
+            "ar": "لوط  خرده متنوع",
+            "fr": "Mélanger"
+        },
+        "description": {
+            "en": "",
+            "ar": "",
+            "fr": ""
+        },
+        "type": 2
+    },
+    {
+        "name": {
+            "en": "stainless steel",
+            "ar": "استانلس",
+            "fr": "acier inoxydable"
+        },
+        "description": {
+            "en": "",
+            "ar": "",
+            "fr": ""
+        },
+        "type": 2
+    },
+    {
+        "name": {
+            "en": "Cars",
+            "ar": "سيارات وقطع غيار",
+            "fr": "Voitures"
+        },
+        "description": {
+            "en": "",
+            "ar": "",
+            "fr": ""
+        },
+        "type": 2
+    },
+    {
+        "name": {
+            "en": "Foam",
+            "ar": "فوم",
+            "fr": "Mousse"
+        },
+        "description": {
+            "en": "",
+            "ar": "",
+            "fr": ""
+        },
+        "type": 2
+    },
+    {
+        "name": {
+            "en": "Fire extinguishers",
+            "ar": "طفايات حريق",
+            "fr": "Extincteurs"
+        },
+        "description": {
+            "en": "",
+            "ar": "",
+            "fr": ""
+        },
+        "type": 2
+    },
+    {
+        "name": {
+            "en": "Office Furniture",
+            "ar": "اثاث مكتبي",
+            "fr": "Meubles de bureau"
+        },
+        "description": {
+            "en": "",
+            "ar": "",
+            "fr": ""
+        },
+        "type": 2
+    },
+    {
+        "name": {
+            "en": "air conditioners",
+            "ar": "تكييفات",
+            "fr": "climatiseurs"
+        },
+        "description": {
+            "en": "",
+            "ar": "",
+            "fr": ""
+        },
+        "type": 2
+    },
+    {
+        "name": {
+            "en": "Tanks",
+            "ar": "براميل وتانكات",
+            "fr": "Chars"
+        },
+        "description": {
+            "en": "",
+            "ar": "",
+            "fr": ""
+        },
+        "type": 2
+    },
+    {
+        "name": {
+            "en": "Cables",
+            "ar": "كابلات",
+            "fr": "Câbles"
+        },
+        "description": {
+            "en": "",
+            "ar": "",
+            "fr": ""
+        },
+        "type": 2
+    },
+    {
+        "name": {
+            "en": "white foam",
+            "ar": "فل ابيض",
+            "fr": "mousse blanche"
+        },
+        "description": {
+            "en": "",
+            "ar": "",
+            "fr": ""
+        },
+        "type": 2
+    },
+    {
+        "name": {
+            "en": "Batteries",
+            "ar": "بطاريات",
+            "fr": "Batteurs"
+        },
+        "description": {
+            "en": "",
+            "ar": "",
+            "fr": ""
+        },
+        "type": 2
+    },
+    {
+        "name": {
+            "en": "Electrical devices",
+            "ar": "اجهزة الكترونية",
+            "fr": "Dispositifs électriques"
+        },
+        "description": {
+            "en": "",
+            "ar": "",
+            "fr": ""
+        },
+        "type": 2
+    },
+    {
+        "name": {
+            "en": "machines",
+            "ar": "معدات مولدات",
+            "fr": "machines"
+        },
+        "description": {
+            "en": "",
+            "ar": "",
+            "fr": ""
+        },
+        "type": 2
+    },
+    {
+        "name": {
+            "en": "cladding",
+            "ar": "كلادينج",
+            "fr": "revêtement"
+        },
+        "description": {
+            "en": "",
+            "ar": "",
+            "fr": ""
+        },
+        "type": 2
+    },
+    {
+        "name": {
+            "en": "rubber",
+            "ar": "كاوتش",
+            "fr": "caoutchouc"
+        },
+        "description": {
+            "en": "",
+            "ar": "",
+            "fr": ""
+        },
+        "type": 2
+    },
+    {
+        "name": {
+            "en": "steel",
+            "ar": "حديد وصاج",
+            "fr": "acier"
+        },
+        "description": {
+            "en": "",
+            "ar": "",
+            "fr": ""
+        },
+        "type": 2
+    },
+    {
+        "name": {
+            "en": "Glass",
+            "ar": "كسر زجاج",
+            "fr": "Verre"
+        },
+        "description": {
+            "en": "",
+            "ar": "",
+            "fr": ""
+        },
+        "type": 2
+    },
+    {
+        "name": {
+            "en": "Papers and Cartoon",
+            "ar": "ورق وكرتون",
+            "fr": "Papiers et dessin animé"
+        },
+        "description": {
+            "en": "",
+            "ar": "",
+            "fr": ""
+        },
+        "type": 2
+    },
+    {
+        "name": {
+            "en": "Plastic",
+            "ar": "بلاستيك",
+            "fr": "Plastique"
+        },
+        "description": {
+            "en": "",
+            "ar": "",
+            "fr": ""
+        },
+        "type": 2
+    },
+    {
+        "name": {
+            "en": "copper",
+            "ar": "نحاس",
+            "fr": "cuivre"
+        },
+        "description": {
+            "en": "",
+            "ar": "",
+            "fr": ""
+        },
+        "type": 2
+    },
+    {
+        "name": {
+            "en": "timber",
+            "ar": "خشب",
+            "fr": "bois"
+        },
+        "description": {
+            "en": "",
+            "ar": "",
+            "fr": ""
+        },
+        "type": 2
+    },
+    {
+        "name": {
+            "en": "aluminium",
+            "ar": "الومنيوم",
+            "fr": "aluminium"
+        },
+        "description": {
+            "en": "",
+            "ar": "",
+            "fr": ""
+        },
+        "type": 2
+    },
+    {
+        "name": {
+            "en": "IT",
+            "ar": "أدوات كومبيوتر",
+            "fr": "IL"
+        },
+        "description": {
+            "en": "",
+            "ar": "",
+            "fr": ""
+        },
+        "type": 1
+    },
+    {
+        "name": {
+            "en": "Caravans and containers",
+            "ar": "كرفانات و حويات",
+            "fr": "Caravanes et conteneurs"
+        },
+        "description": {
+            "en": "",
+            "ar": "",
+            "fr": ""
+        },
+        "type": 1
+    },
+    {
+        "name": {
+            "en": "Building materials",
+            "ar": "مواد بناء",
+            "fr": "Matériaux de construction"
+        },
+        "description": {
+            "en": "",
+            "ar": "",
+            "fr": ""
+        },
+        "type": 1
+    },
+    {
+        "name": {
+            "en": "fire fighting",
+            "ar": "مكافحة الحرائق",
+            "fr": "lutte contre les incendies"
+        },
+        "description": {
+            "en": "",
+            "ar": "",
+            "fr": ""
+        },
+        "type": 1
+    },
+    {
+        "name": {
+            "en": "Flooring",
+            "ar": "الارضيات",
+            "fr": "Sol"
+        },
+        "description": {
+            "en": "",
+            "ar": "",
+            "fr": ""
+        },
+        "type": 1
+    },
+    {
+        "name": {
+            "en": "Lock & Lock",
+            "ar": "اقفال و كوالين",
+            "fr": "Verrouillage et verrouillage"
+        },
+        "description": {
+            "en": "",
+            "ar": "",
+            "fr": ""
+        },
+        "type": 1
+    },
+    {
+        "name": {
+            "en": "Doors",
+            "ar": "ابواب",
+            "fr": "Portes"
+        },
+        "description": {
+            "en": "",
+            "ar": "",
+            "fr": ""
+        },
+        "type": 1
+    },
+    {
+        "name": {
+            "en": "Paints",
+            "ar": "الدهانات",
+            "fr": "Peintures"
+        },
+        "description": {
+            "en": "",
+            "ar": "",
+            "fr": ""
+        },
+        "type": 1
+    },
+    {
+        "name": {
+            "en": "Mixers and sanitary",
+            "ar": "خلاطات و صحي",
+            "fr": "Mélangeurs et sanitaires"
+        },
+        "description": {
+            "en": "",
+            "ar": "",
+            "fr": ""
+        },
+        "type": 1
+    },
+    {
+        "name": {
+            "en": "machines&tools",
+            "ar": "عدد والات",
+            "fr": "machines et outils"
+        },
+        "description": {
+            "en": "",
+            "ar": "",
+            "fr": ""
+        },
+        "type": 1
+    },
+    {
+        "name": {
+            "en": "Office furniture",
+            "ar": "اثاث مكتبي",
+            "fr": "Meubles de bureau"
+        },
+        "description": {
+            "en": "",
+            "ar": "",
+            "fr": ""
+        },
+        "type": 1
+    },
+    {
+        "name": {
+            "en": "Heavy Equipment",
+            "ar": "معدات ثقيله",
+            "fr": "Matériel lourd"
+        },
+        "description": {
+            "en": "",
+            "ar": "",
+            "fr": ""
+        },
+        "type": 1
+    },
+    {
+        "name": {
+            "en": "air conditioners   and ventilation",
+            "ar": "تكييفات وتهويه",
+            "fr": "climatiseurs et ventilation"
+        },
+        "description": {
+            "en": "",
+            "ar": "",
+            "fr": ""
+        },
+        "type": 1
+    },
+    {
+        "name": {
+            "en": "Industrial",
+            "ar": "مستلزمات الورش والمصانع",
+            "fr": "Industriel"
+        },
+        "description": {
+            "en": "",
+            "ar": "",
+            "fr": ""
+        },
+        "type": 1
+    },
+    {
+        "name": {
+            "en": "Insulation Products",
+            "ar": "منتجات عزل",
+            "fr": "Produits d'isolation"
+        },
+        "description": {
+            "en": "",
+            "ar": "",
+            "fr": ""
+        },
+        "type": 1
+    },
+    {
+        "name": {
+            "en": "chemicals",
+            "ar": "كيماويات",
+            "fr": "produits chimiques"
+        },
+        "description": {
+            "en": "",
+            "ar": "",
+            "fr": ""
+        },
+        "type": 1
+    },
+    {
+        "name": {
+            "en": "Plumping",
+            "ar": "سباكه",
+            "fr": "Repoussant"
+        },
+        "description": {
+            "en": "",
+            "ar": "",
+            "fr": ""
+        },
+        "type": 1
+    },
+    {
+        "name": {
+            "en": "Electrical",
+            "ar": "كهرباء",
+            "fr": "Électrique"
+        },
+        "description": {
+            "en": "",
+            "ar": "",
+            "fr": ""
+        },
+        "type": 1
+    },
+    {
+        "name": {
+            "en": "wood",
+            "ar": "اخشاب",
+            "fr": "bois"
+        },
+        "description": {
+            "en": "",
+            "ar": "",
+            "fr": ""
+        },
+        "type": 1
+    },
+    {
+        "name": {
+            "en": "Steel",
+            "ar": "حديد وصاج",
+            "fr": "Acier"
+        },
+        "description": {
+            "en": "",
+            "ar": "",
+            "fr": ""
+        },
+        "type": 1
+    }
+]
