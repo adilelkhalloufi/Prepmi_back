@@ -28,6 +28,13 @@ class User extends Authenticatable implements HasName
         'city',
         'postal_code',
         'country',
+        'loyalty_points',
+        'total_points_earned',
+        'total_points_redeemed',
+        'total_rewards_earned',
+        'total_rewards_used',
+        'last_reward_earned_at',
+        'badges',
     ];
 
     /**
@@ -116,6 +123,27 @@ class User extends Authenticatable implements HasName
         return $this->hasMany(Review::class);
     }
 
+    // Loyalty Points System Relationships
+    public function loyaltyTransactions(): HasMany
+    {
+        return $this->hasMany(LoyaltyTransaction::class);
+    }
+
+    public function rewards(): HasMany
+    {
+        return $this->hasMany(Reward::class);
+    }
+
+    public function availableRewards(): HasMany
+    {
+        return $this->hasMany(Reward::class)->available();
+    }
+
+    public function usedRewards(): HasMany
+    {
+        return $this->hasMany(Reward::class)->used();
+    }
+
     public function defaultAddress(): BelongsTo
     {
         return $this->belongsTo(Address::class, 'default_address_id');
@@ -134,6 +162,13 @@ class User extends Authenticatable implements HasName
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'loyalty_points' => 'integer',
+            'total_points_earned' => 'integer',
+            'total_points_redeemed' => 'integer',
+            'total_rewards_earned' => 'integer',
+            'total_rewards_used' => 'integer',
+            'last_reward_earned_at' => 'datetime',
+            'badges' => 'array',
         ];
     }
 }

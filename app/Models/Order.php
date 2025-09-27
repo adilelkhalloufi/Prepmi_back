@@ -26,6 +26,15 @@ class Order extends Model
         'payment_id',
         'notes',
         'delivery_instructions',
+        'points_earned',
+        'reward_used',
+        'reward_discount_amount',
+        'reward_id',
+        'subtotal',
+        'discount_total',
+        'delivery_fee',
+        'tax_amount',
+        'points_breakdown',
     ];
 
     protected $casts = [
@@ -33,6 +42,14 @@ class Order extends Model
         'delivery_date' => 'datetime',
         'status' => OrderStatus::class,
         'total_price' => 'decimal:2',
+        'points_earned' => 'integer',
+        'reward_used' => 'boolean',
+        'reward_discount_amount' => 'decimal:2',
+        'subtotal' => 'decimal:2',
+        'discount_total' => 'decimal:2',
+        'delivery_fee' => 'decimal:2',
+        'tax_amount' => 'decimal:2',
+        'points_breakdown' => 'array',
     ];
 
     /**
@@ -73,6 +90,22 @@ class Order extends Model
     public function delivery(): HasOne
     {
         return $this->hasOne(Delivery::class);
+    }
+
+    /**
+     * Get the loyalty transactions for this order.
+     */
+    public function loyaltyTransactions(): HasMany
+    {
+        return $this->hasMany(LoyaltyTransaction::class);
+    }
+
+    /**
+     * Get the reward used for this order.
+     */
+    public function reward(): BelongsTo
+    {
+        return $this->belongsTo(Reward::class);
     }
 
     /**

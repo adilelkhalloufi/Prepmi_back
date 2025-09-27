@@ -34,6 +34,8 @@ class Plan extends Model
         'is_featured',
         'sort_order',
         'terms_and_conditions',
+        'points_value',
+        'box_price',
     ];
 
     protected $casts = [
@@ -53,6 +55,8 @@ class Plan extends Model
         'is_active' => 'boolean',
         'is_featured' => 'boolean',
         'sort_order' => 'integer',
+        'points_value' => 'integer',
+        'box_price' => 'decimal:2',
     ];
 
     // Relationships

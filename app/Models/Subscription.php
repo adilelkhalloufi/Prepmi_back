@@ -34,6 +34,15 @@ class Subscription extends Model
         'special_instructions',
         'billing_address_id',
         'delivery_address_id',
+        'cancellation_deadline',
+        'pause_start_date',
+        'pause_end_date',
+        'max_pause_weeks',
+        'paused_weeks_used',
+        'preferred_delivery_days',
+        'delivery_restrictions',
+        'auto_renew',
+        'auto_renew_disabled_at',
     ];
 
     protected $casts = [
@@ -49,6 +58,15 @@ class Subscription extends Model
         'weeks_remaining' => 'integer',
         'total_amount_paid' => 'decimal:2',
         'meals_delivered' => 'integer',
+        'cancellation_deadline' => 'datetime',
+        'pause_start_date' => 'datetime',
+        'pause_end_date' => 'datetime',
+        'max_pause_weeks' => 'integer',
+        'paused_weeks_used' => 'integer',
+        'preferred_delivery_days' => 'array',
+        'delivery_restrictions' => 'array',
+        'auto_renew' => 'boolean',
+        'auto_renew_disabled_at' => 'datetime',
     ];
 
     // Relationships
