@@ -4,14 +4,6 @@ namespace App\Enum;
 
 enum OrderStatus: string
 {
-    case PENDING = 'pending';
-    case CONFIRMED = 'confirmed';
-    case PREPARING = 'preparing';
-    case SHIPPED = 'shipped';
-    case DELIVERED = 'delivered';
-    case CANCELLED = 'cancelled';
-    case REFUNDED = 'refunded';
-
     public function label(): string
     {
         return match ($this) {
@@ -42,4 +34,11 @@ enum OrderStatus: string
             self::REFUNDED => false,
         };
     }
+    case PENDING = 'pending';
+    case CONFIRMED = 'confirmed';
+    case PREPARING = 'preparing';
+    case SHIPPED = 'shipped';
+    case DELIVERED = 'delivered';
+    case CANCELLED = 'cancelled';
+    case REFUNDED = 'refunded';
 }

@@ -4,10 +4,6 @@ namespace App\Enum;
 
 enum DeliveryFrequency: string
 {
-    case WEEKLY = 'weekly';
-    case BIWEEKLY = 'biweekly';
-    case MONTHLY = 'monthly';
-
     public function label(): string
     {
         return match ($this) {
@@ -30,4 +26,7 @@ enum DeliveryFrequency: string
             self::MONTHLY => 30,
         };
     }
+    case WEEKLY = 'weekly';
+    case BIWEEKLY = 'biweekly';
+    case MONTHLY = 'monthly';
 }

@@ -126,7 +126,7 @@ class Payment extends Model
     /**
      * Process refund for this payment.
      */
-    public function processRefund(float $amount = null): bool
+    public function processRefund(?float $amount = null): bool
     {
         $refundAmount = $amount ?? $this->amount;
 

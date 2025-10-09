@@ -66,25 +66,20 @@
         "test": [
             "php artisan test"
         ],
-        "pest" : "./vendor/bin/pest",
+        "pest": "./vendor/bin/pest",
         "pint": "pint",
         "refactor": "rector",
         "php-cs-fixer": "php-cs-fixer fix",
-        "better":[
+        "better": [
             "@refactor",
             "@php-cs-fixer",
             "@pint"
         ],
         "config-start": [
             "php artisan db:wipe",
-            "php artisan make:constants all --delete",
-            "php artisan translatable:toggle comment",
-            "php artisan migrate:refresh",
-            "php artisan make:constants all",
-            "php artisan translatable:toggle decomment",
+            "php artisan migrate",
             "php artisan db:seed",
             "@better"
-           
         ]
     },
     "extra": {

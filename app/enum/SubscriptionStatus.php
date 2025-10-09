@@ -4,11 +4,6 @@ namespace App\Enum;
 
 enum SubscriptionStatus: string
 {
-    case ACTIVE = 'active';
-    case PAUSED = 'paused';
-    case CANCELLED = 'cancelled';
-    case EXPIRED = 'expired';
-
     public function label(): string
     {
         return match ($this) {
@@ -23,4 +18,8 @@ enum SubscriptionStatus: string
     {
         return array_column(self::cases(), 'value');
     }
+    case ACTIVE = 'active';
+    case PAUSED = 'paused';
+    case CANCELLED = 'cancelled';
+    case EXPIRED = 'expired';
 }

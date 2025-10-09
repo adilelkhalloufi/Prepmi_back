@@ -4,14 +4,6 @@ namespace App\Enum;
 
 enum PaymentStatus: string
 {
-    case PENDING = 'pending';
-    case PROCESSING = 'processing';
-    case SUCCEEDED = 'succeeded';
-    case FAILED = 'failed';
-    case CANCELLED = 'cancelled';
-    case REFUNDED = 'refunded';
-    case PARTIALLY_REFUNDED = 'partially_refunded';
-
     public function label(): string
     {
         return match ($this) {
@@ -39,4 +31,11 @@ enum PaymentStatus: string
     {
         return in_array($this, [self::SUCCEEDED, self::FAILED, self::CANCELLED, self::REFUNDED]);
     }
+    case PENDING = 'pending';
+    case PROCESSING = 'processing';
+    case SUCCEEDED = 'succeeded';
+    case FAILED = 'failed';
+    case CANCELLED = 'cancelled';
+    case REFUNDED = 'refunded';
+    case PARTIALLY_REFUNDED = 'partially_refunded';
 }

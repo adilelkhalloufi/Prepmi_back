@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\enum\DeliveryStatus;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -77,6 +76,7 @@ class Delivery extends Model
     {
         $this->status = DeliveryStatus::DELIVERED;
         $this->delivered_at = now();
+
         return $this->save();
     }
 
@@ -86,6 +86,7 @@ class Delivery extends Model
     public function isWithinDeliveryWindow(): bool
     {
         $now = now();
+
         return $now >= $this->delivery_window_start && $now <= $this->delivery_window_end;
     }
 
@@ -102,7 +103,7 @@ class Delivery extends Model
      */
     public function getDeliveryWindowDurationAttribute(): float
     {
-        if (!$this->delivery_window_start || !$this->delivery_window_end) {
+        if (! $this->delivery_window_start || ! $this->delivery_window_end) {
             return 0;
         }
 

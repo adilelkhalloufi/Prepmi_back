@@ -55,15 +55,33 @@ class UserPreference extends Model
     {
         $restrictions = [];
 
-        if ($this->vegetarian) $restrictions[] = 'Vegetarian';
-        if ($this->vegan) $restrictions[] = 'Vegan';
-        if ($this->gluten_free) $restrictions[] = 'Gluten-Free';
-        if ($this->dairy_free) $restrictions[] = 'Dairy-Free';
-        if ($this->nut_free) $restrictions[] = 'Nut-Free';
-        if ($this->keto) $restrictions[] = 'Keto';
-        if ($this->paleo) $restrictions[] = 'Paleo';
-        if ($this->low_carb) $restrictions[] = 'Low Carb';
-        if ($this->high_protein) $restrictions[] = 'High Protein';
+        if ($this->vegetarian) {
+            $restrictions[] = 'Vegetarian';
+        }
+        if ($this->vegan) {
+            $restrictions[] = 'Vegan';
+        }
+        if ($this->gluten_free) {
+            $restrictions[] = 'Gluten-Free';
+        }
+        if ($this->dairy_free) {
+            $restrictions[] = 'Dairy-Free';
+        }
+        if ($this->nut_free) {
+            $restrictions[] = 'Nut-Free';
+        }
+        if ($this->keto) {
+            $restrictions[] = 'Keto';
+        }
+        if ($this->paleo) {
+            $restrictions[] = 'Paleo';
+        }
+        if ($this->low_carb) {
+            $restrictions[] = 'Low Carb';
+        }
+        if ($this->high_protein) {
+            $restrictions[] = 'High Protein';
+        }
 
         return $restrictions;
     }
@@ -73,11 +91,21 @@ class UserPreference extends Model
      */
     public function isCompatibleWithMeal(Meal $meal): bool
     {
-        if ($this->vegetarian && !$meal->is_vegetarian) return false;
-        if ($this->vegan && !$meal->is_vegan) return false;
-        if ($this->gluten_free && !$meal->is_gluten_free) return false;
-        if ($this->dairy_free && !$meal->is_dairy_free) return false;
-        if ($this->nut_free && !$meal->is_nut_free) return false;
+        if ($this->vegetarian && ! $meal->is_vegetarian) {
+            return false;
+        }
+        if ($this->vegan && ! $meal->is_vegan) {
+            return false;
+        }
+        if ($this->gluten_free && ! $meal->is_gluten_free) {
+            return false;
+        }
+        if ($this->dairy_free && ! $meal->is_dairy_free) {
+            return false;
+        }
+        if ($this->nut_free && ! $meal->is_nut_free) {
+            return false;
+        }
 
         if ($this->max_calories_per_meal && $meal->calories > $this->max_calories_per_meal) {
             return false;

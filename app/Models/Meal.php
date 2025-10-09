@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
-use Carbon\Carbon;
 
 class Meal extends Model
 {
@@ -89,23 +88,6 @@ class Meal extends Model
         'sugar' => 'decimal:2',
     ];
 
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($meal) {
-            if (empty($meal->slug)) {
-                $meal->slug = Str::slug($meal->name);
-            }
-        });
-
-        static::updating(function ($meal) {
-            if ($meal->isDirty('name') && empty($meal->slug)) {
-                $meal->slug = Str::slug($meal->name);
-            }
-        });
-    }
-
     // Relationships
     public function weeklyMenus(): BelongsToMany
     {
@@ -133,10 +115,11 @@ class Meal extends Model
     public function scopeAvailable($query)
     {
         $today = date('Y-m-d');
-        return $query->where(function ($q) use ($today) {
+
+        return $query->where(function ($q) use ($today): void {
             $q->where('available_from', '<=', $today)
                 ->where('available_to', '>=', $today);
-        })->orWhere(function ($q) {
+        })->orWhere(function ($q): void {
             $q->whereNull('available_from')
                 ->whereNull('available_to');
         });
@@ -162,27 +145,45 @@ class Meal extends Model
     {
         return [
             'calories' => $this->calories,
-            'protein' => $this->protein . 'g',
-            'carbohydrates' => $this->carbohydrates . 'g',
-            'fats' => $this->fats . 'g',
-            'fiber' => $this->fiber . 'g',
-            'sodium' => $this->sodium . 'mg',
-            'sugar' => $this->sugar . 'g',
+            'protein' => $this->protein.'g',
+            'carbohydrates' => $this->carbohydrates.'g',
+            'fats' => $this->fats.'g',
+            'fiber' => $this->fiber.'g',
+            'sodium' => $this->sodium.'mg',
+            'sugar' => $this->sugar.'g',
         ];
     }
 
     public function getDietaryTags(): array
     {
         $tags = [];
-        if ($this->is_vegetarian) $tags[] = 'Vegetarian';
-        if ($this->is_vegan) $tags[] = 'Vegan';
-        if ($this->is_gluten_free) $tags[] = 'Gluten-Free';
-        if ($this->is_dairy_free) $tags[] = 'Dairy-Free';
-        if ($this->is_nut_free) $tags[] = 'Nut-Free';
-        if ($this->is_keto) $tags[] = 'Keto';
-        if ($this->is_paleo) $tags[] = 'Paleo';
-        if ($this->is_low_carb) $tags[] = 'Low Carb';
-        if ($this->is_high_protein) $tags[] = 'High Protein';
+        if ($this->is_vegetarian) {
+            $tags[] = 'Vegetarian';
+        }
+        if ($this->is_vegan) {
+            $tags[] = 'Vegan';
+        }
+        if ($this->is_gluten_free) {
+            $tags[] = 'Gluten-Free';
+        }
+        if ($this->is_dairy_free) {
+            $tags[] = 'Dairy-Free';
+        }
+        if ($this->is_nut_free) {
+            $tags[] = 'Nut-Free';
+        }
+        if ($this->is_keto) {
+            $tags[] = 'Keto';
+        }
+        if ($this->is_paleo) {
+            $tags[] = 'Paleo';
+        }
+        if ($this->is_low_carb) {
+            $tags[] = 'Low Carb';
+        }
+        if ($this->is_high_protein) {
+            $tags[] = 'High Protein';
+        }
 
         return $tags;
     }
@@ -195,13 +196,31 @@ class Meal extends Model
     public function getImageUrl(): ?string
     {
         if ($this->image_path) {
-            return asset('storage/' . $this->image_path);
+            return asset('storage/'.$this->image_path);
         }
+
         return null;
     }
 
     public function getRouteKeyName()
     {
         return 'slug';
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($meal): void {
+            if (empty($meal->slug)) {
+                $meal->slug = Str::slug($meal->name);
+            }
+        });
+
+        static::updating(function ($meal): void {
+            if ($meal->isDirty('name') && empty($meal->slug)) {
+                $meal->slug = Str::slug($meal->name);
+            }
+        });
     }
 }

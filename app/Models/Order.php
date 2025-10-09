@@ -191,6 +191,7 @@ class Order extends Model
     public function updateStatus(OrderStatus $status): bool
     {
         $this->status = $status;
+
         return $this->save();
     }
 

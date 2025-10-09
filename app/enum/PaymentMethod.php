@@ -4,14 +4,6 @@ namespace App\Enum;
 
 enum PaymentMethod: string
 {
-    case CREDIT_CARD = 'credit_card';
-    case DEBIT_CARD = 'debit_card';
-    case PAYPAL = 'paypal';
-    case STRIPE = 'stripe';
-    case APPLE_PAY = 'apple_pay';
-    case GOOGLE_PAY = 'google_pay';
-    case BANK_TRANSFER = 'bank_transfer';
-
     public function label(): string
     {
         return match ($this) {
@@ -29,4 +21,11 @@ enum PaymentMethod: string
     {
         return array_column(self::cases(), 'value');
     }
+    case CREDIT_CARD = 'credit_card';
+    case DEBIT_CARD = 'debit_card';
+    case PAYPAL = 'paypal';
+    case STRIPE = 'stripe';
+    case APPLE_PAY = 'apple_pay';
+    case GOOGLE_PAY = 'google_pay';
+    case BANK_TRANSFER = 'bank_transfer';
 }

@@ -4,11 +4,6 @@ namespace App\Enum;
 
 enum DiscountType: string
 {
-    case PERCENTAGE = 'percentage';
-    case FIXED_AMOUNT = 'fixed_amount';
-    case FREE_SHIPPING = 'free_shipping';
-    case BUY_ONE_GET_ONE = 'buy_one_get_one';
-
     public function label(): string
     {
         return match ($this) {
@@ -28,4 +23,8 @@ enum DiscountType: string
     {
         return in_array($this, [self::PERCENTAGE, self::FIXED_AMOUNT]);
     }
+    case PERCENTAGE = 'percentage';
+    case FIXED_AMOUNT = 'fixed_amount';
+    case FREE_SHIPPING = 'free_shipping';
+    case BUY_ONE_GET_ONE = 'buy_one_get_one';
 }

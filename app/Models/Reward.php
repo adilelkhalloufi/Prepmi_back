@@ -50,7 +50,7 @@ class Reward extends Model
     public function scopeAvailable($query)
     {
         return $query->where('is_used', false)
-            ->where(function ($q) {
+            ->where(function ($q): void {
                 $q->whereNull('expires_at')
                     ->orWhere('expires_at', '>', now());
             });
@@ -75,7 +75,7 @@ class Reward extends Model
     // Helper methods
     public function isAvailable(): bool
     {
-        return !$this->is_used &&
+        return ! $this->is_used &&
             ($this->expires_at === null || $this->expires_at->isFuture());
     }
 
@@ -83,10 +83,10 @@ class Reward extends Model
     {
         return $this->expires_at !== null &&
             $this->expires_at->isPast() &&
-            !$this->is_used;
+            ! $this->is_used;
     }
 
-    public function markAsUsed(Order $order, float $discountApplied = null): void
+    public function markAsUsed(Order $order, ?float $discountApplied = null): void
     {
         $this->update([
             'is_used' => true,

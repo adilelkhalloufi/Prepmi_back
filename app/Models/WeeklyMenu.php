@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Carbon\Carbon;
 
 class WeeklyMenu extends Model
 {
@@ -31,17 +31,6 @@ class WeeklyMenu extends Model
         'is_published' => 'boolean',
         'published_at' => 'datetime',
     ];
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($menu) {
-            if (empty($menu->week_end_date) && $menu->week_start_date) {
-                $menu->week_end_date = Carbon::parse($menu->week_start_date)->addDays(6);
-            }
-        });
-    }
 
     // Relationships
     public function meals(): BelongsToMany
@@ -75,6 +64,7 @@ class WeeklyMenu extends Model
     public function scopeCurrent($query)
     {
         $today = now()->toDateString();
+
         return $query->where('week_start_date', '<=', $today)
             ->where('week_end_date', '>=', $today);
     }
@@ -100,12 +90,13 @@ class WeeklyMenu extends Model
         $start = Carbon::parse($this->week_start_date);
         $end = Carbon::parse($this->week_end_date);
 
-        return $start->format('M j') . ' - ' . $end->format('M j, Y');
+        return $start->format('M j').' - '.$end->format('M j, Y');
     }
 
     public function isCurrent(): bool
     {
         $today = now()->toDate();
+
         return $this->week_start_date <= $today && $this->week_end_date >= $today;
     }
 
@@ -159,5 +150,16 @@ class WeeklyMenu extends Model
             'is_published' => false,
             'published_at' => null,
         ]);
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($menu): void {
+            if (empty($menu->week_end_date) && $menu->week_start_date) {
+                $menu->week_end_date = Carbon::parse($menu->week_start_date)->addDays(6);
+            }
+        });
     }
 }

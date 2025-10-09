@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Carbon\Carbon;
 
 class Subscription extends Model
 {
@@ -156,16 +155,16 @@ class Subscription extends Model
 
     public function getTrialDaysRemaining(): int
     {
-        if (!$this->isInTrial()) {
+        if (! $this->isInTrial()) {
             return 0;
         }
 
         return now()->diffInDays($this->trial_ends_at);
     }
 
-    public function pause(string $reason = null): bool
+    public function pause(?string $reason = null): bool
     {
-        if (!$this->isActive()) {
+        if (! $this->isActive()) {
             return false;
         }
 
@@ -180,7 +179,7 @@ class Subscription extends Model
 
     public function resume(): bool
     {
-        if (!$this->isPaused()) {
+        if (! $this->isPaused()) {
             return false;
         }
 
@@ -198,7 +197,7 @@ class Subscription extends Model
         return true;
     }
 
-    public function cancel(string $reason = null): bool
+    public function cancel(?string $reason = null): bool
     {
         if ($this->isCancelled()) {
             return false;
@@ -215,7 +214,7 @@ class Subscription extends Model
 
     public function renew(): bool
     {
-        if (!$this->isActive()) {
+        if (! $this->isActive()) {
             return false;
         }
 

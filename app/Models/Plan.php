@@ -98,7 +98,7 @@ class Plan extends Model
     {
         $basePrice = $this->getWeeklyPrice();
 
-        if (!$this->is_free_shipping) {
+        if (! $this->is_free_shipping) {
             $basePrice += $this->delivery_fee;
         }
 
@@ -129,7 +129,7 @@ class Plan extends Model
 
     public function getCommitmentLabel(): string
     {
-        if (!$this->hasCommitment()) {
+        if (! $this->hasCommitment()) {
             return 'No commitment';
         }
 

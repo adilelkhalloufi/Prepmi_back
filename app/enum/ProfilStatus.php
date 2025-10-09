@@ -7,11 +7,6 @@ use Filament\Support\Contracts\HasLabel;
 
 enum ProfilStatus: int implements HasColor, HasLabel
 {
-    case ACTIF = 1;
-    case INACTIF = 2;
-    case PENDING = 3;
-    case DELETED = 4;
-
     public function getLabel(): string
     {
         return match ($this) {
@@ -31,4 +26,8 @@ enum ProfilStatus: int implements HasColor, HasLabel
             self::DELETED => 'danger',
         };
     }
+    case ACTIF = 1;
+    case INACTIF = 2;
+    case PENDING = 3;
+    case DELETED = 4;
 }
