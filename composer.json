@@ -78,9 +78,8 @@
         "config-start": [
             "php artisan db:wipe",
             "php artisan migrate",
-            "php artisan db:seed",
-            "@better"
-        ]
+            "php artisan db:seed"
+         ]
     },
     "extra": {
         "laravel": {

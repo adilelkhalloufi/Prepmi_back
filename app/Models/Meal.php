@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\enum\MealCategory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -53,6 +54,7 @@ class Meal extends Model
         'cost_per_serving',
         'weight_grams',
         'serving_size',
+        'category_id',
     ];
 
     protected $casts = [
@@ -86,6 +88,7 @@ class Meal extends Model
         'fiber' => 'decimal:2',
         'sodium' => 'decimal:2',
         'sugar' => 'decimal:2',
+        'category_id' => 'integer',
     ];
 
     // Relationships
@@ -205,6 +208,18 @@ class Meal extends Model
     public function getRouteKeyName()
     {
         return 'slug';
+    }
+
+    /**
+     * Get the category label
+     */
+    public function getCategoryLabel(): ?string
+    {
+        if ($this->category_id) {
+            $category = MealCategory::fromValue($this->category_id);
+            return $category?->label();
+        }
+        return null;
     }
 
     protected static function boot()

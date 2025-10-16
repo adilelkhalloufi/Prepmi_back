@@ -15,7 +15,7 @@ return new class() extends Migration
             $table->id();
             $table->string('name');
             $table->string('slug')->unique();
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->string('short_description')->nullable();
             $table->string('image_path')->nullable();
             $table->json('gallery_images')->nullable();
@@ -68,6 +68,7 @@ return new class() extends Migration
             $table->timestamps();
             $table->softDeletes();
 
+            $table->integer('category_id')->default(0)->comment('0 : menu , 1 : breakfast , 2 : drinks');
             // Indexes
             $table->index(['is_active', 'available_from', 'available_to']);
             $table->index(['is_vegetarian', 'is_vegan', 'is_gluten_free']);
