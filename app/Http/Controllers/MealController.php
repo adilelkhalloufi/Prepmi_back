@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\enum\MealCategory;
+use App\Http\Requests\StoreMealRequest;
+use App\Http\Requests\UpdateMealRequest;
 use App\Http\Resources\MealResource;
 use App\Models\Meal;
 use Illuminate\Http\Request;
@@ -97,56 +99,9 @@ class MealController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreMealRequest $request)
     {
-        // Convert empty strings to null for proper validation
-        $input = $this->convertEmptyStringsToNull($request->all());
-        $request->merge($input);
-
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'short_description' => 'nullable|string|max:500',
-            'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-            'gallery_images' => 'nullable|array',
-            'gallery_images.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-            'calories' => 'nullable|integer|min:0',
-            'protein' => 'nullable|numeric|min:0',
-            'carbohydrates' => 'nullable|numeric|min:0',
-            'fats' => 'nullable|numeric|min:0',
-            'fiber' => 'nullable|numeric|min:0',
-            'sodium' => 'nullable|numeric|min:0',
-            'sugar' => 'nullable|numeric|min:0',
-            'ingredients' => 'nullable|array',
-            'ingredients.*' => 'string',
-            'allergens' => 'nullable|array',
-            'allergens.*' => 'string',
-            'preparation_instructions' => 'nullable|string',
-            'storage_instructions' => 'nullable|string',
-            'is_vegetarian' => 'boolean',
-            'is_vegan' => 'boolean',
-            'is_gluten_free' => 'boolean',
-            'is_dairy_free' => 'boolean',
-            'is_nut_free' => 'boolean',
-            'is_keto' => 'boolean',
-            'is_paleo' => 'boolean',
-            'is_low_carb' => 'boolean',
-            'is_high_protein' => 'boolean',
-            'is_spicy' => 'boolean',
-            'spice_level' => 'nullable|integer|min:0|max:5',
-            'prep_time_minutes' => 'nullable|integer|min:0',
-            'cooking_time_minutes' => 'nullable|integer|min:0',
-            'difficulty_level' => 'nullable|integer|min:1|max:5',
-            'chef_notes' => 'nullable|string',
-            'available_from' => 'nullable|date',
-            'available_to' => 'nullable|date|after_or_equal:available_from',
-            'is_active' => 'boolean',
-            'price' => 'nullable|numeric|min:0',
-            'cost_per_serving' => 'nullable|numeric|min:0',
-            'weight_grams' => 'nullable|integer|min:0',
-            'serving_size' => 'nullable|string|max:255',
-            'category_id' => ['nullable', 'integer', Rule::in([1, 2, 3])],
-        ]);
+        $validated = $request->validated();
 
         // Handle main image upload
         if ($request->hasFile('image_path')) {
@@ -187,22 +142,6 @@ class MealController extends Controller
     }
 
     /**
-     * Convert empty strings to null for proper validation
-     */
-    private function convertEmptyStringsToNull(array $data): array
-    {
-        return array_map(function ($value) {
-            if ($value === '') {
-                return null;
-            }
-            if (is_array($value)) {
-                return $this->convertEmptyStringsToNull($value);
-            }
-            return $value;
-        }, $data);
-    }
-
-    /**
      * Display the specified resource.
      */
     public function show(string $id)
@@ -217,58 +156,10 @@ class MealController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateMealRequest $request, string $id)
     {
         $meal = Meal::findOrFail($id);
-
-        // Convert empty strings to null for proper validation
-        $input = $this->convertEmptyStringsToNull($request->all());
-        $request->merge($input);
-
-        $validated = $request->validate([
-            'name' => 'sometimes|required|string|max:255',
-            'description' => 'nullable|string',
-            'short_description' => 'nullable|string|max:500',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-            'gallery_images' => 'nullable|array',
-            'gallery_images.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-            'calories' => 'nullable|integer|min:0',
-            'protein' => 'nullable|numeric|min:0',
-            'carbohydrates' => 'nullable|numeric|min:0',
-            'fats' => 'nullable|numeric|min:0',
-            'fiber' => 'nullable|numeric|min:0',
-            'sodium' => 'nullable|numeric|min:0',
-            'sugar' => 'nullable|numeric|min:0',
-            'ingredients' => 'nullable|array',
-            'ingredients.*' => 'string',
-            'allergens' => 'nullable|array',
-            'allergens.*' => 'string',
-            'preparation_instructions' => 'nullable|string',
-            'storage_instructions' => 'nullable|string',
-            'is_vegetarian' => 'boolean',
-            'is_vegan' => 'boolean',
-            'is_gluten_free' => 'boolean',
-            'is_dairy_free' => 'boolean',
-            'is_nut_free' => 'boolean',
-            'is_keto' => 'boolean',
-            'is_paleo' => 'boolean',
-            'is_low_carb' => 'boolean',
-            'is_high_protein' => 'boolean',
-            'is_spicy' => 'boolean',
-            'spice_level' => 'nullable|integer|min:0|max:5',
-            'prep_time_minutes' => 'nullable|integer|min:0',
-            'cooking_time_minutes' => 'nullable|integer|min:0',
-            'difficulty_level' => 'nullable|integer|min:1|max:5',
-            'chef_notes' => 'nullable|string',
-            'available_from' => 'nullable|date',
-            'available_to' => 'nullable|date|after_or_equal:available_from',
-            'is_active' => 'boolean',
-            'price' => 'nullable|numeric|min:0',
-            'cost_per_serving' => 'nullable|numeric|min:0',
-            'weight_grams' => 'nullable|integer|min:0',
-            'serving_size' => 'nullable|string|max:255',
-            'category_id' => ['nullable', 'integer', Rule::in([1, 2, 3])],
-        ]);
+        $validated = $request->validated();
 
         // Handle main image upload
         if ($request->hasFile('image')) {
