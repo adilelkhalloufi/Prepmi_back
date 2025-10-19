@@ -63,4 +63,8 @@ Route::group(['middleware' => ['auth:sanctum']], function (): void {
     Route::get('users/{user}', [UserController::class, 'show']);
     Route::put('users/{user}', [UserController::class, 'update']);
     Route::delete('users/{user}', [UserController::class, 'destroy']);
+
+    // Order Management Routes (Admin only)
+    Route::apiResource('orders', OrderController::class);
+    Route::patch('orders/{order}/status', [OrderController::class, 'updateStatus']);
 });
