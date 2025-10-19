@@ -9,6 +9,7 @@ use App\Http\Controllers\WeeklyMenuController;
 use App\Http\Controllers\WeeklyPlanController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\PlanController;
 
 //  Public routes
 
@@ -67,4 +68,10 @@ Route::group(['middleware' => ['auth:sanctum']], function (): void {
     // Order Management Routes (Admin only)
     Route::apiResource('orders', OrderController::class);
     Route::patch('orders/{order}/status', [OrderController::class, 'updateStatus']);
+});
+
+Route::prefix('v1')->group(function () {
+    // Plan routes
+    Route::apiResource('plans', PlanController::class);
+    Route::get('plans/featured/list', [PlanController::class, 'featured']);
 });

@@ -14,10 +14,9 @@ return new class() extends Migration
         Schema::create('plans', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('   ');
+            $table->integer('meals_per_week')->default(0);
             $table->decimal('price_per_week', 8, 2);
             $table->boolean('is_active')->default(true);
-            // points_value
             $table->integer('points_value')->default(0);
             $table->decimal('delivery_fee', 8, 2)->default(0);
             $table->boolean('is_free_shipping')->default(false);
