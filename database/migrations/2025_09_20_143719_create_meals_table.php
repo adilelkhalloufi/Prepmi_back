@@ -68,7 +68,7 @@ return new class() extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->integer('category_id')->default(0)->comment('0 : menu , 1 : breakfast , 2 : drinks');
+            $table->integer('type_id')->default(0)->comment('0 : menu , 1 : breakfast , 2 : drinks');
             // Indexes
             $table->index(['is_active', 'available_from', 'available_to']);
             $table->index(['is_vegetarian', 'is_vegan', 'is_gluten_free']);

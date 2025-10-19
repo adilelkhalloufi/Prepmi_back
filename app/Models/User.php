@@ -46,6 +46,12 @@ class User extends Authenticatable implements HasName
 
     public function getFilamentName(): string
     {
-        return $this->first_name.' '.$this->last_name;
+        return $this->first_name . ' ' . $this->last_name;
+    }
+
+    // Relationships order
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
     }
 }

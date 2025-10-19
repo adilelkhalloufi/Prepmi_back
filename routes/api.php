@@ -68,10 +68,6 @@ Route::group(['middleware' => ['auth:sanctum']], function (): void {
     // Order Management Routes (Admin only)
     Route::apiResource('orders', OrderController::class);
     Route::patch('orders/{order}/status', [OrderController::class, 'updateStatus']);
-});
-
-Route::prefix('v1')->group(function () {
-    // Plan routes
+    // PLAN
     Route::apiResource('plans', PlanController::class);
-    Route::get('plans/featured/list', [PlanController::class, 'featured']);
 });

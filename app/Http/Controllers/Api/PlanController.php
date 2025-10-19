@@ -14,7 +14,7 @@ class PlanController extends Controller
 {
     public function index(): AnonymousResourceCollection
     {
-        $plans = Plan::active()->ordered()->get();
+        $plans = Plan::all();
 
         return PlanResource::collection($plans);
     }

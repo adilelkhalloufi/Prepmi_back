@@ -5,6 +5,7 @@ namespace App\Models;
 use App\enum\MealCategory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -109,6 +110,11 @@ class Meal extends Model
         return $this->hasMany(OrderMeal::class);
     }
 
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
+    }
+
     // Scopes
     public function scopeActive($query)
     {
@@ -148,12 +154,12 @@ class Meal extends Model
     {
         return [
             'calories' => $this->calories,
-            'protein' => $this->protein.'g',
-            'carbohydrates' => $this->carbohydrates.'g',
-            'fats' => $this->fats.'g',
-            'fiber' => $this->fiber.'g',
-            'sodium' => $this->sodium.'mg',
-            'sugar' => $this->sugar.'g',
+            'protein' => $this->protein . 'g',
+            'carbohydrates' => $this->carbohydrates . 'g',
+            'fats' => $this->fats . 'g',
+            'fiber' => $this->fiber . 'g',
+            'sodium' => $this->sodium . 'mg',
+            'sugar' => $this->sugar . 'g',
         ];
     }
 
@@ -199,7 +205,7 @@ class Meal extends Model
     public function getImageUrl(): ?string
     {
         if ($this->image_path) {
-            return asset('storage/'.$this->image_path);
+            return asset('storage/' . $this->image_path);
         }
 
         return null;

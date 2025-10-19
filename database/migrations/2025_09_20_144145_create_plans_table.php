@@ -21,6 +21,7 @@ return new class() extends Migration
             $table->decimal('delivery_fee', 8, 2)->default(0);
             $table->boolean('is_free_shipping')->default(false);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
