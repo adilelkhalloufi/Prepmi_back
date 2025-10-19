@@ -56,7 +56,7 @@ class UserController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
+            'first_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
             'role' => ['required', 'integer', Rule::in([
@@ -74,7 +74,8 @@ class UserController extends Controller
         }
 
         $user = User::create([
-            'name' => $request->name,
+            'first_name' => $request->first_name,
+            'last_name' => $request->first_name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => $request->role,
@@ -116,7 +117,7 @@ class UserController extends Controller
         }
 
         $rules = [
-            'name' => 'sometimes|required|string|max:255',
+            'first_name' => 'sometimes|required|string|max:255',
             'email' => ['sometimes', 'required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
             'password' => 'sometimes|required|string|min:8|confirmed',
             'phone' => 'nullable|string|max:20',
@@ -141,9 +142,13 @@ class UserController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        $data = $request->only(['name', 'email', 'phone', 'address']);
+        $data = $request->only(['first_name', 'email', 'phone', 'address']);
 
-        if ($request->has('password')) {
+        if ($request->has('first_name')) {
+            $data['last_name'] = $request->first_name;
+        }
+
+        if ($request->filled('password')) {
             $data['password'] = Hash::make($request->password);
         }
 
