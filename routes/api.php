@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\MealController;
+use App\Http\Controllers\MealPreparationController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
@@ -16,6 +18,12 @@ use App\Http\Controllers\Api\PlanController;
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
 Route::post('forget-password', [AuthController::class, 'forgetPassword']);
+
+// Public Category Routes
+Route::get('categories', [CategoryController::class, 'index']);
+Route::get('categories/active', [CategoryController::class, 'active']);
+Route::get('categories/slug/{slug}', [CategoryController::class, 'getBySlug']);
+Route::get('categories/{id}', [CategoryController::class, 'show']);
 
 // Public Meal Routes
 Route::get('meals', [MealController::class, 'index']);
@@ -37,6 +45,23 @@ Route::group(['middleware' => ['auth:sanctum']], function (): void {
 
     Route::post('logout', [AuthController::class, 'logout']);
     Route::resource('orders', OrderController::class);
+
+    // Meal Preparation Routes (Admin/Manager/Chef)
+    Route::get('meal-preparations', [MealPreparationController::class, 'index']);
+    Route::get('meal-preparations/today', [MealPreparationController::class, 'today']);
+    Route::get('meal-preparations/upcoming', [MealPreparationController::class, 'upcoming']);
+    Route::get('meal-preparations/statistics', [MealPreparationController::class, 'statistics']);
+    Route::get('meal-preparations/status/{status}', [MealPreparationController::class, 'byStatus']);
+    Route::get('meal-preparations/{id}', [MealPreparationController::class, 'show']);
+    Route::patch('meal-preparations/{id}/status', [MealPreparationController::class, 'updateStatus']);
+    Route::patch('meal-preparations/{id}/notes', [MealPreparationController::class, 'updateNotes']);
+
+    // Protected Category Routes (Admin/Manager only)
+    Route::post('categories', [CategoryController::class, 'store']);
+    Route::put('categories/{id}', [CategoryController::class, 'update']);
+    Route::delete('categories/{id}', [CategoryController::class, 'destroy']);
+    Route::post('categories/upload-image', [CategoryController::class, 'uploadImage']);
+    Route::delete('categories/delete-image', [CategoryController::class, 'deleteImage']);
 
     // Protected Meal Routes (Admin/Manager only)
     Route::post('meals', [MealController::class, 'store']);
