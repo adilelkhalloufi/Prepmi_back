@@ -15,6 +15,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call([
+            CategoriesSeeder::class,
+            PlansSeeder::class,
+            MealsSeeder::class,
+        ]);
 
         User::factory()->create([
             'first_name' => 'admin',

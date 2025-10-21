@@ -2,10 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\Categorie;
+use App\Models\Category;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-use League\Csv\Reader;
+use Illuminate\Support\Str;
 
 class CategoriesSeeder extends Seeder
 {
@@ -14,20 +13,40 @@ class CategoriesSeeder extends Seeder
      */
     public function run(): void
     {
-        $filePath = database_path('seeders/Imported/Categories.csv');
-        $csv = Reader::createFromPath($filePath, 'r');
-        $csv->setHeaderOffset(0);
-        $records = $csv->getRecords();
+        $categories = [
+            [
+                'name' => 'Chicken meals',
+                'slug' => 'chicken-meals',
+                'description' => 'Affordable and versatile chicken-based meals',
+                'is_active' => true,
+            ],
+            [
+                'name' => 'Beef/Lamb meals',
+                'slug' => 'beef-lamb-meals',
+                'description' => 'Premium and hearty beef and lamb meals',
+                'is_active' => true,
+            ],
+            [
+                'name' => 'Fish meals',
+                'slug' => 'fish-meals',
+                'description' => 'Fresh and light fish-based meals',
+                'is_active' => true,
+            ],
+            [
+                'name' => 'Vegetarian meals',
+                'slug' => 'vegetarian-meals',
+                'description' => 'Plant-based and modern vegetarian meals',
+                'is_active' => true,
+            ],
+        ];
 
-        foreach ($records as $record) {
-
-            DB::table(Categorie::TABLE_NAME)->insert([
-                Categorie::COL_NAME => $record[Categorie::COL_NAME],
-                Categorie::COL_DESCRIPTION => $record[Categorie::COL_DESCRIPTION],
-                Categorie::COL_FAMILY_ID => $record[Categorie::COL_FAMILY_ID],
-            ]);
+        foreach ($categories as $category) {
+            Category::updateOrCreate(
+                ['slug' => $category['slug']],
+                $category
+            );
         }
-        // show message in console it done for laravel
+
         $this->command->info('Categories seeded successfully.');
     }
 }
