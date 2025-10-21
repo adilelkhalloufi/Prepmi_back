@@ -74,7 +74,8 @@ class UpdateMealRequest extends FormRequest
             'cost_per_serving' => 'nullable|numeric|min:0',
             'weight_grams' => 'nullable|integer|min:0',
             'serving_size' => 'nullable|string|max:255',
-            'category_id' => ['nullable', 'integer', Rule::in([1, 2, 3])],
+            'category_id' => ['nullable', 'integer'],
+            'type_id' => ['nullable', 'integer', Rule::in([0, 1, 2])],
         ];
     }
 

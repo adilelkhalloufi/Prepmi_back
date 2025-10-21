@@ -69,6 +69,9 @@ return new class() extends Migration
             $table->softDeletes();
 
             $table->integer('type_id')->default(0)->comment('0 : menu , 1 : breakfast , 2 : drinks');
+
+            // realation with category
+            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
             // Indexes
             $table->index(['is_active', 'available_from', 'available_to']);
             $table->index(['is_vegetarian', 'is_vegan', 'is_gluten_free']);

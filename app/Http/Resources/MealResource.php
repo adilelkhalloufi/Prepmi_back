@@ -82,7 +82,11 @@ class MealResource extends JsonResource
             // Cost Information
             'cost_per_serving' => $this->cost_per_serving,
             'category_id' => $this->category_id,
-            'category' => $this->getCategoryLabel(),
+            'category' => $this->category ,
+            
+            // Type Information
+            'type_id' => $this->type_id,
+            'type' => $this->getTypeLabel(),
             
             // Timestamps
             'created_at' => $this->created_at,

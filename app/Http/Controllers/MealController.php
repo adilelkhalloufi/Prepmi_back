@@ -31,6 +31,22 @@ class MealController extends Controller
             $query->where('category_id', $request->category_id);
         }
 
+        // Filter by type (0: menu, 1: breakfast, 2: drinks)
+        if ($request->has('type_id')) {
+            $query->where('type_id', $request->type_id);
+        }
+        if ($request->has('type')) {
+            $typeMap = [
+                'menu' => 0,
+                'breakfast' => 1,
+                'drinks' => 2,
+            ];
+            $typeId = $typeMap[strtolower($request->type)] ?? null;
+            if ($typeId !== null) {
+                $query->where('type_id', $typeId);
+            }
+        }
+
         // Filter by dietary preferences
         if ($request->has('vegetarian') && $request->boolean('vegetarian')) {
             $query->where('is_vegetarian', true);

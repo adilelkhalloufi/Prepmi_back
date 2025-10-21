@@ -56,6 +56,7 @@ class Meal extends Model
         'weight_grams',
         'serving_size',
         'category_id',
+        'type_id',
     ];
 
     protected $casts = [
@@ -90,6 +91,7 @@ class Meal extends Model
         'sodium' => 'decimal:2',
         'sugar' => 'decimal:2',
         'category_id' => 'integer',
+        'type_id' => 'integer',
     ];
 
     // Relationships
@@ -147,6 +149,26 @@ class Meal extends Model
     public function scopeGlutenFree($query)
     {
         return $query->where('is_gluten_free', true);
+    }
+
+    public function scopeByType($query, int $type)
+    {
+        return $query->where('type_id', $type);
+    }
+
+    public function scopeMenu($query)
+    {
+        return $query->where('type_id', 0);
+    }
+
+    public function scopeBreakfast($query)
+    {
+        return $query->where('type_id', 1);
+    }
+
+    public function scopeDrinks($query)
+    {
+        return $query->where('type_id', 2);
     }
 
     // Helper methods
@@ -226,6 +248,19 @@ class Meal extends Model
             return $category?->label();
         }
         return null;
+    }
+
+    /**
+     * Get the type label
+     */
+    public function getTypeLabel(): string
+    {
+        return match($this->type_id) {
+            0 => 'Menu',
+            1 => 'Breakfast',
+            2 => 'Drinks',
+            default => 'Unknown'
+        };
     }
 
     protected static function boot()
