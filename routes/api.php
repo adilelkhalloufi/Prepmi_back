@@ -18,7 +18,8 @@ use App\Http\Controllers\Api\PlanController;
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
 Route::post('forget-password', [AuthController::class, 'forgetPassword']);
-
+// Plan
+Route::get('plans', [PlanController::class, 'index']);
 // Public Category Routes
 Route::get('categories', [CategoryController::class, 'index']);
 Route::get('categories/active', [CategoryController::class, 'active']);
@@ -94,5 +95,8 @@ Route::group(['middleware' => ['auth:sanctum']], function (): void {
     Route::apiResource('orders', OrderController::class);
     Route::patch('orders/{order}/status', [OrderController::class, 'updateStatus']);
     // PLAN
-    Route::apiResource('plans', PlanController::class);
-});
+     Route::post('plans', [PlanController::class, 'store']);
+    Route::get('plans/{plan}', [PlanController::class, 'show']);
+    Route::put('plans/{plan}', [PlanController::class, 'update']);
+    Route::delete('plans/{plan}', [PlanController::class, 'destroy']);
+ });

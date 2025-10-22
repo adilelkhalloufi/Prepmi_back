@@ -29,5 +29,10 @@ class DatabaseSeeder extends Seeder
             'status' => ProfilStatus::ACTIF,
             'password' => bcrypt('password'),
         ]);
+
+        // Seed weekly menus after user is created
+        $this->call([
+            WeeklyMenusSeeder::class,
+        ]);
     }
 }
