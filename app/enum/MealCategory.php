@@ -4,16 +4,16 @@ namespace App\enum;
 
 enum MealCategory: int
 {
-    case MENU = 1;
-    case BREAKFAST = 2;
-    case DRINKS = 3;
+    case MENU = 0;
+    case BREAKFAST = 1;
+    case DRINKS = 2;
 
     /**
      * Get the label for the category
      */
     public function label(): string
     {
-        return match($this) {
+        return match ($this) {
             self::MENU => 'Menu',
             self::BREAKFAST => 'Breakfast',
             self::DRINKS => 'Drinks',
@@ -37,7 +37,7 @@ enum MealCategory: int
      */
     public static function fromValue(int $value): ?self
     {
-        return match($value) {
+        return match ($value) {
             1 => self::MENU,
             2 => self::BREAKFAST,
             3 => self::DRINKS,

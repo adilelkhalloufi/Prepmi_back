@@ -1,15 +1,14 @@
 <?php
 
+use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\MealController;
 use App\Http\Controllers\MealPreparationController;
-use App\Http\Controllers\OrderController;
-use App\Http\Controllers\ProductController;
+
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WeeklyMenuController;
-use App\Http\Controllers\WeeklyPlanController;
-use Illuminate\Support\Facades\Artisan;
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\PlanController;
 
@@ -41,11 +40,14 @@ Route::get('weekly-menus/upcoming', [WeeklyMenuController::class, 'getUpcoming']
 Route::get('weekly-menus/{id}', [WeeklyMenuController::class, 'show']);
 Route::get('weekly-menus/{id}/meals', [WeeklyMenuController::class, 'getMeals']);
 
+// Public Order Routes
+Route::post('orders', [OrderController::class, 'store']);
+
 // Protected routes
 Route::group(['middleware' => ['auth:sanctum']], function (): void {
 
+    Route::get('total-points-earned', [AuthController::class, 'TotalPointsEarned']);
     Route::post('logout', [AuthController::class, 'logout']);
-    Route::resource('orders', OrderController::class);
 
     // Meal Preparation Routes (Admin/Manager/Chef)
     Route::get('meal-preparations', [MealPreparationController::class, 'index']);
@@ -92,11 +94,15 @@ Route::group(['middleware' => ['auth:sanctum']], function (): void {
     Route::delete('users/{user}', [UserController::class, 'destroy']);
 
     // Order Management Routes (Admin only)
-    Route::apiResource('orders', OrderController::class);
+    Route::get('orders', [OrderController::class, 'index']);
+    Route::get('orders/{order}', [OrderController::class, 'show']);
+    Route::put('orders/{order}', [OrderController::class, 'update']);
+    Route::delete('orders/{order}', [OrderController::class, 'destroy']);
+
     Route::patch('orders/{order}/status', [OrderController::class, 'updateStatus']);
     // PLAN
-     Route::post('plans', [PlanController::class, 'store']);
+    Route::post('plans', [PlanController::class, 'store']);
     Route::get('plans/{plan}', [PlanController::class, 'show']);
     Route::put('plans/{plan}', [PlanController::class, 'update']);
     Route::delete('plans/{plan}', [PlanController::class, 'destroy']);
- });
+});

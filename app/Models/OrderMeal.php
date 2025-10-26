@@ -16,12 +16,13 @@ class OrderMeal extends Model
         'order_id',
         'meal_id',
         'quantity',
-        'meal_price_at_order',
+        'plan_id',
+        'price',
     ];
 
     protected $casts = [
         'quantity' => 'integer',
-        'meal_price_at_order' => 'decimal:2',
+        'price' => 'decimal:2',
     ];
 
     /**
@@ -29,7 +30,7 @@ class OrderMeal extends Model
      */
     public function order(): BelongsTo
     {
-        return $this->belongsTo(Order::class);
+        return $this->belongsTo(Order::class, 'order_id');
     }
 
     /**
@@ -45,22 +46,6 @@ class OrderMeal extends Model
      */
     public function getSubtotalAttribute(): float
     {
-        return $this->quantity * $this->meal_price_at_order;
-    }
-
-    /**
-     * Scope to filter by meal.
-     */
-    public function scopeForMeal($query, $mealId)
-    {
-        return $query->where('meal_id', $mealId);
-    }
-
-    /**
-     * Scope to filter by order.
-     */
-    public function scopeForOrder($query, $orderId)
-    {
-        return $query->where('order_id', $orderId);
+        return $this->quantity * $this->price;
     }
 }

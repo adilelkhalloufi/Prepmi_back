@@ -16,11 +16,14 @@ return new class() extends Migration
             $table->foreignId('order_id')->constrained()->onDelete('cascade');
             $table->foreignId('meal_id')->constrained()->onDelete('cascade');
             $table->integer('quantity')->default(1);
-            $table->decimal('meal_price_at_order', 8, 2);
+            $table->unsignedBigInteger('plan_id');
+            $table->decimal('price', 8, 2);
             $table->timestamps();
 
             $table->unique(['order_id', 'meal_id']);
             $table->index('meal_id');
+            // Example: Add order_status_at_time field
+            // $table->string('order_status_at_time')->nullable();
         });
     }
 

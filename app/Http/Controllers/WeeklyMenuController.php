@@ -28,6 +28,14 @@ class WeeklyMenuController extends Controller
             $query->where('week_start_date', '<=', $request->to_date);
         }
 
+        // Filter by meal type if provided
+        if ($request->has('type_id')) {
+            $mealType = $request->type_id;
+            $query->whereHas('meals', function ($q) use ($mealType) {
+                $q->where('type_id', $mealType);
+            });
+        }
+
         // Pagination
         $perPage = $request->get('per_page', 10);
         $weeklyPlans = $query->orderBy('week_start_date', 'desc')->paginate($perPage);

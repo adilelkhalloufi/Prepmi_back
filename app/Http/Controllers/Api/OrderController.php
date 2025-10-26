@@ -9,6 +9,7 @@ use App\Http\Resources\OrderResource;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use App\Services\OrderService;
 
 class OrderController extends Controller
 {
@@ -17,10 +18,10 @@ class OrderController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $orders = Order::with(['user', 'subscription', 'address', 'meals'])
+        $orders = Order::with(['user', 'meals'])
             ->when($request->status, fn($q) => $q->where('status', $request->status))
             ->when($request->user_id, fn($q) => $q->where('user_id', $request->user_id))
-            ->latest('order_date')
+            ->latest('date_order')
             ->paginate($request->per_page ?? 15);
 
         return response()->json([
@@ -38,27 +39,15 @@ class OrderController extends Controller
     /**
      * Store a newly created order.
      */
-    public function store(StoreOrderRequest $request): JsonResponse
+    public function store(StoreOrderRequest $request, OrderService $orderService): JsonResponse
     {
-        $order = Order::create($request->validated());
-
-        // Attach meals with quantities and prices
-        if ($request->has('meals')) {
-            foreach ($request->meals as $meal) {
-                $order->meals()->attach($meal['meal_id'], [
-                    'quantity' => $meal['quantity'],
-                    'meal_price_at_order' => $meal['price']
-                ]);
-            }
-        }
-
-        $order->load(['user', 'subscription', 'address', 'meals']);
+        $order = $orderService->createOrderWithRewards($request->validated());
 
         return response()->json([
             'success' => true,
             'message' => 'Order created successfully',
-            'data' => new OrderResource($order)
-        ], 201);
+            'data' => $order
+        ]);
     }
 
     /**
@@ -66,11 +55,11 @@ class OrderController extends Controller
      */
     public function show(Order $order): JsonResponse
     {
-        $order->load(['user', 'subscription', 'address', 'meals']);
+        $order->load(['user', 'orderMeals.meal']);
 
         return response()->json([
             'success' => true,
-            'data' => new OrderResource($order)
+            'data' => $order
         ]);
     }
 
@@ -85,12 +74,14 @@ class OrderController extends Controller
         if ($request->has('meals')) {
             $order->meals()->detach();
             foreach ($request->meals as $meal) {
-                $order->meals()->attach($meal['meal_id'], [
+                $order->meals()->attach($meal['meal_id'] ?? $meal['id'], [
                     'quantity' => $meal['quantity'],
                     'meal_price_at_order' => $meal['price']
                 ]);
             }
         }
+
+
 
         $order->load(['user', 'subscription', 'address', 'meals']);
 

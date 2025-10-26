@@ -16,40 +16,23 @@ class Order extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
+        'num_order',
+        'date_order',
+        'first_name',
+        'last_name',
+        'phone',
+        'adresse_livrsion',
         'user_id',
-        'subscription_id',
-        'order_date',
-        'delivery_date',
-        'status',
-        'total_price',
-        'address_id',
-        'payment_id',
-        'notes',
-        'delivery_instructions',
-        'points_earned',
-        'reward_used',
-        'reward_discount_amount',
-        'reward_id',
-        'subtotal',
-        'discount_total',
-        'delivery_fee',
-        'tax_amount',
-        'points_breakdown',
+        'plan_id',
+        'method_payement',
+        'reward_point',
+        'statue',
+        'total_amount'
     ];
 
     protected $casts = [
-        'order_date' => 'datetime',
-        'delivery_date' => 'datetime',
-        'status' => OrderStatus::class,
-        'total_price' => 'decimal:2',
-        'points_earned' => 'integer',
-        'reward_used' => 'boolean',
-        'reward_discount_amount' => 'decimal:2',
-        'subtotal' => 'decimal:2',
-        'discount_total' => 'decimal:2',
-        'delivery_fee' => 'decimal:2',
-        'tax_amount' => 'decimal:2',
-        'points_breakdown' => 'array',
+        'date_order' => 'datetime',
+        'reward_point' => 'integer',
     ];
 
     /**
@@ -109,12 +92,12 @@ class Order extends Model
     }
 
     /**
-     * Get all meals in this order with pivot data.
+     * Get all meals in this order.
      */
     public function meals(): BelongsToMany
     {
         return $this->belongsToMany(Meal::class, 'order_meals')
-            ->withPivot(['quantity', 'meal_price_at_order'])
+            ->withPivot(['quantity', 'price', 'plan_id'])
             ->withTimestamps();
     }
 
@@ -124,122 +107,5 @@ class Order extends Model
     public function orderMeals(): HasMany
     {
         return $this->hasMany(OrderMeal::class);
-    }
-
-    /**
-     * Check if order is pending.
-     */
-    public function isPending(): bool
-    {
-        return $this->status === OrderStatus::PENDING;
-    }
-
-    /**
-     * Check if order is being prepared.
-     */
-    public function isPreparing(): bool
-    {
-        return $this->status === OrderStatus::PREPARING;
-    }
-
-    /**
-     * Check if order is shipped.
-     */
-    public function isShipped(): bool
-    {
-        return $this->status === OrderStatus::SHIPPED;
-    }
-
-    /**
-     * Check if order is delivered.
-     */
-    public function isDelivered(): bool
-    {
-        return $this->status === OrderStatus::DELIVERED;
-    }
-
-    /**
-     * Check if order is cancelled.
-     */
-    public function isCancelled(): bool
-    {
-        return $this->status === OrderStatus::CANCELLED;
-    }
-
-    /**
-     * Get the total number of meals in this order.
-     */
-    public function getTotalMealsCountAttribute(): int
-    {
-        return $this->orderMeals()->sum('quantity');
-    }
-
-    /**
-     * Calculate total price from order meals.
-     */
-    public function calculateTotalPrice(): float
-    {
-        return $this->orderMeals()->get()
-            ->sum(function ($orderMeal) {
-                return $orderMeal->quantity * $orderMeal->meal_price_at_order;
-            });
-    }
-
-    /**
-     * Update order status and save.
-     */
-    public function updateStatus(OrderStatus $status): bool
-    {
-        $this->status = $status;
-
-        return $this->save();
-    }
-
-    /**
-     * Check if order can be cancelled.
-     */
-    public function canBeCancelled(): bool
-    {
-        return in_array($this->status, [OrderStatus::PENDING, OrderStatus::PREPARING]);
-    }
-
-    /**
-     * Check if order can be modified.
-     */
-    public function canBeModified(): bool
-    {
-        return $this->status === OrderStatus::PENDING;
-    }
-
-    /**
-     * Scope for orders within date range.
-     */
-    public function scopeWithinDateRange($query, $startDate, $endDate)
-    {
-        return $query->whereBetween('order_date', [$startDate, $endDate]);
-    }
-
-    /**
-     * Scope for orders by status.
-     */
-    public function scopeByStatus($query, OrderStatus $status)
-    {
-        return $query->where('status', $status);
-    }
-
-    /**
-     * Scope for subscription orders.
-     */
-    public function scopeSubscriptionOrders($query)
-    {
-        return $query->whereNotNull('subscription_id');
-    }
-
-    /**
-     * Scope for one-time orders.
-     */
-    public function scopeOneTimeOrders($query)
-    {
-        return $query->whereNull('subscription_id');
     }
 }

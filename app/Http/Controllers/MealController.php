@@ -19,33 +19,25 @@ class MealController extends Controller
      */
     public function index(Request $request)
     {
+
+
         $query = Meal::query();
 
-        // Filter by active status
+        // Only filter by active status if the param is present
         if ($request->has('active')) {
             $query->where('is_active', $request->boolean('active'));
         }
 
-        // Filter by category
+        // Only filter by category if the param is present
         if ($request->has('category_id')) {
             $query->where('category_id', $request->category_id);
         }
 
-        // Filter by type (0: menu, 1: breakfast, 2: drinks)
+        // Only filter by type if the param is present
         if ($request->has('type_id')) {
             $query->where('type_id', $request->type_id);
         }
-        if ($request->has('type')) {
-            $typeMap = [
-                'menu' => 0,
-                'breakfast' => 1,
-                'drinks' => 2,
-            ];
-            $typeId = $typeMap[strtolower($request->type)] ?? null;
-            if ($typeId !== null) {
-                $query->where('type_id', $typeId);
-            }
-        }
+
 
         // Filter by dietary preferences
         if ($request->has('vegetarian') && $request->boolean('vegetarian')) {
@@ -99,14 +91,14 @@ class MealController extends Controller
         // Sorting
         $sortBy = $request->get('sort_by', 'created_at');
         $sortOrder = $request->get('sort_order', 'desc');
-        
+
         $allowedSorts = ['name', 'price', 'calories', 'created_at', 'prep_time_minutes'];
         if (in_array($sortBy, $allowedSorts)) {
             $query->orderBy($sortBy, $sortOrder);
         }
 
         // Pagination
-        $perPage = $request->get('per_page', 15);
+        $perPage = $request->get('per_page', 100);
         $meals = $query->paginate($perPage);
 
         return MealResource::collection($meals);
@@ -140,7 +132,7 @@ class MealController extends Controller
 
         // Generate slug from name
         $validated['slug'] = Str::slug($validated['name']);
-        
+
         // Ensure slug is unique
         $originalSlug = $validated['slug'];
         $counter = 1;
@@ -183,7 +175,7 @@ class MealController extends Controller
             if ($meal->image_path && Storage::disk('public')->exists($meal->image_path)) {
                 Storage::disk('public')->delete($meal->image_path);
             }
-            
+
             $image = $request->file('image');
             $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
             $imagePath = $image->storeAs('meals/images', $imageName, 'public');
@@ -200,7 +192,7 @@ class MealController extends Controller
                     }
                 }
             }
-            
+
             $galleryPaths = [];
             foreach ($request->file('gallery_images') as $galleryImage) {
                 $galleryName = time() . '_' . uniqid() . '.' . $galleryImage->getClientOriginalExtension();
@@ -213,7 +205,7 @@ class MealController extends Controller
         // Update slug if name is changed
         if (isset($validated['name']) && $validated['name'] !== $meal->name) {
             $validated['slug'] = Str::slug($validated['name']);
-            
+
             // Ensure slug is unique
             $originalSlug = $validated['slug'];
             $counter = 1;
@@ -237,7 +229,7 @@ class MealController extends Controller
     public function destroy(string $id)
     {
         $meal = Meal::findOrFail($id);
-        
+
         // Soft delete
         $meal->delete();
 
@@ -264,7 +256,7 @@ class MealController extends Controller
     public function featured(Request $request)
     {
         $limit = $request->get('limit', 6);
-        
+
         $meals = Meal::where('is_active', true)
             ->orderBy('created_at', 'desc')
             ->limit($limit)
@@ -320,7 +312,7 @@ class MealController extends Controller
     public function restore(string $id)
     {
         $meal = Meal::withTrashed()->findOrFail($id);
-        
+
         if (!$meal->trashed()) {
             return response()->json([
                 'message' => 'Meal is not deleted'
@@ -341,12 +333,12 @@ class MealController extends Controller
     public function forceDelete(string $id)
     {
         $meal = Meal::withTrashed()->findOrFail($id);
-        
+
         // Delete image files if they exist
         if ($meal->image_path && Storage::disk('public')->exists($meal->image_path)) {
             Storage::disk('public')->delete($meal->image_path);
         }
-        
+
         if ($meal->gallery_images && is_array($meal->gallery_images)) {
             foreach ($meal->gallery_images as $image) {
                 if (Storage::disk('public')->exists($image)) {
@@ -412,7 +404,7 @@ class MealController extends Controller
             foreach ($request->file('images') as $image) {
                 $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
                 $imagePath = $image->storeAs('meals/gallery', $imageName, 'public');
-                
+
                 $uploadedImages[] = [
                     'path' => $imagePath,
                     'url' => Storage::url($imagePath)
@@ -439,7 +431,7 @@ class MealController extends Controller
 
         if (Storage::disk('public')->exists($path)) {
             Storage::disk('public')->delete($path);
-            
+
             return response()->json([
                 'message' => 'Image deleted successfully'
             ]);

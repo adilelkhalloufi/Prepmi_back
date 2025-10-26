@@ -28,7 +28,7 @@ class MealResource extends JsonResource
             'price' => $this->price,
             'weight_grams' => $this->weight_grams,
             'serving_size' => $this->serving_size,
-            
+
             // Nutritional Information
             'nutrition' => [
                 'calories' => $this->calories,
@@ -39,11 +39,11 @@ class MealResource extends JsonResource
                 'sodium' => $this->sodium,
                 'sugar' => $this->sugar,
             ],
-            
+
             // Ingredients and Allergens
             'ingredients' => $this->ingredients,
             'allergens' => $this->allergens,
-            
+
             // Dietary Preferences
             'dietary_info' => [
                 'is_vegetarian' => $this->is_vegetarian,
@@ -56,7 +56,7 @@ class MealResource extends JsonResource
                 'is_low_carb' => $this->is_low_carb,
                 'is_high_protein' => $this->is_high_protein,
             ],
-            
+
             // Preparation Details
             'preparation' => [
                 'prep_time_minutes' => $this->prep_time_minutes,
@@ -66,28 +66,30 @@ class MealResource extends JsonResource
                 'instructions' => $this->preparation_instructions,
                 'storage_instructions' => $this->storage_instructions,
             ],
-            
+
             // Spice Information
             'is_spicy' => $this->is_spicy,
             'spice_level' => $this->spice_level,
-            
+
             // Chef Notes
             'chef_notes' => $this->chef_notes,
-            
+
             // Availability
             'available_from' => $this->available_from,
             'available_to' => $this->available_to,
             'is_active' => $this->is_active,
-            
+
             // Cost Information
             'cost_per_serving' => $this->cost_per_serving,
             'category_id' => $this->category_id,
-            'category' => $this->category ,
-            
+            'category' => $this->category,
+
             // Type Information
             'type_id' => $this->type_id,
             'type' => $this->getTypeLabel(),
-            
+
+            'quantity' => $this->quantity ?? 0, 
+
             // Timestamps
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

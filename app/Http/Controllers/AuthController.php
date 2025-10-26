@@ -132,4 +132,13 @@ class AuthController extends Controller
             'message' => 'Code sent to your email',
         ]);
     }
+
+    public function TotalPointsEarned(Request $request)
+    {
+        $user = auth()->user();
+
+        return response()->json([
+            'total_points_earned' => $user->total_points_earned,
+        ]);
+    }
 }
