@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use App\Enum\OrderStatus;
 use App\Models\StatusHistory;
+use App\Services\UserNutritionService;
 use Illuminate\Support\Facades\Auth;
 
 class MealPreparationController extends Controller
@@ -60,11 +61,11 @@ class MealPreparationController extends Controller
 
          //
          $order->statue = $request->statue;
-            $order->save();
+        $order->save();
         // If delivered, calculate nutrition and update user
-        if ($request->statue === OrderStatus::DELIVERED) {
-            app(\App\Services\UserNutritionService::class)
-                ->updateUserNutritionForOrder($order);
+        if ($request->statue == OrderStatus::DELIVERED->value) {
+            app(UserNutritionService::class)
+                ->updateDailySummary($order->id_user, now()->toDateString());
         }
 
         $orders = Order::with(['user', 'orderMeals.meal'])->get();
