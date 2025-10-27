@@ -34,11 +34,11 @@ enum OrderStatus: string
             self::REFUNDED => false,
         };
     }
-    case PENDING = 'pending';
-    case CONFIRMED = 'confirmed';
-    case PREPARING = 'preparing';
-    case SHIPPED = 'shipped';
-    case DELIVERED = 'delivered';
-    case CANCELLED = 'cancelled';
-    case REFUNDED = 'refunded';
+    case PENDING = 'Pending';
+    case CONFIRMED = 'Confirmed';
+    case PREPARING = 'Preparing';
+    case SHIPPED = 'Shipped';
+    case DELIVERED = 'Delivered';
+    case CANCELLED = 'Cancelled';
+    case REFUNDED = 'Refunded';
 }

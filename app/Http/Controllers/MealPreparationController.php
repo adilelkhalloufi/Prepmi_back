@@ -8,6 +8,7 @@ use App\Models\OrderMeal;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use App\Enum\OrderStatus;
 
 class MealPreparationController extends Controller
 {
@@ -41,24 +42,23 @@ class MealPreparationController extends Controller
     public function updateStatus(Request $request, $id): JsonResponse
     {
         $request->validate([
-            'preparation_status' => 'required|in:pending,preparing,ready,delivered,cancelled',
+            'statue' => 'required|in:' . implode(',', OrderStatus::values()),
         ]);
 
         $orderMeal = OrderMeal::with(['order'])->findOrFail($id);
-        // Map preparation status to order status
-        $statusMap = [
-            'pending' => 'pending',
-            'preparing' => 'preparing',
-            'ready' => 'ready_for_delivery',
-            'delivered' => 'delivered',
-            'cancelled' => 'cancelled',
-        ];
 
-        $orderStatus = $statusMap[$request->preparation_status];
-        $orderMeal->order->update(['status' => $orderStatus]);
+        $newStatus = OrderStatus::from($request->statue);
+
+        // Check if transition is allowed (optional, but good practice)
+        $currentStatus = OrderStatus::tryFrom($orderMeal->order->statue);
+        if ($currentStatus && !$currentStatus->canTransitionTo($newStatus)) {
+            return response()->json(['error' => 'Invalid status transition'], 400);
+        }
+
+        $orderMeal->order->update(['statue' => $newStatus->value]);
 
         // If delivered, calculate nutrition and update user
-        if ($orderStatus === 'delivered') {
+        if ($newStatus === OrderStatus::DELIVERED) {
             app(\App\Services\UserNutritionService::class)
                 ->updateUserNutritionForOrder($orderMeal->order);
         }
