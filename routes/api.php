@@ -11,8 +11,13 @@ use App\Http\Controllers\WeeklyMenuController;
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\PlanController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\RewardController;
+use App\Http\Controllers\UserNutritionSummaryController;
 
 //  Public routes
+
+ 
 
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
@@ -45,6 +50,18 @@ Route::post('orders', [OrderController::class, 'store']);
 
 // Protected routes
 Route::group(['middleware' => ['auth:sanctum']], function (): void {
+
+    // User rewards (authenticated user)
+    Route::get('rewards', [RewardController::class, 'myRewards']);
+
+
+    // Dashboard stats (authenticated user)
+    Route::get('dashboard', [DashboardController::class, 'stats']);
+
+    // User nutrition summary (authenticated user)
+    Route::get('nutrition-summary', [UserNutritionSummaryController::class, 'index']);
+
+     
 
     Route::get('total-points-earned', [AuthController::class, 'TotalPointsEarned']);
     Route::post('logout', [AuthController::class, 'logout']);

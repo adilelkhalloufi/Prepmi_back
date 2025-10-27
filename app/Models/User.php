@@ -54,4 +54,9 @@ class User extends Authenticatable implements HasName
     {
         return $this->hasMany(Order::class);
     }
+
+    public function userNutritionSummaries()
+    {
+        return $this->hasMany(UserNutritionSummary::class);
+    }
 }

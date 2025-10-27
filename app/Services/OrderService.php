@@ -14,18 +14,19 @@ class OrderService
     public function addRewardPointsToUser($user, $points = 1)
     {
         $user->total_points_earned += $points;
-        if ($user->total_points_earned > 12) {
-            $user->total_points_earned = 0;
+            if ($user->total_points_earned >= 12) {
+            $user->total_points_earned = $user->total_points_earned - 12;
             // Create a reward for the user
-            \App\Models\Reward::create([
-                'user_id' => $user->id,
-                'type' => 'points',
-                'value' => 12,
-                'title' => 'Reward Earned',
-                'description' => 'Earned for collecting 12 points',
-                'earned_at' => now(),
-                'is_used' => false,
-            ]);
+                     \App\Models\Reward::create([
+                        'user_id' => $user->id,
+                        'type' => 'free_meal',
+                        'value' => 49.00,
+                        'title' => 'Repas PrepMe Gratuit',
+                        'description' => 'Réduction de 49 MAD applicable sur votre prochaine commande',
+                        'earned_at' => now(),
+                        'is_used' => false,
+                    ]);
+                
         }
         $user->save();
     }
