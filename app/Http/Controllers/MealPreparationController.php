@@ -9,6 +9,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use App\Enum\OrderStatus;
+use App\Models\StatusHistory;
+use Illuminate\Support\Facades\Auth;
 
 class MealPreparationController extends Controller
 {
@@ -42,32 +44,33 @@ class MealPreparationController extends Controller
     public function updateStatus(Request $request, $id): JsonResponse
     {
         $request->validate([
-            'statue' => 'required|in:' . implode(',', OrderStatus::values()),
+            'statue' => 'required',
         ]);
 
-        $orderMeal = OrderMeal::with(['order'])->findOrFail($id);
+        $order = Order::find($id);
 
-        $newStatus = OrderStatus::from($request->statue);
+        // Record status change in history
+        StatusHistory::create([
+            'model_type' => Order::class,
+            'model_id' => $id,
+            'old_status' => $order->statue,
+            'new_status' => $request->statue,
+            'changed_by' => Auth::id(),
+            'changed_at' => now(),
+         ]);
 
-        // Check if transition is allowed (optional, but good practice)
-        $currentStatus = OrderStatus::tryFrom($orderMeal->order->statue);
-        if ($currentStatus && !$currentStatus->canTransitionTo($newStatus)) {
-            return response()->json(['error' => 'Invalid status transition'], 400);
-        }
-
-        $orderMeal->order->update(['statue' => $newStatus->value]);
-
+         //
+         $order->statue = $request->statue;
+            $order->save();
         // If delivered, calculate nutrition and update user
-        if ($newStatus === OrderStatus::DELIVERED) {
+        if ($request->statue === OrderStatus::DELIVERED) {
             app(\App\Services\UserNutritionService::class)
-                ->updateUserNutritionForOrder($orderMeal->order);
+                ->updateUserNutritionForOrder($order);
         }
 
-        $orderMeal->load(['order.user', 'meal']);
-
+        $orders = Order::with(['user', 'orderMeals.meal'])->get();
         return response()->json([
-            'message' => 'Preparation status updated successfully',
-            'data' => new MealPreparationResource($orderMeal)
+            'data' => $orders
         ]);
     }
 
