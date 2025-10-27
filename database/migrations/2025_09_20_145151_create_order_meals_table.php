@@ -20,9 +20,7 @@ return new class() extends Migration
             $table->decimal('price', 8, 2);
             $table->timestamps();
 
-            $table->unique(['order_id', 'meal_id']);
-            $table->index('meal_id');
-            // Example: Add order_status_at_time field
+             // Example: Add order_status_at_time field
             // $table->string('order_status_at_time')->nullable();
         });
     }
