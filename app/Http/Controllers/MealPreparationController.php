@@ -51,8 +51,7 @@ class MealPreparationController extends Controller
 
         // Record status change in history
         StatusHistory::create([
-            'model_type' => Order::class,
-            'model_id' => $id,
+             'order_id' => $id,
             'old_status' => $order->statue,
             'new_status' => $request->statue,
             'changed_by' => Auth::id(),

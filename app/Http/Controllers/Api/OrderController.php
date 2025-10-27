@@ -55,7 +55,7 @@ class OrderController extends Controller
      */
     public function show(Order $order): JsonResponse
     {
-        $order->load(['user', 'orderMeals.meal']);
+        $order->load(['user', 'orderMeals.meal', 'statusHistories.user']);
 
         return response()->json([
             'success' => true,

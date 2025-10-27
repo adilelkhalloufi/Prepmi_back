@@ -9,7 +9,7 @@ class StatusHistory extends Model
 {
     protected $fillable = [
         'model_type',
-        'model_id',
+        'order_id',
         'old_status',
         'new_status',
         'changed_by',
@@ -21,27 +21,18 @@ class StatusHistory extends Model
         'changed_at' => 'datetime',
     ];
 
-    /**
-     * Get the model that owns the status history.
-     */
-    public function model(): MorphTo
-    {
-        return $this->morphTo();
-    }
-
+ 
     /**
      * Get the user who changed the status.
      */
-    public function changer(): BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'changed_by');
     }
 
-    /**
-     * Get the order if the model is an order.
-     */
+    
     public function order(): BelongsTo
     {
-        return $this->belongsTo(Order::class, 'model_id');
+        return $this->belongsTo(Order::class, 'order_id');
     }
 }

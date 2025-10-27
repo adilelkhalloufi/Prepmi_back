@@ -8,8 +8,10 @@ return new class extends Migration {
     {
         Schema::create('status_histories', function (Blueprint $table) {
             $table->id();
-            $table->morphs('model'); // Adds model_type and model_id
-            $table->string('old_status')->nullable();
+            //order status history
+            $table->foreignId('order_id')->nullable()->constrained('orders');
+
+             $table->string('old_status')->nullable();
             $table->string('new_status');
             $table->unsignedBigInteger('changed_by')->nullable();
             $table->timestamp('changed_at');
