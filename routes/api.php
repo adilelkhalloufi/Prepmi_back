@@ -68,14 +68,8 @@ Route::group(['middleware' => ['auth:sanctum']], function (): void {
 
     // Meal Preparation Routes (Admin/Manager/Chef)
     Route::get('meal-preparations', [MealPreparationController::class, 'index']);
-    Route::get('meal-preparations/today', [MealPreparationController::class, 'today']);
-    Route::get('meal-preparations/upcoming', [MealPreparationController::class, 'upcoming']);
-    Route::get('meal-preparations/statistics', [MealPreparationController::class, 'statistics']);
-    Route::get('meal-preparations/status/{status}', [MealPreparationController::class, 'byStatus']);
-    Route::get('meal-preparations/{id}', [MealPreparationController::class, 'show']);
     Route::patch('meal-preparations/{id}/status', [MealPreparationController::class, 'updateStatus']);
-    Route::patch('meal-preparations/{id}/notes', [MealPreparationController::class, 'updateNotes']);
-
+ 
     // Protected Category Routes (Admin/Manager only)
     Route::post('categories', [CategoryController::class, 'store']);
     Route::put('categories/{id}', [CategoryController::class, 'update']);
