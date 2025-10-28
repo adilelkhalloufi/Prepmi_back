@@ -2,9 +2,13 @@
 
 namespace App\Services;
 
+use App\enum\UserRole;
 use App\Models\Order;
 use App\Models\Plan;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class OrderService
 {
@@ -30,6 +34,35 @@ class OrderService
         }
         $user->save();
     }
+
+    /**
+     * Create a user if email and password are provided and user doesn't exist.
+     */
+    public function createUserIfNotExists($email, $password, $additionalData = [])
+    {
+        if (!$email || !$password) {
+            return null;
+        }
+
+        $user = User::where('email', $email)->first();
+        if ($user) {
+            return $user;
+        }
+
+        $userData = array_merge([
+            'email' => $email,
+            'password' => Hash::make($password),
+            'first_name' => $additionalData['first_name'] ?? null,
+            'last_name' => $additionalData['last_name'] ?? null,
+            'phone' => $additionalData['phone'] ?? null,
+            'address' => $additionalData['address'] ?? null,
+            'role' => UserRole::CLIENT->value,
+        
+        ], $additionalData);
+
+        return User::create($userData);
+    }
+
     public function createOrderWithRewards(array $data): Order
     {
         $infos = $data['infos'] ?? [];
@@ -39,13 +72,24 @@ class OrderService
         $paymentMethod = $data['paymentMethod'] ?? null;
         $userId = Auth::id() ?? $data['user_id'] ?? null;
         $totalAmount = $data['totalAmount'] ?? 0;
+  
+        if (isset($infos['email']) && isset($infos['password'])) {
+            $user = $this->createUserIfNotExists($infos['email'], $infos['password'], [
+                'first_name' => $infos['firstName'] ?? null,
+                'last_name' => $infos['lastName'] ?? null,
+                'phone' => $infos['phoneNumber'] ?? null,
+                'address' => $infos['address'] ?? null,
+            ]);
+            $userId = $user ? $user->id : null;
+        }
+
         $plan = $planId ? Plan::find($planId) : null;
         $rewardPoints = $plan ? ($plan->points_value ?? 0) : 0;
 
 
 
         // i want log the total amount
-        // \Log::info('Total amount calculated: ' . $totalAmount);
+        Log::info('Total amount calculated: ' . $totalAmount);
         // Generate num_order: ORD-YYYYMMDD-XXXX (increment for the day)
         $today = now()->format('Ymd');
         $orderCountToday = \App\Models\Order::whereDate('created_at', now()->toDateString())->count();

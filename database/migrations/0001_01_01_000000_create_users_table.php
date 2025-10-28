@@ -24,7 +24,7 @@ return new class() extends Migration
                 ->nullable();
             $table->integer('role')
                 ->default(4)
-                ->comment('1:admin;2:seller;3:vender;4:user');
+                ->comment('ADMIN:1,CUISINIER:2,LIVREUR:3,CLIENT:4');
 
             // profil has status
             $table->integer('status')

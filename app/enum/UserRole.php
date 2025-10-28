@@ -10,13 +10,13 @@ enum UserRole: int implements HasLabel
     {
         return match ($this) {
             self::ADMIN => 'Admin',
-            self::SELLER => 'Seller',
-            self::VENDER => 'Vender',
-            self::USER => 'User',
+            self::CUISINIER => 'Cuisinier',
+            self::LIVREUR => 'Livreur',
+            self::CLIENT => 'Client',
         };
     }
     case ADMIN = 1;
-    case SELLER = 2;
-    case VENDER = 3;
-    case USER = 4;
+    case CUISINIER = 2;
+    case LIVREUR = 3;
+    case CLIENT = 4;
 }

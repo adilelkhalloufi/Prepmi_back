@@ -19,6 +19,8 @@ class StoreOrderRequest extends FormRequest
             'infos.lastName' => 'required|string|max:255',
             'infos.phoneNumber' => 'required|string|max:20',
             'infos.address' => 'required|string|max:500',
+            'infos.email' => 'nullable|email|max:255',
+            'infos.password' => 'nullable|string|max:255',
             'meals' => 'array',
             'meals.*.id' => 'required|integer|exists:meals,id',
             'meals.*.quantity' => 'required|integer|min:1',
