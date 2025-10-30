@@ -33,7 +33,7 @@ class UserFactory extends Factory
             'status' => $this->faker->randomElement([ProfilStatus::ACTIF, ProfilStatus::INACTIF, ProfilStatus::PENDING]),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
-            'role' => $this->faker->randomElement([UserRole::ADMIN, UserRole::SELLER, UserRole::VENDER, UserRole::USER]),
+            'role' => $this->faker->randomElement([UserRole::ADMIN, UserRole::CLIENT, UserRole::CUISINIER, UserRole::LIVREUR]),
         ];
     }
 
