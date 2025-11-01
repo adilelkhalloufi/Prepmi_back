@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\enum\UserRole;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
@@ -21,8 +22,9 @@ class OrderController extends Controller
         $orders = Order::with(['user', 'meals'])
             ->when($request->status, fn($q) => $q->where('status', $request->status))
             ->when($request->user_id, fn($q) => $q->where('user_id', $request->user_id))
+            ->when(auth()->user()->role !== UserRole::ADMIN->value, fn($q) => $q->where('user_id', auth()->id()))
             ->latest('date_order')
-            ->paginate($request->per_page ?? 15);
+            ->paginate($request->per_page ?? 100);
 
         return response()->json([
             'success' => true,
