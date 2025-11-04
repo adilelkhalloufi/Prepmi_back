@@ -98,6 +98,7 @@ class DashboardController extends Controller
             'orders_this_month' => $currentMonthOrders,
             'orders_difference' => $difference,
             'meals_history' => $mealsHistory,
+            'total_points_earned' => $user->total_points_earned ?? 0,
         ]);
     }
 }

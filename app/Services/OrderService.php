@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enum\OrderStatus;
 use App\enum\UserRole;
 use App\Models\Order;
 use App\Models\Plan;
@@ -105,7 +106,7 @@ class OrderService
             'method_payement' => $paymentMethod,
             'user_id' => $userId,
             'date_order' => now(),
-            'statue' => 'pending',
+            'statue' => OrderStatus::PENDING->value,
             'reward_point' => $rewardPoints,
             'total_amount' => $totalAmount,
         ]);

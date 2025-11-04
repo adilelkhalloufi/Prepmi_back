@@ -41,7 +41,11 @@ class MealResource extends JsonResource
             ],
 
             // Ingredients and Allergens
-            'ingredients' => $this->ingredients,
+            'ingredients' => is_array($this->ingredients)
+                ? $this->ingredients
+                : (is_string($this->ingredients) && trim($this->ingredients) !== ''
+                    ? array_map('trim', explode(',', $this->ingredients))
+                    : []),
             'allergens' => $this->allergens,
 
             // Dietary Preferences
