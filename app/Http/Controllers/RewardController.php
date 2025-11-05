@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Reward;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 class RewardController extends Controller
 {
@@ -69,10 +70,18 @@ class RewardController extends Controller
     }
 
     // List rewards for the authenticated user
-    public function myRewards()
+    public function myRewards(Request $request)
     {
-        $user = auth()->user();
-        $rewards = Reward::where('user_id', $user->id)->orderByDesc('earned_at')->get();
+        $user = Auth::user();
+        $query = Reward::where('user_id', $user->id);
+
+        // Filter by is_used parameter if provided
+        if ($request->has('is_used')) {
+            $isUsed = filter_var($request->get('is_used'), FILTER_VALIDATE_BOOLEAN);
+            $query->where('is_used', $isUsed);
+        }
+
+        $rewards = $query->orderByDesc('earned_at')->get();
         return response()->json($rewards);
     }
 }
