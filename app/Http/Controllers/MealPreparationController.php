@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use App\Enum\OrderStatus;
 use App\Models\StatusHistory;
+use App\Models\LoyaltyTransaction;
 use App\Services\UserNutritionService;
 use Illuminate\Support\Facades\Auth;
 
@@ -61,7 +62,30 @@ class MealPreparationController extends Controller
             'changed_at' => now(),
         ]);
 
-        //
+        // If order is being cancelled, refund the loyalty points earned from this order
+        if ($request->statue == OrderStatus::CANCELLED->value && $order->user_id) {
+            $user = $order->user;
+            if ($user && $order->reward_point > 0) {
+                // Deduct the points that were earned from this order
+                $user->total_points_earned -= $order->reward_point;
+                // Ensure points don't go below 0
+                if ($user->total_points_earned < 0) {
+                    $user->total_points_earned = 0;
+                }
+                $user->save();
+
+                // Record the loyalty transaction for cancellation
+                // LoyaltyTransaction::create([
+                //     'user_id' => $user->id,
+                //     'order_id' => $id,
+                //     'type' => 'redeemed',
+                //     'points' => -$order->reward_point,
+                //     'description' => 'Points refunded due to order cancellation',
+                //     'metadata' => ['cancelled_order_id' => $id],
+                // ]);
+            }
+        }
+
         $order->statue = $request->statue;
         $order->save();
         // If delivered, calculate nutrition and update user
