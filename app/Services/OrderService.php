@@ -14,24 +14,56 @@ use Illuminate\Support\Facades\Log;
 class OrderService
 {
     /**
+     * Attach reward meal to order and mark the reward as used.
+     */
+    public function attachRewardMealToOrder(Order $order, array $rewardMeal, $planId)
+    {
+
+        $mealId = $rewardMeal['mealId'] ?? null;
+        $rewardId = $rewardMeal['rewardId'] ?? null;
+        $quantity = $rewardMeal['quantity'] ?? 1;
+
+
+        if ($mealId) {
+            // Attach meal to order with details
+            $order->meals()->attach($mealId, [
+                'quantity' => $quantity,
+                'plan_id' => $planId,
+                'price' => 0, // Reward meal is free
+                'is_reward_meal' => true,
+            ]);
+        }
+
+        // Mark the reward as used
+        if ($rewardId) {
+            $reward = \App\Models\Reward::find($rewardId);
+            if ($reward) {
+                $reward->update([
+                    'is_used' => true,
+                    'used_at' => now(),
+                ]);
+            }
+        }
+    }
+
+    /**
      * Add reward points to a user. If total_points_earned > 12, reset to 0 and create a reward.
      */
     public function addRewardPointsToUser($user, $points = 1)
     {
         $user->total_points_earned += $points;
-            if ($user->total_points_earned >= 12) {
+        if ($user->total_points_earned >= 12) {
             $user->total_points_earned = $user->total_points_earned - 12;
             // Create a reward for the user
-                     \App\Models\Reward::create([
-                        'user_id' => $user->id,
-                        'type' => 'free_meal',
-                        'value' => 49.00,
-                        'title' => 'Repas PrepMe Gratuit',
-                        'description' => 'Réduction de 49 MAD applicable sur votre prochaine commande',
-                        'earned_at' => now(),
-                        'is_used' => false,
-                    ]);
-                
+            \App\Models\Reward::create([
+                'user_id' => $user->id,
+                'type' => 'free_meal',
+                'value' => 49.00,
+                'title' => 'Repas PrepMe Gratuit',
+                'description' => 'Réduction de 49 MAD applicable sur votre prochaine commande',
+                'earned_at' => now(),
+                'is_used' => false,
+            ]);
         }
         $user->save();
     }
@@ -58,7 +90,7 @@ class OrderService
             'phone' => $additionalData['phone'] ?? null,
             'address' => $additionalData['address'] ?? null,
             'role' => UserRole::CLIENT->value,
-        
+
         ], $additionalData);
 
         return User::create($userData);
@@ -66,14 +98,18 @@ class OrderService
 
     public function createOrderWithRewards(array $data): Order
     {
+
         $infos = $data['infos'] ?? [];
         $planId = $data['plan']['id'] ?? null;
         $meals = $data['meals'] ?? [];
         $drinks = $data['drinks'] ?? [];
+        $rewardMeal = $data['rewardMeal'] ?? null;
         $paymentMethod = $data['paymentMethod'] ?? null;
         $userId = Auth::id() ?? $data['user_id'] ?? null;
         $totalAmount = $data['totalAmount'] ?? 0;
-  
+
+        Log::info('rewardMeal extracted:', ['rewardMeal' => $rewardMeal]);
+
         if (isset($infos['email']) && isset($infos['password'])) {
             $user = $this->createUserIfNotExists($infos['email'], $infos['password'], [
                 'first_name' => $infos['firstName'] ?? null,
@@ -90,7 +126,6 @@ class OrderService
 
 
         // i want log the total amount
-        Log::info('Total amount calculated: ' . $totalAmount);
         // Generate num_order: ORD-YYYYMMDD-XXXX (increment for the day)
         $today = now()->format('Ymd');
         $orderCountToday = \App\Models\Order::whereDate('created_at', now()->toDateString())->count();
@@ -127,6 +162,12 @@ class OrderService
                 'price' => $drink['price'] ?? 0,
             ]);
         }
+
+        // Handle reward meal if provided
+        if ($rewardMeal) {
+            $this->attachRewardMealToOrder($order, $rewardMeal, $planId);
+        }
+
         // Add reward points to user
         $user = \App\Models\User::find($userId);
         if ($user) {

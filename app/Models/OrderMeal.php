@@ -17,6 +17,7 @@ class OrderMeal extends Model
         'meal_id',
         'quantity',
         'plan_id',
+        'is_reward_meal',
         'price',
     ];
 

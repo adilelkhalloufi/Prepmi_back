@@ -59,4 +59,9 @@ class User extends Authenticatable implements HasName
     {
         return $this->hasMany(UserNutritionSummary::class);
     }
+
+    public function rewards()
+    {
+        return $this->hasMany(Reward::class);
+    }
 }

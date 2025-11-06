@@ -18,9 +18,11 @@ return new class() extends Migration
             $table->integer('quantity')->default(1);
             $table->unsignedBigInteger('plan_id');
             $table->decimal('price', 8, 2);
+            // to show this detail is for rward order meal
+            $table->boolean('is_reward_meal')->default(false);
             $table->timestamps();
 
-             // Example: Add order_status_at_time field
+            // Example: Add order_status_at_time field
             // $table->string('order_status_at_time')->nullable();
         });
     }
