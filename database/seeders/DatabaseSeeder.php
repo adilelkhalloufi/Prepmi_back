@@ -31,12 +31,21 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $client =   User::factory()->create([
-            'first_name' => 'test',
-            'last_name' => 'test',
-            'email' => 'test@test.com',
+            'first_name' => 'client',
+            'last_name' => 'client',
+            'email' => 'client@client.com',
             'role' => UserRole::CLIENT,
             'status' => ProfilStatus::ACTIF,
-            'password' => bcrypt('test'),
+            'password' => bcrypt('client'),
+        ]);
+
+              $client =   User::factory()->create([
+            'first_name' => 'cuisinier',
+            'last_name' => 'cuisinier',
+            'email' => 'cuisinier@cuisinier.com',
+            'role' => UserRole::CUISINIER,
+            'status' => ProfilStatus::ACTIF,
+            'password' => bcrypt('cuisinier'),
         ]);
 
         $client->rewards()->create([
