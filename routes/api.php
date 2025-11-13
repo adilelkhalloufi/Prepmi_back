@@ -8,6 +8,7 @@ use App\Http\Controllers\MealPreparationController;
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WeeklyMenuController;
+use App\Http\Controllers\SubscriptionWeeklySelectionController;
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\PlanController;
@@ -111,6 +112,16 @@ Route::group(['middleware' => ['auth:sanctum']], function (): void {
     Route::delete('orders/{order}', [OrderController::class, 'destroy']);
 
     Route::patch('orders/{order}/status', [OrderController::class, 'updateStatus']);
+    
+    // Subscription Weekly Selection Routes
+    Route::get('subscriptions/{subscription}/weekly-selections', [SubscriptionWeeklySelectionController::class, 'index']);
+    Route::get('subscriptions/{subscription}/weekly-selections/{selection}', [SubscriptionWeeklySelectionController::class, 'show']);
+    Route::post('subscriptions/{subscription}/weekly-selections', [SubscriptionWeeklySelectionController::class, 'updateSelection']);
+    Route::post('subscriptions/{subscription}/weekly-selections/{selection}/confirm', [SubscriptionWeeklySelectionController::class, 'confirmSelection']);
+    Route::delete('subscriptions/{subscription}/weekly-selections/{selection}', [SubscriptionWeeklySelectionController::class, 'destroy']);
+    Route::get('subscriptions/{subscription}/available-meals', [SubscriptionWeeklySelectionController::class, 'getAvailableMeals']);
+    Route::get('subscriptions/{subscription}/upcoming-weeks', [SubscriptionWeeklySelectionController::class, 'upcomingWeeks']);
+    
     // PLAN
     Route::post('plans', [PlanController::class, 'store']);
     Route::get('plans/{plan}', [PlanController::class, 'show']);

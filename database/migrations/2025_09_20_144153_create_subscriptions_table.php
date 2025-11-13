@@ -52,10 +52,8 @@ return new class() extends Migration
 
             $table->timestamps();
 
-            // Indexes
-            $table->index(['user_id', 'status']);
-            $table->index(['status', 'next_billing_date']);
-            $table->index(['status', 'next_delivery_date']);
+            
+      
         });
     }
 

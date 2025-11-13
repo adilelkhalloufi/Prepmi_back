@@ -94,6 +94,11 @@ class Subscription extends Model
         return $this->belongsTo(Address::class, 'delivery_address_id');
     }
 
+    public function weeklySelections(): HasMany
+    {
+        return $this->hasMany(SubscriptionWeeklySelection::class);
+    }
+
     // Scopes
     public function scopeActive($query)
     {
