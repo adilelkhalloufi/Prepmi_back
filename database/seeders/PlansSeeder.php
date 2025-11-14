@@ -21,6 +21,7 @@ class PlansSeeder extends Seeder
                 'delivery_fee' => 0.00,
                 'is_free_shipping' => false,
                 'is_active' => true,
+                
             ],
             [
                 'name' => 'Boîte de 6 repas',
@@ -39,6 +40,7 @@ class PlansSeeder extends Seeder
                 'delivery_fee' => 0.00,
                 'is_free_shipping' => false,
                 'is_active' => true,
+                'price_subscription_per_week' => 330,
             ],
             [
                 'name' => 'Boîte de 10 repas',
@@ -48,6 +50,7 @@ class PlansSeeder extends Seeder
                 'delivery_fee' => 0.00,
                 'is_free_shipping' => false,
                 'is_active' => true,
+                'price_subscription_per_week' => 400,
             ],
         ];
 

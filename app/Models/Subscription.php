@@ -20,7 +20,6 @@ class Subscription extends Model
         'ends_at',
         'next_billing_date',
         'next_delivery_date',
-        'trial_ends_at',
         'paused_at',
         'pause_reason',
         'cancelled_at',
@@ -29,19 +28,9 @@ class Subscription extends Model
         'weeks_remaining',
         'total_amount_paid',
         'meals_delivered',
+        'delivery_address',
         'delivery_notes',
         'special_instructions',
-        'billing_address_id',
-        'delivery_address_id',
-        'cancellation_deadline',
-        'pause_start_date',
-        'pause_end_date',
-        'max_pause_weeks',
-        'paused_weeks_used',
-        'preferred_delivery_days',
-        'delivery_restrictions',
-        'auto_renew',
-        'auto_renew_disabled_at',
     ];
 
     protected $casts = [
@@ -50,22 +39,12 @@ class Subscription extends Model
         'ends_at' => 'datetime',
         'next_billing_date' => 'date',
         'next_delivery_date' => 'date',
-        'trial_ends_at' => 'datetime',
         'paused_at' => 'datetime',
         'cancelled_at' => 'datetime',
         'weeks_committed' => 'integer',
         'weeks_remaining' => 'integer',
         'total_amount_paid' => 'decimal:2',
         'meals_delivered' => 'integer',
-        'cancellation_deadline' => 'datetime',
-        'pause_start_date' => 'datetime',
-        'pause_end_date' => 'datetime',
-        'max_pause_weeks' => 'integer',
-        'paused_weeks_used' => 'integer',
-        'preferred_delivery_days' => 'array',
-        'delivery_restrictions' => 'array',
-        'auto_renew' => 'boolean',
-        'auto_renew_disabled_at' => 'datetime',
     ];
 
     // Relationships
@@ -84,21 +63,11 @@ class Subscription extends Model
         return $this->hasMany(Order::class);
     }
 
-    public function billingAddress(): BelongsTo
-    {
-        return $this->belongsTo(Address::class, 'billing_address_id');
-    }
+ 
 
-    public function deliveryAddress(): BelongsTo
-    {
-        return $this->belongsTo(Address::class, 'delivery_address_id');
-    }
+ 
 
-    public function weeklySelections(): HasMany
-    {
-        return $this->hasMany(SubscriptionWeeklySelection::class);
-    }
-
+ 
     // Scopes
     public function scopeActive($query)
     {
@@ -151,20 +120,6 @@ class Subscription extends Model
     public function isExpired(): bool
     {
         return $this->status === SubscriptionStatus::EXPIRED;
-    }
-
-    public function isInTrial(): bool
-    {
-        return $this->trial_ends_at && $this->trial_ends_at > now();
-    }
-
-    public function getTrialDaysRemaining(): int
-    {
-        if (! $this->isInTrial()) {
-            return 0;
-        }
-
-        return now()->diffInDays($this->trial_ends_at);
     }
 
     public function pause(?string $reason = null): bool
@@ -263,10 +218,6 @@ class Subscription extends Model
 
     public function getNextBillingAmount(): float
     {
-        if ($this->isInTrial()) {
-            return 0.00;
-        }
-
         return $this->getWeeklyPrice();
     }
 

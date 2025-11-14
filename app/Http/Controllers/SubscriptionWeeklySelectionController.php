@@ -36,6 +36,7 @@ class SubscriptionWeeklySelectionController extends Controller
         ]);
     }
 
+   
     /**
      * Get a specific weekly selection
      */

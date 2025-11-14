@@ -20,6 +20,7 @@ class Plan extends Model
         'points_value',
         'delivery_fee',
         'is_free_shipping',
+        'price_subscription_per_week',
     ];
 
     protected $casts = [

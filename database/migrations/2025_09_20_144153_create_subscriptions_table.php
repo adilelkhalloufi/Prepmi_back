@@ -23,8 +23,7 @@ return new class() extends Migration
             $table->date('next_billing_date');
             $table->date('next_delivery_date');
 
-            // Trial
-            $table->timestamp('trial_ends_at')->nullable();
+    
 
             // Pause functionality
             $table->timestamp('paused_at')->nullable();
@@ -43,12 +42,10 @@ return new class() extends Migration
             $table->integer('meals_delivered')->default(0);
 
             // Instructions and notes
+            $table->string('delivery_address')->nullable();
             $table->text('delivery_notes')->nullable();
             $table->text('special_instructions')->nullable();
 
-            // Addresses
-            $table->foreignId('billing_address_id')->nullable()->constrained('addresses');
-            $table->foreignId('delivery_address_id')->nullable()->constrained('addresses');
 
             $table->timestamps();
 

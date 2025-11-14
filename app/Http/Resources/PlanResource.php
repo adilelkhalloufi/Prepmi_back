@@ -15,6 +15,7 @@ class PlanResource extends JsonResource
             'slug' => $this->slug,
             'meals_per_week' => $this->meals_per_week,
             'price_per_week' => $this->price_per_week,
+            'price_subscription_per_week' => $this->price_subscription_per_week,
             'delivery_fee' => $this->delivery_fee,
             'is_active' => $this->is_active,
             'is_free_shipping' => $this->is_free_shipping,

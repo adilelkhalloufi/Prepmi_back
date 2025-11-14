@@ -48,7 +48,8 @@ Route::get('weekly-menus/{id}/meals', [WeeklyMenuController::class, 'getMeals'])
 
 // Public Order Routes
 Route::post('orders', [OrderController::class, 'store']);
-
+// 
+Route::get('subscriptions', [SubscriptionWeeklySelectionController::class, 'index']);
 // Protected routes
 Route::group(['middleware' => ['auth:sanctum']], function (): void {
 
@@ -114,7 +115,6 @@ Route::group(['middleware' => ['auth:sanctum']], function (): void {
     Route::patch('orders/{order}/status', [OrderController::class, 'updateStatus']);
     
     // Subscription Weekly Selection Routes
-    Route::get('subscriptions/{subscription}/weekly-selections', [SubscriptionWeeklySelectionController::class, 'index']);
     Route::get('subscriptions/{subscription}/weekly-selections/{selection}', [SubscriptionWeeklySelectionController::class, 'show']);
     Route::post('subscriptions/{subscription}/weekly-selections', [SubscriptionWeeklySelectionController::class, 'updateSelection']);
     Route::post('subscriptions/{subscription}/weekly-selections/{selection}/confirm', [SubscriptionWeeklySelectionController::class, 'confirmSelection']);

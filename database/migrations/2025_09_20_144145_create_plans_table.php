@@ -15,7 +15,8 @@ return new class() extends Migration
             $table->id();
             $table->string('name');
             $table->integer('meals_per_week')->default(0);
-            $table->decimal('price_per_week', 8, 2);
+            $table->decimal('price_per_week', 8, 2)->default(0);
+            $table->decimal('price_subscription_per_week', 10, 2)->default(0);
             $table->boolean('is_active')->default(true);
             $table->integer('points_value')->default(0);
             $table->decimal('delivery_fee', 8, 2)->default(0);

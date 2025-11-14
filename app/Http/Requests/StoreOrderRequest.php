@@ -33,6 +33,7 @@ class StoreOrderRequest extends FormRequest
             'user_id' => 'nullable|integer|exists:users,id',
             'totalAmount' => 'required|numeric|min:0',
             'rewardMeal' => 'nullable',
+            'purchaseType' => 'nullable|string',
 
         ];
     }
