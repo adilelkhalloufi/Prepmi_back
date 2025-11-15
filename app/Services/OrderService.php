@@ -14,6 +14,35 @@ use Illuminate\Support\Facades\Log;
 class OrderService
 {
     /**
+     * Create a subscription for an order.
+     */
+    public function createSubscriptionForOrder(Order $order, Plan $plan, $userId)
+    {
+        $subscription = \App\Models\Subscription::create([
+            'user_id' => $userId,
+            'plan_id' => $plan->id,
+            'order_id' => $order->id,
+            'start_date' => now(),
+            'end_date' => now()->addDays($plan->duration_days ?? 30),
+            'status' => \App\Enum\SubscriptionStatus::ACTIVE->value,
+            'price' => $plan->price,
+            'meals_per_week' => $plan->meals_per_week ?? 0,
+            'weeks_duration' => $plan->weeks_duration ?? 4,
+        ]); 
+
+        // Update order to link to subscription
+        $order->update(['subscription_id' => $subscription->id]);
+
+        Log::info('Subscription created for order', [
+            'subscription_id' => $subscription->id,
+            'order_id' => $order->id,
+            'user_id' => $userId
+        ]);
+
+        return $subscription;
+    }
+
+    /**
      * Attach reward meal to order and mark the reward as used.
      */
     public function attachRewardMealToOrder(Order $order, array $rewardMeal, $planId)
@@ -104,6 +133,7 @@ class OrderService
         $meals = $data['meals'] ?? [];
         $drinks = $data['drinks'] ?? [];
         $rewardMeal = $data['rewardMeal'] ?? null;
+        $purchaseType = $data['purchaseType'] ?? null;
         $paymentMethod = $data['paymentMethod'] ?? null;
         $userId = Auth::id() ?? $data['user_id'] ?? null;
         $totalAmount = $data['totalAmount'] ?? 0;
@@ -166,6 +196,11 @@ class OrderService
         // Handle reward meal if provided
         if ($rewardMeal) {
             $this->attachRewardMealToOrder($order, $rewardMeal, $planId);
+        }
+
+        // Create subscription if purchaseType is subscription
+        if ($purchaseType === 'subscription' && $plan && $userId) {
+            $this->createSubscriptionForOrder($order, $plan, $userId);
         }
 
         // Add reward points to user
