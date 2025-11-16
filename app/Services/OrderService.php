@@ -22,13 +22,32 @@ class OrderService
             'user_id' => $userId,
             'plan_id' => $plan->id,
             'order_id' => $order->id,
-            'start_date' => now(),
-            'end_date' => now()->addDays($plan->duration_days ?? 30),
             'status' => \App\Enum\SubscriptionStatus::ACTIVE->value,
-            'price' => $plan->price,
-            'meals_per_week' => $plan->meals_per_week ?? 0,
-            'weeks_duration' => $plan->weeks_duration ?? 4,
-        ]); 
+            'started_at' => now(),
+            'ends_at' => now()->addWeeks(4), // Default 4 weeks subscription
+            'next_billing_date' => now()->addWeek(), // Next billing in 1 week (weekly billing)
+            'next_delivery_date' => now()->addDays(3), // First delivery in 3 days
+            'cancellation_deadline' => now()->addDays(5), // 2 days before next billing
+            'paused_at' => null,
+            'pause_reason' => null,
+            'pause_start_date' => null,
+            'pause_end_date' => null,
+            'max_pause_weeks' => 4,
+            'paused_weeks_used' => 0,
+            'preferred_delivery_days' => json_encode(['monday', 'wednesday', 'friday']),
+            'delivery_restrictions' => null,
+            'auto_renew' => true,
+            'auto_renew_disabled_at' => null,
+            'cancelled_at' => null,
+            'cancellation_reason' => null,
+            'weeks_committed' => 4, // Default 4 weeks commitment
+            'weeks_remaining' => 4,
+            'total_amount_paid' => $plan->price_subscription_per_week ?? $plan->price_per_week,
+            'meals_delivered' => 0,
+            'delivery_address' => $order->adresse_livrsion,
+            'delivery_notes' => null,
+            'special_instructions' => null,
+        ]);
 
         // Update order to link to subscription
         $order->update(['subscription_id' => $subscription->id]);

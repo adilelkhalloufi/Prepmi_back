@@ -21,6 +21,7 @@ return new class() extends Migration
             $table->string('adresse_livrsion')->nullable();
             $table->foreignId('user_id')->nullable()->constrained('users');
             $table->foreignId('plan_id')->nullable()->constrained('plans');
+            $table->foreignId('subscription_id')->nullable()->constrained('subscriptions');
             $table->string('method_payement')->nullable();
             $table->integer('reward_point')->nullable();
             $table->string('statue')->nullable();

@@ -8,7 +8,7 @@ use App\Http\Controllers\MealPreparationController;
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WeeklyMenuController;
-use App\Http\Controllers\SubscriptionWeeklySelectionController;
+use App\Http\Controllers\Api\SubscriptionController;
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\PlanController;
@@ -18,7 +18,7 @@ use App\Http\Controllers\UserNutritionSummaryController;
 
 //  Public routes
 
- 
+
 
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
@@ -48,13 +48,22 @@ Route::get('weekly-menus/{id}/meals', [WeeklyMenuController::class, 'getMeals'])
 
 // Public Order Routes
 Route::post('orders', [OrderController::class, 'store']);
-// 
-Route::get('subscriptions', [SubscriptionWeeklySelectionController::class, 'index']);
-// Protected routes
+
 Route::group(['middleware' => ['auth:sanctum']], function (): void {
 
     // User rewards (authenticated user)
     Route::get('rewards', [RewardController::class, 'myRewards']);
+
+    // Subscription Routes
+    Route::get('subscriptions', [SubscriptionController::class, 'index']);
+    Route::get('subscriptions/stats', [SubscriptionController::class, 'stats']);
+    Route::get('subscriptions/{subscription}', [SubscriptionController::class, 'show']);
+    Route::put('subscriptions/{subscription}', [SubscriptionController::class, 'update']);
+    Route::post('subscriptions/{subscription}/pause', [SubscriptionController::class, 'pause']);
+    Route::post('subscriptions/{subscription}/resume', [SubscriptionController::class, 'resume']);
+    Route::post('subscriptions/{subscription}/cancel', [SubscriptionController::class, 'cancel']);
+    Route::post('subscriptions/{subscription}/reactivate', [SubscriptionController::class, 'reactivate']);
+    Route::post('subscriptions/{subscription}/toggle-auto-renew', [SubscriptionController::class, 'toggleAutoRenew']);
 
 
     // Dashboard stats (authenticated user)
@@ -63,7 +72,7 @@ Route::group(['middleware' => ['auth:sanctum']], function (): void {
     // User nutrition summary (authenticated user)
     Route::get('nutrition-summary', [UserNutritionSummaryController::class, 'index']);
 
-     
+
 
     Route::get('total-points-earned', [AuthController::class, 'TotalPointsEarned']);
     Route::post('logout', [AuthController::class, 'logout']);
@@ -71,7 +80,7 @@ Route::group(['middleware' => ['auth:sanctum']], function (): void {
     // Meal Preparation Routes (Admin/Manager/Chef)
     Route::get('meal-preparations', [MealPreparationController::class, 'index']);
     Route::put('meal-preparations/{id}/status', [MealPreparationController::class, 'updateStatus']);
- 
+
     // Protected Category Routes (Admin/Manager only)
     Route::post('categories', [CategoryController::class, 'store']);
     Route::put('categories/{id}', [CategoryController::class, 'update']);
@@ -113,15 +122,9 @@ Route::group(['middleware' => ['auth:sanctum']], function (): void {
     Route::delete('orders/{order}', [OrderController::class, 'destroy']);
 
     Route::patch('orders/{order}/status', [OrderController::class, 'updateStatus']);
-    
+
     // Subscription Weekly Selection Routes
-    Route::get('subscriptions/{subscription}/weekly-selections/{selection}', [SubscriptionWeeklySelectionController::class, 'show']);
-    Route::post('subscriptions/{subscription}/weekly-selections', [SubscriptionWeeklySelectionController::class, 'updateSelection']);
-    Route::post('subscriptions/{subscription}/weekly-selections/{selection}/confirm', [SubscriptionWeeklySelectionController::class, 'confirmSelection']);
-    Route::delete('subscriptions/{subscription}/weekly-selections/{selection}', [SubscriptionWeeklySelectionController::class, 'destroy']);
-    Route::get('subscriptions/{subscription}/available-meals', [SubscriptionWeeklySelectionController::class, 'getAvailableMeals']);
-    Route::get('subscriptions/{subscription}/upcoming-weeks', [SubscriptionWeeklySelectionController::class, 'upcomingWeeks']);
-    
+
     // PLAN
     Route::post('plans', [PlanController::class, 'store']);
     Route::get('plans/{plan}', [PlanController::class, 'show']);

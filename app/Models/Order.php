@@ -27,7 +27,8 @@ class Order extends Model
         'method_payement',
         'reward_point',
         'statue',
-        'total_amount'
+        'total_amount',
+        'subscription_id'
     ];
 
     protected $casts = [
