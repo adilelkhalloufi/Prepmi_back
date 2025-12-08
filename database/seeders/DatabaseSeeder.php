@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             CategoriesSeeder::class,
             PlansSeeder::class,
             MealsSeeder::class,
+            MembershipPlanSeeder::class,
         ]);
 
         User::factory()->create([

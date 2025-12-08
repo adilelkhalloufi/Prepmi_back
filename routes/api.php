@@ -15,6 +15,9 @@ use App\Http\Controllers\Api\PlanController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RewardController;
 use App\Http\Controllers\UserNutritionSummaryController;
+use App\Http\Controllers\MembershipPlanController;
+use App\Http\Controllers\MembershipController;
+use App\Http\Controllers\MembershipTransactionController;
 
 //  Public routes
 
@@ -49,6 +52,11 @@ Route::get('weekly-menus/{id}/meals', [WeeklyMenuController::class, 'getMeals'])
 // Public Order Routes
 Route::post('orders', [OrderController::class, 'store']);
 
+// Public Membership Plan Routes
+Route::get('membership-plans', [MembershipPlanController::class, 'index']);
+Route::get('membership-plans/popular', [MembershipPlanController::class, 'popular']);
+Route::get('membership-plans/{id}', [MembershipPlanController::class, 'show']);
+
 Route::group(['middleware' => ['auth:sanctum']], function (): void {
 
     // User rewards (authenticated user)
@@ -71,6 +79,19 @@ Route::group(['middleware' => ['auth:sanctum']], function (): void {
 
     // User nutrition summary (authenticated user)
     Route::get('nutrition-summary', [UserNutritionSummaryController::class, 'index']);
+
+    // Membership Routes (User)
+    Route::get('memberships/current/{userId}', [MembershipController::class, 'getCurrentMembership']);
+    Route::get('memberships/{id}', [MembershipController::class, 'show']);
+    Route::post('memberships', [MembershipController::class, 'store']);
+    Route::post('memberships/{id}/cancel', [MembershipController::class, 'cancel']);
+    Route::post('memberships/{id}/freeze', [MembershipController::class, 'freeze']);
+    Route::post('memberships/{id}/unfreeze', [MembershipController::class, 'unfreeze']);
+
+    // Membership Transaction Routes (User)
+    Route::get('membership-transactions/user/{userId}', [MembershipTransactionController::class, 'getByUser']);
+    Route::get('membership-transactions/membership/{membershipId}', [MembershipTransactionController::class, 'getByMembership']);
+    Route::get('membership-transactions/{id}', [MembershipTransactionController::class, 'show']);
 
 
 
@@ -130,4 +151,23 @@ Route::group(['middleware' => ['auth:sanctum']], function (): void {
     Route::get('plans/{plan}', [PlanController::class, 'show']);
     Route::put('plans/{plan}', [PlanController::class, 'update']);
     Route::delete('plans/{plan}', [PlanController::class, 'destroy']);
+
+    // Membership Plan Management Routes (Admin/Manager only)
+    Route::post('membership-plans', [MembershipPlanController::class, 'store']);
+    Route::put('membership-plans/{id}', [MembershipPlanController::class, 'update']);
+    Route::delete('membership-plans/{id}', [MembershipPlanController::class, 'destroy']);
+    Route::post('membership-plans/{id}/toggle-active', [MembershipPlanController::class, 'toggleActive']);
+
+    // Membership Management Routes (Admin/Manager only)
+    Route::get('memberships', [MembershipController::class, 'index']);
+    Route::get('memberships/statistics', [MembershipController::class, 'statistics']);
+    Route::post('memberships/{id}/activate', [MembershipController::class, 'activate']);
+
+    // Membership Transaction Management Routes (Admin/Manager only)
+    Route::get('membership-transactions', [MembershipTransactionController::class, 'index']);
+    Route::get('membership-transactions/statistics', [MembershipTransactionController::class, 'statistics']);
+    Route::post('membership-transactions', [MembershipTransactionController::class, 'store']);
+    Route::post('membership-transactions/{id}/complete', [MembershipTransactionController::class, 'markCompleted']);
+    Route::post('membership-transactions/{id}/fail', [MembershipTransactionController::class, 'markFailed']);
+    Route::post('membership-transactions/{id}/refund', [MembershipTransactionController::class, 'refund']);
 });
