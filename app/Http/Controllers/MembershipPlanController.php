@@ -46,6 +46,9 @@ class MembershipPlanController extends Controller
      */
     public function store(Request $request)
     {
+        // Normalize perks input: accept JSON string or comma-separated string
+        $this->normalizePerks($request);
+
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255|unique:membership_plans,name',
             'description' => 'nullable|string',
@@ -103,6 +106,9 @@ class MembershipPlanController extends Controller
             ], 404);
         }
 
+        // Normalize perks input before validation
+        $this->normalizePerks($request);
+
         $validator = Validator::make($request->all(), [
             'name' => 'sometimes|required|string|max:255|unique:membership_plans,name,' . $id,
             'description' => 'nullable|string',
@@ -129,6 +135,44 @@ class MembershipPlanController extends Controller
             'message' => 'Membership plan updated successfully',
             'data' => $plan
         ]);
+    }
+
+    /**
+     * Normalize the `perks` field so validator receives an array.
+     * Accepts:
+     * - JSON array string ("[...]")
+     * - Comma-separated string ("a, b, c")
+     */
+    protected function normalizePerks(Request $request)
+    {
+        if (! $request->has('perks')) {
+            return;
+        }
+
+        $perks = $request->input('perks');
+
+        // If already an array, nothing to do
+        if (is_array($perks)) {
+            return;
+        }
+
+        // Try JSON decode
+        if (is_string($perks)) {
+            $decoded = json_decode($perks, true);
+            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                $request->merge(['perks' => $decoded]);
+                return;
+            }
+
+            // Fallback: comma-separated values
+            $parts = array_filter(array_map('trim', explode(',', $perks)), function ($v) {
+                return $v !== '';
+            });
+
+            if (! empty($parts)) {
+                $request->merge(['perks' => array_values($parts)]);
+            }
+        }
     }
 
     /**

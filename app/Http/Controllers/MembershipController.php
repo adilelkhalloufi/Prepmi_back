@@ -67,8 +67,7 @@ class MembershipController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'user_id' => 'required|exists:users,id',
-            'membership_plan_id' => 'required|exists:membership_plans,id',
+             'membership_plan_id' => 'required|exists:membership_plans,id',
         ]);
 
         if ($validator->fails()) {
@@ -79,7 +78,7 @@ class MembershipController extends Controller
         }
 
         // Check if user already has an active membership
-        $existingMembership = Membership::where('user_id', $request->user_id)
+        $existingMembership = Membership::where('user_id', auth()->id())
             ->where('status', MembershipStatus::ACTIVE->value)
             ->first();
 
@@ -110,7 +109,7 @@ class MembershipController extends Controller
 
             // Create membership
             $membership = Membership::create([
-                'user_id' => $request->user_id,
+                'user_id' => auth()->id(),
                 'membership_plan_id' => $plan->id,
                 'status' => MembershipStatus::PENDING->value,
                 'started_at' => now(),
@@ -122,7 +121,7 @@ class MembershipController extends Controller
             ]);
 
             // Update user
-            $user = User::find($request->user_id);
+            $user = User::find(auth()->id());
             $user->update([
                 'is_member' => true,
                 'member_status' => MembershipStatus::PENDING->value,

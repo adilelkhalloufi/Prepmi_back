@@ -63,15 +63,15 @@ Route::group(['middleware' => ['auth:sanctum']], function (): void {
     Route::get('rewards', [RewardController::class, 'myRewards']);
 
     // Subscription Routes
-    Route::get('subscriptions', [SubscriptionController::class, 'index']);
-    Route::get('subscriptions/stats', [SubscriptionController::class, 'stats']);
-    Route::get('subscriptions/{subscription}', [SubscriptionController::class, 'show']);
-    Route::put('subscriptions/{subscription}', [SubscriptionController::class, 'update']);
-    Route::post('subscriptions/{subscription}/pause', [SubscriptionController::class, 'pause']);
-    Route::post('subscriptions/{subscription}/resume', [SubscriptionController::class, 'resume']);
-    Route::post('subscriptions/{subscription}/cancel', [SubscriptionController::class, 'cancel']);
-    Route::post('subscriptions/{subscription}/reactivate', [SubscriptionController::class, 'reactivate']);
-    Route::post('subscriptions/{subscription}/toggle-auto-renew', [SubscriptionController::class, 'toggleAutoRenew']);
+    // Route::get('subscriptions', [SubscriptionController::class, 'index']);
+    // Route::get('subscriptions/stats', [SubscriptionController::class, 'stats']);
+    // Route::get('subscriptions/{subscription}', [SubscriptionController::class, 'show']);
+    // Route::put('subscriptions/{subscription}', [SubscriptionController::class, 'update']);
+    // Route::post('subscriptions/{subscription}/pause', [SubscriptionController::class, 'pause']);
+    // Route::post('subscriptions/{subscription}/resume', [SubscriptionController::class, 'resume']);
+    // Route::post('subscriptions/{subscription}/cancel', [SubscriptionController::class, 'cancel']);
+    // Route::post('subscriptions/{subscription}/reactivate', [SubscriptionController::class, 'reactivate']);
+    // Route::post('subscriptions/{subscription}/toggle-auto-renew', [SubscriptionController::class, 'toggleAutoRenew']);
 
 
     // Dashboard stats (authenticated user)
