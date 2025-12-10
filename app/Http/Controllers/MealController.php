@@ -20,14 +20,32 @@ class MealController extends Controller
     public function index(Request $request)
     {
 
-
         $query = Meal::query();
 
         // Only filter by active status if the param is present
         if ($request->has('active')) {
-            $query->where('is_active', $request->boolean('active'));
+            // Accept various representations: "1", "0", "true", "false", boolean
+            $raw = $request->input('active');
+            $active = filter_var($raw, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+            if ($active === null) {
+                // if not a recognizable boolean, try numeric
+                $active = is_numeric($raw) ? (int) $raw === 1 : null;
+            }
+            if ($active !== null) {
+                $query->where('is_active', $active ? 1 : 0);
+            }
         }
 
+        // if is memebership show the meal has memebership if not don't show memebership meals
+        if ($request->has('is_membership')) {
+            $isMembership = filter_var($request->input('is_membership'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+            if ($isMembership === true) {
+                $query->where('show_for_membership', true);
+            }
+            else {
+                $query->where('show_for_membership', false);
+            }
+        }
         // Only filter by category if the param is present
         if ($request->has('category_id')) {
             $query->where('category_id', $request->category_id);
@@ -88,14 +106,20 @@ class MealController extends Controller
             });
         }
 
-        // Sorting
+      
+
+        // Sorting add sorte with show_for_membership
+
         $sortBy = $request->get('sort_by', 'created_at');
         $sortOrder = $request->get('sort_order', 'desc');
 
-        $allowedSorts = ['name', 'price', 'calories', 'created_at', 'prep_time_minutes'];
+
+        $allowedSorts = ['name', 'price', 'calories', 'created_at', 'prep_time_minutes','show_for_membership'];
         if (in_array($sortBy, $allowedSorts)) {
             $query->orderBy($sortBy, $sortOrder);
         }
+        // add sorting with show_for_membership first
+        $query->orderBy('show_for_membership', 'desc');
 
         // Pagination
         $perPage = $request->get('per_page', 100);

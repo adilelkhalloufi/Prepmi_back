@@ -54,6 +54,7 @@ class MealsSeeder extends Seeder
                 'weight_grams' => 400,
                 'serving_size' => '1 portion',
                 'is_active' => true,
+                'show_for_membership' => true,
             ],
             [
                 'name' => 'Chicken Tagine with Olives',
@@ -80,6 +81,8 @@ class MealsSeeder extends Seeder
                 'weight_grams' => 450,
                 'serving_size' => '1 portion',
                 'is_active' => true,
+                                'show_for_membership' => true,
+
             ],
             [
                 'name' => 'Chicken Curry with Rice',
@@ -106,6 +109,8 @@ class MealsSeeder extends Seeder
                 'weight_grams' => 500,
                 'serving_size' => '1 portion',
                 'is_active' => true,
+                                'show_for_membership' => true,
+
             ],
             [
                 'name' => 'Lemon Herb Chicken Skewers',

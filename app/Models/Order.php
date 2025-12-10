@@ -116,6 +116,12 @@ class Order extends Model
         return $this->belongsTo(Plan::class);
     }
 
+ 
+
+     /**
+     * Get the status histories for this order.
+     */
+
     public function statusHistories(): HasMany
     {
         return $this->hasMany(StatusHistory::class);

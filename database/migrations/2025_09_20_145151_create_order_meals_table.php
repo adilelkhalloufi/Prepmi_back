@@ -16,7 +16,9 @@ return new class() extends Migration
             $table->foreignId('order_id')->constrained()->onDelete('cascade');
             $table->foreignId('meal_id')->constrained()->onDelete('cascade');
             $table->integer('quantity')->default(1);
-            $table->unsignedBigInteger('plan_id');
+            $table->unsignedBigInteger('plan_id')->nullable();
+            $table->unsignedBigInteger('membership_id')->nullable();
+
             $table->decimal('price', 8, 2);
             // to show this detail is for rward order meal
             $table->boolean('is_reward_meal')->default(false);

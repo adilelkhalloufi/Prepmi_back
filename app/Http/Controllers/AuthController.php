@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\User\CreateUser;
 use App\enum\ProfilStatus;
+use App\enum\UserRole;
 use App\Mail\CodeVerification;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -47,22 +48,33 @@ class AuthController extends Controller
         CreateUser $createUser
     ) {
         $request->validate([
-            'company_name' => 'required',
-            'role' => 'required',
             'password' => 'required',
             'email' => 'required|email',
-            'specialitie_id' => 'required',
-            'interests' => 'required',
             'phone' => 'required',
             'address' => 'required',
-            'city_id' => 'required',
             'agreement' => 'required',
             'first_name' => 'required',
             'last_name' => 'required',
 
         ]);
 
-        $user = $createUser->execute($request->all());
+        $user = User::where('email', $request->email)->first();
+        if ($user) {
+            return response()->json([
+                'message' => 'Email already exists',
+            ], 409);
+        }
+        $user = User::create([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'city_id' => $request->city_id,
+            'password' => bcrypt($request->password),
+            'role' => UserRole::CLIENT->value,
+            'status' => ProfilStatus::ACTIF->value,
+        ]);
 
         $token = $user->createToken('token')->plainTextToken;
 

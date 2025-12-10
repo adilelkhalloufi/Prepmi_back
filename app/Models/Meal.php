@@ -57,6 +57,7 @@ class Meal extends Model
             'serving_size',
             'category_id',
             'type_id',
+            'show_for_membership'
     ];
 
     protected $casts = [

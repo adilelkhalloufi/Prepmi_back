@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\enum\MembershipStatus;
+use App\enum\UserRole;
 use App\Models\Membership;
 use App\Models\MembershipPlan;
 use App\Models\MembershipFreezeHistory;
@@ -21,13 +22,18 @@ class MembershipController extends Controller
     {
         $query = Membership::with(['user', 'membershipPlan']);
 
+        // If not admin, filter to only show authenticated user's memberships
+       if (!auth()->user()->hasRole(UserRole::ADMIN->value)) {
+            $query->where('user_id', auth()->id());
+        }
+
         // Filter by status
         if ($request->has('status')) {
             $query->where('status', $request->status);
         }
 
-        // Filter by user
-        if ($request->has('user_id')) {
+        // Filter by user (only if admin)
+        if ($request->has('user_id') ) {
             $query->where('user_id', $request->user_id);
         }
 
@@ -172,18 +178,12 @@ class MembershipController extends Controller
     public function activate($id)
     {
         $membership = Membership::find($id);
-
         if (!$membership) {
             return response()->json([
                 'message' => 'Membership not found'
             ], 404);
         }
-
-        if ($membership->status !== MembershipStatus::PENDING->value) {
-            return response()->json([
-                'message' => 'Only pending memberships can be activated'
-            ], 400);
-        }
+       
 
         DB::beginTransaction();
         try {

@@ -44,6 +44,11 @@ class User extends Authenticatable implements HasName
         'last_reward_earned_at' => 'datetime',
     ];
 
+    public function hasRole($role): bool
+    {
+        return $this->role === $role;
+    }
+
     public function getFilamentName(): string
     {
         return $this->first_name . ' ' . $this->last_name;

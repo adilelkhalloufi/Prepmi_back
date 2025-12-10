@@ -95,6 +95,27 @@ class OrderService
     }
 
     /**
+     * Attach free drinks to order.
+     */
+    public function attachFreeDrinksToOrder(Order $order, array $freeDrinks, $membershipId)
+    {
+        foreach ($freeDrinks as $drink) {
+            $drinkId = $drink['id'] ?? null;
+            $quantity = $drink['quantity'] ?? 1;
+
+            if ($drinkId) {
+                // Attach drink to order as a meal with price 0
+                $order->meals()->attach($drinkId, [
+                    'quantity' => $quantity,
+                    'membership_id' => $membershipId,
+                    'price' => 0, // Free drink
+                    'is_reward_meal' => false,
+                ]);
+            }
+        }
+    }
+
+    /**
      * Add reward points to a user. If total_points_earned > 12, reset to 0 and create a reward.
      */
     public function addRewardPointsToUser($user, $points = 1)
@@ -152,12 +173,14 @@ class OrderService
         $meals = $data['meals'] ?? [];
         $drinks = $data['drinks'] ?? [];
         $rewardMeal = $data['rewardMeal'] ?? null;
+        $freeDrinks = $data['freeDrinks'] ?? [];
         $purchaseType = $data['purchaseType'] ?? null;
         $paymentMethod = $data['paymentMethod'] ?? null;
         $userId = Auth::id() ?? $data['user_id'] ?? null;
         $totalAmount = $data['totalAmount'] ?? 0;
-
+        $membershipId = $data['membershipId'] ?? null;
         Log::info('rewardMeal extracted:', ['rewardMeal' => $rewardMeal]);
+        Log::info('freeDrinks extracted:', ['freeDrinks' => $freeDrinks]);
 
         if (isset($infos['email']) && isset($infos['password'])) {
             $user = $this->createUserIfNotExists($infos['email'], $infos['password'], [
@@ -215,6 +238,11 @@ class OrderService
         // Handle reward meal if provided
         if ($rewardMeal) {
             $this->attachRewardMealToOrder($order, $rewardMeal, $planId);
+        }
+
+        // Handle free drinks if provided
+        if (!empty($freeDrinks)) {
+            $this->attachFreeDrinksToOrder($order, $freeDrinks, $membershipId);
         }
 
         // Create subscription if purchaseType is subscription
