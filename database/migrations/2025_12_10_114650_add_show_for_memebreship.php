@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('meals', function (Blueprint $table) {
-            $table->boolean('show_for_membership')->default(false);
+            $table->boolean('is_membership')->default(false);
         });
     }
 
@@ -22,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('meals', function (Blueprint $table) {
-            $table->dropColumn('show_for_membership');
+            $table->dropColumn('is_membership');
         });
     }
 };

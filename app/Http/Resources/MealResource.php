@@ -19,7 +19,7 @@ class MealResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'slug' => $this->slug,
-            'show_for_membership' => $this->show_for_membership,
+            'is_membership' => $this->is_membership,
             'description' => $this->description,
             'short_description' => $this->short_description,
             'image_path' => $this->image_path,
@@ -93,7 +93,7 @@ class MealResource extends JsonResource
             'type_id' => $this->type_id,
             'type' => $this->getTypeLabel(),
 
-            'quantity' => $this->quantity ?? 0, 
+            'quantity' => $this->quantity ?? 0,
 
             // Timestamps
             'created_at' => $this->created_at,

@@ -34,7 +34,6 @@ class MealsSeeder extends Seeder
                 'description' => 'Tender grilled chicken breast served with seasonal roasted vegetables and herbs',
                 'short_description' => 'Healthy grilled chicken with veggies',
                 'category_id' => $chickenCategory->id,
-                'type_id' => MealCategory::MENU->value,
                 'calories' => 450,
                 'protein' => 45.00,
                 'carbohydrates' => 25.00,
@@ -54,7 +53,9 @@ class MealsSeeder extends Seeder
                 'weight_grams' => 400,
                 'serving_size' => '1 portion',
                 'is_active' => true,
-                'show_for_membership' => true,
+                'is_membership' => true,
+                'type_id' => MealCategory::MENU->value,
+
             ],
             [
                 'name' => 'Chicken Tagine with Olives',
@@ -81,7 +82,7 @@ class MealsSeeder extends Seeder
                 'weight_grams' => 450,
                 'serving_size' => '1 portion',
                 'is_active' => true,
-                                'show_for_membership' => true,
+                'is_membership' => true,
 
             ],
             [
@@ -109,7 +110,7 @@ class MealsSeeder extends Seeder
                 'weight_grams' => 500,
                 'serving_size' => '1 portion',
                 'is_active' => true,
-                                'show_for_membership' => true,
+                'is_membership' => true,
 
             ],
             [
