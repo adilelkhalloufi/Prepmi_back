@@ -75,6 +75,7 @@ class StoreMealRequest extends FormRequest
             'serving_size' => 'nullable|string|max:255',
             'category_id' => ['nullable', 'integer'],
             'type_id' => ['nullable', 'integer', Rule::in([0, 1, 2])],
+            'is_membership' => 'nullable|boolean',
         ];
     }
 

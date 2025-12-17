@@ -17,10 +17,22 @@ class MealController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+    public function index2 (Request $request)
+    {
+        $meals = Meal::all();
+
+        // Filtering logic can be added here based on request parameters
+
+ 
+        return MealResource::collection($meals);
+    }
     public function index(Request $request)
     {
 
         $query = Meal::query();
+
+    
 
         // Only filter by active status if the param is present
         if ($request->has('active')) {

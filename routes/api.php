@@ -73,7 +73,7 @@ Route::group(['middleware' => ['auth:sanctum']], function (): void {
     // Route::post('subscriptions/{subscription}/reactivate', [SubscriptionController::class, 'reactivate']);
     // Route::post('subscriptions/{subscription}/toggle-auto-renew', [SubscriptionController::class, 'toggleAutoRenew']);
 
-
+    Route::get('meals_dashboard', [MealController::class, 'index2']);
     // Dashboard stats (authenticated user)
     Route::get('dashboard', [DashboardController::class, 'stats']);
 
