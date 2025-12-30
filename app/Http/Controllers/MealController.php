@@ -46,11 +46,7 @@ class MealController extends Controller
             }
         }
 
-        // Membership logic: if membership=true, show all meals; if false or not present, hide is_membership=true meals
-        $isMembershipUser = $request->boolean('is_membership', false);
-        if (!$isMembershipUser) {
-            $query->where('is_membership', false);
-        }
+     
         // Only filter by category if the param is present
         if ($request->has('category_id')) {
             $query->where('category_id', $request->category_id);

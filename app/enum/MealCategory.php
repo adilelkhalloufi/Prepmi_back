@@ -4,9 +4,10 @@ namespace App\enum;
 
 enum MealCategory: int
 {
-    case MENU = 0;
-    case BREAKFAST = 1;
-    case DRINKS = 2;
+    case MENU = 1;
+    case BREAKFAST = 2;
+    case DRINKS = 3;
+    case DESSERTS = 4;
 
     /**
      * Get the label for the category
