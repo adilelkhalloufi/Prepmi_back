@@ -921,10 +921,7 @@ class MealsSeeder extends Seeder
         ];
 
         foreach ($meals as $meal) {
-            Meal::updateOrCreate(
-                ['slug' => $meal['slug']],
-                $meal
-            );
+            Meal::create($meal);
         }
 
         $this->command->info('Meals seeded successfully: ' . count($meals) . ' meals created.');

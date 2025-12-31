@@ -45,10 +45,7 @@ class MealTypeSeeder extends Seeder
         ];
 
         foreach ($mealTypes as $mealType) {
-            MealType::updateOrCreate(
-                ['slug' => $mealType['slug']],
-                $mealType
-            );
+            MealType::create($mealType);
         }
     }
 }

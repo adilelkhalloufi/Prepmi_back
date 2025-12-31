@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             CategoriesSeeder::class,
             PlansSeeder::class,
+            MealTypeSeeder::class,
             MealsSeeder::class,
             MembershipPlanSeeder::class,
         ]);
@@ -58,12 +59,8 @@ class DatabaseSeeder extends Seeder
             'is_used' => false,
         ]);
 
-        // create rewars for this last user
+    
 
-
-        // Seed weekly menus after user is created
-        $this->call([
-            WeeklyMenusSeeder::class,
-        ]);
+    
     }
 }
