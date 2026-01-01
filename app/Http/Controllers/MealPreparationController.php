@@ -21,7 +21,7 @@ class MealPreparationController extends Controller
      */
     public function index(Request $request)
     {
-        $orders = Order::with(['user', 'orderMeals.meal'])
+        $orders = Order::with(['user', 'orderMeals.meal', 'deliveries.deliverySlot'])
             ->whereNotIn('statue', ['cancelled', 'delivered'])
             ->get();
         return response()->json([
@@ -101,9 +101,4 @@ class MealPreparationController extends Controller
             'data' => $orders
         ]);
     }
-
-   
-
-  
-  
 }

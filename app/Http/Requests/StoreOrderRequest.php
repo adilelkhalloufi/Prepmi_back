@@ -35,6 +35,8 @@ class StoreOrderRequest extends FormRequest
             'rewardMeal' => 'nullable',
             'freeDrinks' => 'nullable',
             'purchaseType' => 'nullable|string',
+            'delivery_slot_ids' => 'required|array|max:3',
+            'delivery_slot_ids.*' => 'required|integer|exists:delivery_slots,id|distinct',
 
         ];
     }
@@ -52,6 +54,9 @@ class StoreOrderRequest extends FormRequest
             'totalAmount.required' => 'Total amount is required.',
             'totalAmount.numeric' => 'Total amount must be a number.',
             'totalAmount.min' => 'Total amount must be at least 0.',
+            'delivery_slot_ids.max' => 'You can select up to 3 delivery slots.',
+            'delivery_slot_ids.*.exists' => 'One or more selected delivery slots do not exist.',
+            'delivery_slot_ids.*.distinct' => 'You cannot select the same slot multiple times.',
         ];
     }
 }

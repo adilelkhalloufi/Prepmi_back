@@ -77,6 +77,14 @@ class Order extends Model
     }
 
     /**
+     * Get all deliveries for this order (supports multiple delivery slots).
+     */
+    public function deliveries(): HasMany
+    {
+        return $this->hasMany(Delivery::class);
+    }
+
+    /**
      * Get the loyalty transactions for this order.
      */
     public function loyaltyTransactions(): HasMany
@@ -110,15 +118,15 @@ class Order extends Model
         return $this->hasMany(OrderMeal::class);
     }
 
-    
+
     public function plan(): BelongsTo
     {
         return $this->belongsTo(Plan::class);
     }
 
- 
 
-     /**
+
+    /**
      * Get the status histories for this order.
      */
 

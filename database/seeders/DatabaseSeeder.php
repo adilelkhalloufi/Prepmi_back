@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             PlansSeeder::class,
             MealTypeSeeder::class,
             MealsSeeder::class,
+            DeliverySlotSeeder::class,
             MembershipPlanSeeder::class,
         ]);
 
@@ -41,7 +42,7 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('client'),
         ]);
 
-              $client =   User::factory()->create([
+        $client =   User::factory()->create([
             'first_name' => 'cuisinier',
             'last_name' => 'cuisinier',
             'email' => 'cuisinier@cuisinier.com',
@@ -58,9 +59,5 @@ class DatabaseSeeder extends Seeder
             'earned_at' => now(),
             'is_used' => false,
         ]);
-
-    
-
-    
     }
 }

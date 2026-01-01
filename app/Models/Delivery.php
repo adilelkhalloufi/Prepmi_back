@@ -13,6 +13,7 @@ class Delivery extends Model
 
     protected $fillable = [
         'order_id',
+        'delivery_slot_id',
         'courier_name',
         'tracking_number',
         'delivery_window_start',
@@ -35,6 +36,14 @@ class Delivery extends Model
     public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class);
+    }
+
+    /**
+     * Get the delivery slot associated with this delivery.
+     */
+    public function deliverySlot(): BelongsTo
+    {
+        return $this->belongsTo(DeliverySlot::class);
     }
 
     /**

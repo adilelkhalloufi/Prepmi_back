@@ -116,6 +116,42 @@ class OrderService
     }
 
     /**
+     * Create delivery record for order with selected slot.
+     */
+    public function createDeliveryForOrder(Order $order, $deliverySlotId)
+    {
+        $slot = \App\Models\DeliverySlot::find($deliverySlotId);
+
+        if (!$slot) {
+            Log::warning('Delivery slot not found', ['slot_id' => $deliverySlotId]);
+            return null;
+        }
+
+        // // Check if slot is available
+        // if (!$slot->isAvailable()) {
+        //     Log::warning('Delivery slot not available', ['slot_id' => $deliverySlotId]);
+        //     return null;
+        // }
+
+
+        // // Book the slot
+        // $slot->book();
+
+        // Create delivery record
+        $delivery = \App\Models\Delivery::create([
+            'order_id' => $order->id,
+            'delivery_slot_id' => $deliverySlotId,
+            'delivery_window_start' => now()->setTimeFromTimeString($slot->start_time),
+            'delivery_window_end' => now()->setTimeFromTimeString($slot->end_time),
+            'status' => \App\Enum\DeliveryStatus::PENDING,
+            'notes' => 'Delivery scheduled in ' . $slot->slot_name,
+        ]);
+
+
+        return $delivery;
+    }
+
+    /**
      * Add reward points to a user. If total_points_earned > 12, reset to 0 and create a reward.
      */
     public function addRewardPointsToUser($user, $points = 1)
@@ -179,8 +215,7 @@ class OrderService
         $userId = Auth::id() ?? $data['user_id'] ?? null;
         $totalAmount = $data['totalAmount'] ?? 0;
         $membershipId = $data['membershipId'] ?? null;
-        Log::info('rewardMeal extracted:', ['rewardMeal' => $rewardMeal]);
-        Log::info('freeDrinks extracted:', ['freeDrinks' => $freeDrinks]);
+        $deliverySlotIds = $data['delivery_slot_ids'] ?? [];
 
         if (isset($infos['email']) && isset($infos['password'])) {
             $user = $this->createUserIfNotExists($infos['email'], $infos['password'], [
@@ -248,6 +283,13 @@ class OrderService
         // Create subscription if purchaseType is subscription
         if ($purchaseType === 'subscription' && $plan && $userId) {
             $this->createSubscriptionForOrder($order, $plan, $userId);
+        }
+
+        // Create delivery records for selected slots (up to 3)
+        if (!empty($deliverySlotIds)) {
+            foreach ($deliverySlotIds as $deliverySlotId) {
+                $this->createDeliveryForOrder($order, $deliverySlotId);
+            }
         }
 
         // Add reward points to user

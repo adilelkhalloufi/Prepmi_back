@@ -18,6 +18,7 @@ use App\Http\Controllers\UserNutritionSummaryController;
 use App\Http\Controllers\MembershipPlanController;
 use App\Http\Controllers\MembershipController;
 use App\Http\Controllers\MembershipTransactionController;
+use App\Http\Controllers\DeliverySlotController;
 
 //  Public routes
 
@@ -56,6 +57,12 @@ Route::post('orders', [OrderController::class, 'store']);
 Route::get('membership-plans', [MembershipPlanController::class, 'index']);
 Route::get('membership-plans/popular', [MembershipPlanController::class, 'popular']);
 Route::get('membership-plans/{id}', [MembershipPlanController::class, 'show']);
+
+// Public Delivery Slot Routes
+Route::get('delivery-slots', [DeliverySlotController::class, 'index']);
+Route::get('delivery-slots/available', [DeliverySlotController::class, 'getAvailableSlots']);
+Route::get('delivery-slots/type/{type}', [DeliverySlotController::class, 'getByType']);
+Route::get('delivery-slots/{deliverySlot}', [DeliverySlotController::class, 'show']);
 
 Route::group(['middleware' => ['auth:sanctum']], function (): void {
 
@@ -170,4 +177,10 @@ Route::group(['middleware' => ['auth:sanctum']], function (): void {
     Route::post('membership-transactions/{id}/complete', [MembershipTransactionController::class, 'markCompleted']);
     Route::post('membership-transactions/{id}/fail', [MembershipTransactionController::class, 'markFailed']);
     Route::post('membership-transactions/{id}/refund', [MembershipTransactionController::class, 'refund']);
+
+    // Delivery Slot Management Routes (Admin/Manager only)
+    Route::post('delivery-slots', [DeliverySlotController::class, 'store']);
+    Route::put('delivery-slots/{deliverySlot}', [DeliverySlotController::class, 'update']);
+    Route::delete('delivery-slots/{deliverySlot}', [DeliverySlotController::class, 'destroy']);
+    Route::post('delivery-slots/{deliverySlot}/toggle-active', [DeliverySlotController::class, 'toggleActive']);
 });
