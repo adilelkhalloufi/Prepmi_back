@@ -18,13 +18,13 @@ class MealController extends Controller
      * Display a listing of the resource.
      */
 
-    public function index2 (Request $request)
+    public function index2(Request $request)
     {
         $meals = Meal::all();
 
         // Filtering logic can be added here based on request parameters
 
- 
+
         return MealResource::collection($meals);
     }
     public function index(Request $request)
@@ -32,7 +32,7 @@ class MealController extends Controller
 
         $query = Meal::query();
 
-    
+
 
         // Only filter by active status if the param is present
         if ($request->has('active')) {
@@ -46,7 +46,7 @@ class MealController extends Controller
             }
         }
 
-     
+
         // Only filter by category if the param is present
         if ($request->has('category_id')) {
             $query->where('category_id', $request->category_id);
@@ -188,13 +188,13 @@ class MealController extends Controller
         $validated = $request->validated();
 
         // Handle main image upload
-        if ($request->hasFile('image')) {
+        if ($request->hasFile('image_path')) {
             // Delete old image if exists
             if ($meal->image_path && Storage::disk('public')->exists($meal->image_path)) {
                 Storage::disk('public')->delete($meal->image_path);
             }
 
-            $image = $request->file('image');
+            $image = $request->file('image_path');
             $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
             $imagePath = $image->storeAs('meals/images', $imageName, 'public');
             $validated['image_path'] = $imagePath;
