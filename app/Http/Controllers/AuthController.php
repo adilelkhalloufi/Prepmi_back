@@ -145,6 +145,30 @@ class AuthController extends Controller
         ]);
     }
 
+    public function verifyCodeResetPassword(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'code' => 'required|numeric',
+            'password' => 'required|string|min:6',
+        ]);
+
+        $user = User::where('email', $request->email)
+            ->where('code_verify', $request->code)
+            ->first();
+
+        if (! $user) {
+            return response()->json(['message' => 'Invalid code or email'], 400);
+        }
+
+        $user->update([
+            'password' => bcrypt($request->password),
+            'code_verify' => null,
+        ]);
+
+        return response()->json(['message' => 'Password reset successful']);
+    }
+
     public function TotalPointsEarned(Request $request)
     {
         $user = auth()->user();
