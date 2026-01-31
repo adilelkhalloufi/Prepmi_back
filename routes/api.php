@@ -22,6 +22,10 @@ use App\Http\Controllers\DeliverySlotController;
 
 //  Public routes
 
+// Public Team Partnership and Collaboration Routes
+Route::post('team-partnerships', [\App\Http\Controllers\TeamPartnershipController::class, 'store']);
+Route::post('collaborations', [\App\Http\Controllers\CollaborationController::class, 'store']);
+
 
 
 Route::post('login', [AuthController::class, 'login']);
@@ -65,6 +69,11 @@ Route::get('delivery-slots/type/{type}', [DeliverySlotController::class, 'getByT
 Route::get('delivery-slots/{deliverySlot}', [DeliverySlotController::class, 'show']);
 
 Route::group(['middleware' => ['auth:sanctum']], function (): void {
+    // Admin Team Partnership and Collaboration Routes
+    Route::get('team-partnerships', [\App\Http\Controllers\TeamPartnershipController::class, 'index']);
+    Route::get('team-partnerships/{id}', [\App\Http\Controllers\TeamPartnershipController::class, 'show']);
+    Route::get('collaborations', [\App\Http\Controllers\CollaborationController::class, 'index']);
+    Route::get('collaborations/{id}', [\App\Http\Controllers\CollaborationController::class, 'show']);
 
     // User rewards (authenticated user)
     Route::get('rewards', [RewardController::class, 'myRewards']);
