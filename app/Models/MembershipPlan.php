@@ -20,6 +20,14 @@ class MembershipPlan extends Model
         'perks',
         'is_active',
         'billing_day_of_month',
+        'free_delivery',
+        'fixed_discount_amount',
+        'has_premium_access',
+        'premium_upgrade_fee_min',
+        'premium_upgrade_fee_max',
+        'free_freezes_per_period',
+        'freeze_period_months',
+        'cancellable_anytime',
     ];
 
     protected $casts = [
@@ -31,6 +39,14 @@ class MembershipPlan extends Model
         'perks' => 'array',
         'is_active' => 'boolean',
         'billing_day_of_month' => 'integer',
+        'free_delivery' => 'boolean',
+        'fixed_discount_amount' => 'decimal:2',
+        'has_premium_access' => 'boolean',
+        'premium_upgrade_fee_min' => 'decimal:2',
+        'premium_upgrade_fee_max' => 'decimal:2',
+        'free_freezes_per_period' => 'integer',
+        'freeze_period_months' => 'integer',
+        'cancellable_anytime' => 'boolean',
     ];
 
     /**
