@@ -27,6 +27,12 @@ class SettingSeeder extends Seeder
                 'description' => 'Points awarded for referrals',
             ],
             [
+                'key' => 'order_sizes',
+                'value' => '["small", "large"]',
+                'type' => 'json',
+                'description' => 'Available order sizes',
+            ],
+            [
                 'key' => 'app_name',
                 'value' => 'Prepmi',
                 'type' => 'string',
@@ -37,6 +43,12 @@ class SettingSeeder extends Seeder
                 'value' => 'false',
                 'type' => 'boolean',
                 'description' => 'Show prices to guest users',
+            ],
+            [
+                'key' => 'youtube_explanation_video',
+                'value' => 'https://www.youtube.com/embed/CRd8dHqU1AM?si=o3QPG9FPq-QEeL4c',
+                'type' => 'string',
+                'description' => 'YouTube video explaining the app',
             ],
         ];
 

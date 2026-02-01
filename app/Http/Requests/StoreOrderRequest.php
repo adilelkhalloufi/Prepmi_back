@@ -37,6 +37,7 @@ class StoreOrderRequest extends FormRequest
             'purchaseType' => 'nullable|string',
             'delivery_slot_ids' => 'required|array|max:3',
             'delivery_slot_ids.*' => 'required|integer|exists:delivery_slots,id|distinct',
+            'size' => 'nullable|string',
 
         ];
     }

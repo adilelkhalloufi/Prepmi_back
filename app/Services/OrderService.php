@@ -260,6 +260,7 @@ class OrderService
             'statue' => OrderStatus::PENDING->value,
             'reward_point' => $rewardPoints,
             'total_amount' => $totalAmount,
+            'size' => $infos['size'] ?? "small",
         ]);
 
         // Attach meals

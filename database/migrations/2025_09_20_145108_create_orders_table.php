@@ -36,7 +36,8 @@ return new class() extends Migration
             $table->decimal('delivery_fee', 8, 2)->nullable(); // Delivery charges
             $table->decimal('tax_amount', 8, 2)->nullable(); // Tax amount if applicable
             $table->decimal('total_amount', 10, 2)->nullable(); // Final total amount to be paid
-
+            // add size selected by user for all small or larage or medium
+            $table->string('size')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

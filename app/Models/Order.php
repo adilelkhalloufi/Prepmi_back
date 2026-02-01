@@ -28,6 +28,7 @@ class Order extends Model
         'reward_point',
         'statue',
         'total_amount',
+        'size',
         'subscription_id'
     ];
 

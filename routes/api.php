@@ -77,7 +77,6 @@
 
 
         // Settings Management Routes (Admin only)
-        Route::apiResource('settings', SettingController::class);
         // Admin Team Partnership and Collaboration Routes
         Route::get('team-partnerships', [\App\Http\Controllers\TeamPartnershipController::class, 'index']);
         Route::get('team-partnerships/{id}', [\App\Http\Controllers\TeamPartnershipController::class, 'show']);

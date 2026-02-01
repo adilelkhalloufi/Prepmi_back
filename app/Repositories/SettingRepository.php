@@ -39,11 +39,32 @@ class SettingRepository
     public function getValue(string $key, $default = null)
     {
         $setting = $this->findByKey($key);
-        return $setting ? $setting->value : $default;
+        if (!$setting) {
+            return $default;
+        }
+
+        switch ($setting->type) {
+            case 'integer':
+                return (int) $setting->value;
+            case 'boolean':
+                return $setting->value === 'true';
+            case 'json':
+                return json_decode($setting->value, true);
+            case 'string':
+            default:
+                return $setting->value;
+        }
     }
 
     public function setValue(string $key, $value, string $type = 'string', string $description = null): Setting
     {
+        // Handle value encoding based on type
+        if ($type === 'json' && is_array($value)) {
+            $value = json_encode($value);
+        } elseif ($type === 'boolean') {
+            $value = $value ? 'true' : 'false';
+        }
+
         $setting = $this->findByKey($key);
         if ($setting) {
             $this->update($setting, [
