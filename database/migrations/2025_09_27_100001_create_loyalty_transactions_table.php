@@ -13,8 +13,8 @@ return new class() extends Migration
     {
         Schema::create('loyalty_transactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('order_id')->nullable()->constrained()->onDelete('set null');
+            $table->foreignId('user_id')->nullable();
+            $table->foreignId('order_id')->nullable();
             $table->enum('type', ['earned', 'redeemed']); // Points earned or spent
             $table->integer('points'); // Positive for earned, negative for redeemed
             $table->string('description'); // "Earned from 4-meal box", "Redeemed for free meal"

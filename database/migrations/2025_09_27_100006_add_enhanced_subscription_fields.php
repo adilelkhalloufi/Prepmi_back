@@ -13,7 +13,7 @@ return new class() extends Migration
     {
         Schema::table('subscriptions', function (Blueprint $table) {
 
-            $table->foreignId('order_id')->nullable()->constrained('orders');
+            $table->foreignId('order_id')->nullable();
             // Cancellation deadline (48 hours before delivery as per NewNeeds.md)
             $table->timestamp('cancellation_deadline')->nullable()->after('next_delivery_date');
 

@@ -29,7 +29,7 @@ return new class() extends Migration
         // Add delivery_slot_id to deliveries table
         Schema::table('deliveries', function (Blueprint $table) {
             $table->foreignId('delivery_slot_id')->nullable()->after('order_id')
-                ->constrained('delivery_slots')->nullOnDelete();
+                ->nullable();
             $table->index('delivery_slot_id');
         });
     }

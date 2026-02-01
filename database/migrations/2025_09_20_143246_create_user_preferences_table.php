@@ -13,7 +13,7 @@ return new class() extends Migration
     {
         Schema::create('user_preferences', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->nullable();
 
             // Dietary restrictions (boolean flags)
             $table->boolean('vegetarian')->default(false);
@@ -38,9 +38,6 @@ return new class() extends Migration
             $table->text('notes')->nullable();
 
             $table->timestamps();
-
-            // Ensure one preference record per user
-            $table->unique('user_id');
         });
     }
 

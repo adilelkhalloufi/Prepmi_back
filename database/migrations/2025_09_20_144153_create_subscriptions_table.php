@@ -13,8 +13,8 @@ return new class() extends Migration
     {
         Schema::create('subscriptions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('plan_id')->constrained();
+            $table->foreignId('user_id')->nullable();
+            $table->foreignId('plan_id')->nullable();
             $table->enum('status', ['active', 'paused', 'cancelled', 'expired'])->default('active');
 
             // Subscription timeline
@@ -23,7 +23,7 @@ return new class() extends Migration
             $table->date('next_billing_date');
             $table->date('next_delivery_date');
 
-    
+
 
             // Pause functionality
             $table->timestamp('paused_at')->nullable();
@@ -48,9 +48,6 @@ return new class() extends Migration
 
 
             $table->timestamps();
-
-            
-      
         });
     }
 

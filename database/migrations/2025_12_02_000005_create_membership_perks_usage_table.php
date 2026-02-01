@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('membership_perks_usage', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('membership_id')->constrained('memberships')->onDelete('cascade');
-            $table->foreignId('order_id')->nullable()->constrained('orders')->onDelete('set null');
+            $table->foreignId('membership_id')->nullable();
+            $table->foreignId('order_id')->nullable();
             $table->string('perk_type'); // discount_applied, free_desserts, delivery_slot_used
             $table->decimal('discount_amount', 10, 2)->nullable(); // Amount saved if discount
             $table->integer('items_quantity')->nullable(); // Number of desserts or items

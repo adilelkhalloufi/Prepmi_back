@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('membership_transactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('membership_id')->constrained('memberships')->onDelete('cascade');
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('membership_id')->nullable();
+            $table->foreignId('user_id')->nullable();
             $table->decimal('amount', 10, 2); // Monthly fee charged
             $table->string('transaction_type')->default('monthly_charge'); // monthly_charge, refund, adjustment
             $table->string('payment_status')->default('pending'); // pending, completed, failed, refunded
@@ -27,7 +27,7 @@ return new class extends Migration
             $table->string('failure_reason')->nullable();
             $table->text('notes')->nullable();
             $table->timestamps();
-            
+
             $table->index(['membership_id', 'billing_period_start']);
             $table->index(['user_id', 'payment_status']);
         });

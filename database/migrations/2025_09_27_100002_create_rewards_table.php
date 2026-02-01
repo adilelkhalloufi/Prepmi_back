@@ -13,7 +13,7 @@ return new class() extends Migration
     {
         Schema::create('rewards', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->nullable();
             $table->enum('type', ['free_meal'])->default('free_meal'); // Can expand for other reward types
             $table->decimal('value', 8, 2)->default(49.00); // 49 MAD discount value
             $table->string('title')->default('Repas PrepMe Gratuit'); // Display title
@@ -26,7 +26,7 @@ return new class() extends Migration
             $table->timestamp('used_at')->nullable(); // When the reward was redeemed
 
             // Usage tracking
-            $table->foreignId('used_order_id')->nullable()->constrained('orders')->onDelete('set null');
+            $table->foreignId('used_order_id')->nullable();
             $table->decimal('discount_applied', 8, 2)->nullable(); // Actual discount amount applied
 
             // Additional metadata

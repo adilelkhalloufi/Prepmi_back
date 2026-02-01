@@ -69,9 +69,8 @@ return new class() extends Migration
             $table->softDeletes();
 
             // Relations
-            $table->foreignId('type_id')->constrained('meal_types')->onDelete('cascade');
-            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
- 
+            $table->foreignId('type_id')->nullable();
+            $table->foreignId('category_id')->nullable();
         });
     }
 

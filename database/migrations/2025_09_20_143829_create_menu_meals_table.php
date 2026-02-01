@@ -13,8 +13,8 @@ return new class() extends Migration
     {
         Schema::create('menu_meals', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('weekly_menu_id')->constrained()->onDelete('cascade');
-            $table->foreignId('meal_id')->constrained()->onDelete('cascade');
+            $table->foreignId('weekly_menu_id')->nullable();
+            $table->foreignId('meal_id')->nullable();
             $table->integer('position')->default(1); // Order of meals in menu
             $table->boolean('is_featured')->default(false);
             $table->decimal('special_price', 8, 2)->nullable(); // Override meal price

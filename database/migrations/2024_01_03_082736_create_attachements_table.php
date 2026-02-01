@@ -19,8 +19,7 @@ return new class() extends Migration
             $table->string('type')->nullable();
             $table->nullableMorphs('model');
             $table->foreignId('user_id')
-                ->nullable()
-                ->constrained('users');
+                ->nullable();
             $table->timestamps();
         });
     }

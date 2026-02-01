@@ -20,7 +20,7 @@ return new class() extends Migration
             $table->boolean('is_active')->default(true);
             $table->boolean('is_published')->default(false);
             $table->timestamp('published_at')->nullable();
-            $table->foreignId('created_by')->nullable()->constrained('users');
+            $table->foreignId('created_by')->nullable();
             $table->timestamps();
 
             // Indexes
