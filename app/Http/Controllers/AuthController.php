@@ -7,6 +7,7 @@ use App\enum\ProfilStatus;
 use App\enum\UserRole;
 use App\Mail\CodeVerification;
 use App\Models\User;
+use App\Services\SettingService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -45,7 +46,8 @@ class AuthController extends Controller
 
     public function register(
         Request $request,
-        CreateUser $createUser
+        CreateUser $createUser,
+        SettingService $settingService
     ) {
         $request->validate([
             'password' => 'required',
@@ -55,6 +57,7 @@ class AuthController extends Controller
             'agreement' => 'required',
             'first_name' => 'required',
             'last_name' => 'required',
+            'referrer_id' => 'nullable|exists:users,id',
 
         ]);
 
@@ -75,6 +78,16 @@ class AuthController extends Controller
             'role' => UserRole::CLIENT->value,
             'status' => ProfilStatus::ACTIF->value,
         ]);
+
+        // Handle referrer points
+        if ($request->referrer_id) {
+            $referrer = User::find($request->referrer_id);
+            if ($referrer) {
+                $referralPoints = (int) $settingService->getValue('system_points_referral', 0);
+                $referrer->total_points_earned += $referralPoints;
+                $referrer->save();
+            }
+        }
 
         $token = $user->createToken('token')->plainTextToken;
 
