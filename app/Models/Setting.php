@@ -6,6 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Setting extends Model
 {
+    protected $fillable = [
+        'key',
+        'value',
+        'type',
+        'description',
+    ];
+
+    protected $casts = [
+        'value' => 'string', // or handle json if needed
+    ];
+
     public const TABLE_NAME = 'settings';
 
     public const COL_ID = 'id';

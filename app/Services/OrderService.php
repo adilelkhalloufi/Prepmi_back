@@ -6,6 +6,7 @@ use App\Enum\OrderStatus;
 use App\enum\UserRole;
 use App\Models\Order;
 use App\Models\Plan;
+use App\Services\SettingService;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -13,6 +14,13 @@ use Illuminate\Support\Facades\Log;
 
 class OrderService
 {
+    protected $settingService;
+
+    public function __construct(SettingService $settingService)
+    {
+        $this->settingService = $settingService;
+    }
+
     /**
      * Create a subscription for an order.
      */
@@ -152,13 +160,14 @@ class OrderService
     }
 
     /**
-     * Add reward points to a user. If total_points_earned > 12, reset to 0 and create a reward.
+     * Add reward points to a user. If total_points_earned >= target, reset and create a reward.
      */
     public function addRewardPointsToUser($user, $points = 1)
     {
         $user->total_points_earned += $points;
-        if ($user->total_points_earned >= 12) {
-            $user->total_points_earned = $user->total_points_earned - 12;
+        $targetPoints = (int) $this->settingService->getValue('system_points_per_order', 12);
+        if ($user->total_points_earned >= $targetPoints) {
+            $user->total_points_earned = $user->total_points_earned - $targetPoints;
             // Create a reward for the user
             \App\Models\Reward::create([
                 'user_id' => $user->id,

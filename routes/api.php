@@ -18,6 +18,7 @@
     use App\Http\Controllers\MembershipController;
     use App\Http\Controllers\MembershipTransactionController;
     use App\Http\Controllers\DeliverySlotController;
+    use App\Http\Controllers\SettingController;
 
     //  Public routes
 
@@ -70,7 +71,13 @@
     Route::get('delivery-slots/type/{type}', [DeliverySlotController::class, 'getByType']);
     Route::get('delivery-slots/{deliverySlot}', [DeliverySlotController::class, 'show']);
 
+    Route::get('settings', [SettingController::class, 'index']);
+    // Protected routes
     Route::group(['middleware' => ['auth:sanctum']], function (): void {
+
+
+        // Settings Management Routes (Admin only)
+        Route::apiResource('settings', SettingController::class);
         // Admin Team Partnership and Collaboration Routes
         Route::get('team-partnerships', [\App\Http\Controllers\TeamPartnershipController::class, 'index']);
         Route::get('team-partnerships/{id}', [\App\Http\Controllers\TeamPartnershipController::class, 'show']);

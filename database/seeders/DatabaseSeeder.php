@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             MealsSeeder::class,
             DeliverySlotSeeder::class,
             MembershipPlanSeeder::class,
+            SettingSeeder::class,
         ]);
 
         User::factory()->create([
