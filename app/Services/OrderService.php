@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\OrderConfirmation;
 
 class OrderService
 {
@@ -307,6 +309,21 @@ class OrderService
         if ($user) {
             $this->addRewardPointsToUser($user, $rewardPoints);
         }
+
+        // Send order confirmation email
+        try {
+            $email = $order->user->email ?? $infos['email'] ?? null;
+            if ($email) {
+                $order->load(['meals', 'deliveries.deliverySlot']);
+                Mail::to($email)->send(new OrderConfirmation($order));
+            }
+        } catch (\Exception $e) {
+            Log::error('Failed to send order confirmation email', [
+                'order_id' => $order->id,
+                'error' => $e->getMessage()
+            ]);
+        }
+
         return $order;
     }
 }
