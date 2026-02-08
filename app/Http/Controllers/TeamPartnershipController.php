@@ -30,7 +30,7 @@ class TeamPartnershipController extends Controller
             'company_website' => 'nullable|string',
             'partnership_type' => 'required|string',
             'team_members_per_week' => 'required|string',
-            'products_interested' => 'required|array',
+            'products_interested' => 'required|string',
             'heard_about_us' => 'nullable|string',
             'accept_terms' => 'required|boolean',
             'accept_communications' => 'required|boolean',

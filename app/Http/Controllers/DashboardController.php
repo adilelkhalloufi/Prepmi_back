@@ -1,12 +1,16 @@
 <?php
+
 namespace App\Http\Controllers;
 
+use App\enum\UserRole;
+use App\enum\OrderStatus;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Models\UserNutritionSummary;
 use App\Models\Order;
 use App\Models\OrderMeal;
+use App\Models\Meal;
 
 class DashboardController extends Controller
 {
@@ -19,16 +23,13 @@ class DashboardController extends Controller
         if (!$user) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
-        return $this->clientStats();
 
-
-        
         switch ($user->role) {
-            case 'admin':
+            case UserRole::ADMIN->value:
                 return $this->adminStats();
-            case 'cuisine':
+            case UserRole::CUISINIER->value:
                 return $this->cuisineStats();
-            case 'client':
+            case UserRole::CLIENT->value:
                 return $this->clientStats();
             default:
                 return response()->json(['error' => 'Role not supported'], 403);
@@ -37,13 +38,46 @@ class DashboardController extends Controller
 
     protected function adminStats()
     {
-        $clientCount = User::where('role', 'client')->count();
-        $adminCount = User::where('role', 'admin')->count();
-        $cuisineCount = User::where('role', 'cuisine')->count();
+        // Calculate daily revenue (today's orders)
+        $dailyRevenue = Order::whereDate('date_order', now()->toDateString())
+            ->sum('total_amount');
+
+        // Calculate monthly revenue (current month's orders)
+        $monthlyRevenue = Order::whereMonth('date_order', now()->month)
+            ->whereYear('date_order', now()->year)
+            ->sum('total_amount');
+
+        // Count today's orders
+        $todayOrders = Order::whereDate('date_order', now()->toDateString())
+            ->count();
+
+        // Count active clients (clients with at least one order)
+        $activeClients = User::where('role', UserRole::CLIENT->value)
+            ->whereHas('orders')
+            ->count();
+
+        // Count total users
+        $totalUsers = User::count();
+
+        // Count total meals
+        $totalMeals = Meal::count();
+
+        // Count pending orders
+        $pendingOrders = Order::where('statue', OrderStatus::PENDING->value)
+            ->count();
+
+        // Count total orders
+        $totalOrders = Order::count();
+
         return response()->json([
-            'clients' => $clientCount,
-            'admins' => $adminCount,
-            'cuisines' => $cuisineCount,
+            'dailyRevenue' => $dailyRevenue ?? 0,
+            'monthlyRevenue' => $monthlyRevenue ?? 0,
+            'todayOrders' => $todayOrders,
+            'activeClients' => $activeClients,
+            'totalUsers' => $totalUsers,
+            'totalMeals' => $totalMeals,
+            'pendingOrders' => $pendingOrders,
+            'totalOrders' => $totalOrders,
         ]);
     }
 
