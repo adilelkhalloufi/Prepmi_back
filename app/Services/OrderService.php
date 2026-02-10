@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Enum\OrderStatus;
-use App\enum\UserRole;
+use App\Enum\UserRole;
 use App\Models\Order;
 use App\Models\Plan;
 use App\Services\SettingService;
