@@ -2,7 +2,7 @@
 
 namespace App\Actions\User;
 
-use App\enum\ProfilStatus;
+use App\Enum\ProfilStatus;
 use App\Mail\CodeVerification;
 use App\Models\Profil;
 use App\Models\User;

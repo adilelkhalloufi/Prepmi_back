@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\enum\UserRole;
+use App\Enum\UserRole;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;

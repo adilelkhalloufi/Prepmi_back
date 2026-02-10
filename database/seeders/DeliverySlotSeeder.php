@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\enum\SlotType;
+use App\Enum\SlotType;
 use App\Models\DeliverySlot;
 use Illuminate\Database\Seeder;
 

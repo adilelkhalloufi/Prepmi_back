@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Actions\User\CreateUser;
-use App\enum\ProfilStatus;
-use App\enum\UserRole;
+use App\Enum\ProfilStatus;
+use App\Enum\UserRole;
 use App\Mail\CodeVerification;
 use App\Models\User;
 use App\Services\SettingService;

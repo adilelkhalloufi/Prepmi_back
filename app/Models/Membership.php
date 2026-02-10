@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\enum\MembershipStatus;
+use App\Enum\MembershipStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 

@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\enum\PaymentMethod;
-use App\enum\PaymentStatus;
+use App\Enum\PaymentMethod;
+use App\Enum\PaymentStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\enum\MealCategory;
+use App\Enum\MealCategory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

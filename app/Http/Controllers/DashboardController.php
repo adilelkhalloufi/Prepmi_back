@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\enum\UserRole;
-use App\enum\OrderStatus;
+use App\Enum\UserRole;
+use App\Enum\OrderStatus;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;

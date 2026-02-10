@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\enum\MealCategory;
+use App\Enum\MealCategory;
 use App\Models\Category;
 use App\Models\Meal;
 use Illuminate\Database\Seeder;

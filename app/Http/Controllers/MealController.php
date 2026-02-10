@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\enum\MealCategory;
+use App\Enum\MealCategory;
 use App\Http\Requests\StoreMealRequest;
 use App\Http\Requests\UpdateMealRequest;
 use App\Http\Resources\MealResource;

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\enum\MembershipStatus;
+use App\Enum\MembershipStatus;
 use App\Http\Resources\DeliverySlotsResource;
 use App\Models\DeliverySlot;
 use Illuminate\Http\JsonResponse;

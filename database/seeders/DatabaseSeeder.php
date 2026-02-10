@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\enum\ProfilStatus;
-use App\enum\UserRole;
+use App\Enum\ProfilStatus;
+use App\Enum\UserRole;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\enum\MembershipStatus;
-use App\enum\UserRole;
+use App\Enum\MembershipStatus;
+use App\Enum\UserRole;
 use App\Models\Membership;
 use App\Models\MembershipPlan;
 use App\Models\MembershipFreezeHistory;
