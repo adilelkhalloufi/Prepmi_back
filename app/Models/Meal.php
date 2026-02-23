@@ -257,9 +257,10 @@ class Meal extends Model
     public function getTypeLabel(): string
     {
         return match ($this->type_id) {
-            0 => 'Menu',
-            1 => 'Breakfast',
-            2 => 'Drinks',
+            1 => 'Menu',
+            2 => 'Breakfast',
+            3 => 'Drinks',
+            4 => 'Desserts',
             default => 'Unknown'
         };
     }

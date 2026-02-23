@@ -28,9 +28,9 @@ class SettingSeeder extends Seeder
             ],
             [
                 'key' => 'order_sizes',
-                'value' => '["small", "large"]',
+                'value' => '[{"size": "small", "price": 0}, {"size": "large", "price": 10}]',
                 'type' => 'json',
-                'description' => 'Available order sizes',
+                'description' => 'Available order sizes with prices',
             ],
             [
                 'key' => 'app_name',
@@ -50,6 +50,25 @@ class SettingSeeder extends Seeder
                 'type' => 'string',
                 'description' => 'YouTube video explaining the app',
             ],
+            [
+                'key' => 'team_bg_image',
+                'value' => '',
+                'type' => 'image',
+                'description' => 'Team section background image',
+            ],
+            [
+                'key' => 'collaboration_bg_image',
+                'value' => '',
+                'type' => 'image',
+                'description' => 'Collaboration section background image',
+            ],
+              [
+                'key' => 'login_bg_image',
+                'value' => '',
+                'type' => 'image',
+                'description' => 'Login section background image',
+            ],
+            
         ];
 
         foreach ($settings as $setting) {

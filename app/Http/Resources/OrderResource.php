@@ -21,6 +21,7 @@ class OrderResource extends JsonResource
             'plan_id' => $this->plan_id,
             'method_payement' => $this->method_payement,
             'reward_point' => $this->reward_point,
+            'total_amount' => $this->total_amount,
             'statue' => $this->statue,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

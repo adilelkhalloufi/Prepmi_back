@@ -19,6 +19,7 @@
     use App\Http\Controllers\MembershipTransactionController;
     use App\Http\Controllers\DeliverySlotController;
     use App\Http\Controllers\SettingController;
+    use App\Http\Controllers\MediaController;
 
     //  Public routes
 
@@ -29,6 +30,9 @@
     Route::post('register', [AuthController::class, 'register']);
     Route::post('forgot-password', [AuthController::class, 'forgetPassword']);
     Route::post('forgot-password/reset', [AuthController::class, 'verifyCodeResetPassword']);
+
+    // Media Upload
+    Route::post('media/upload', [MediaController::class, 'uploadImage']);
 
     // Plan
     Route::get('plans', [PlanController::class, 'index']);
@@ -77,6 +81,8 @@
 
 
         // Settings Management Routes (Admin only)
+        Route::put('settings/{id}', [SettingController::class, 'update']);
+
         // Admin Team Partnership and Collaboration Routes
         Route::get('team-partnerships', [\App\Http\Controllers\TeamPartnershipController::class, 'index']);
         Route::get('team-partnerships/{id}', [\App\Http\Controllers\TeamPartnershipController::class, 'show']);
