@@ -221,6 +221,7 @@ class OrderService
         $drinks = $data['drinks'] ?? [];
         $rewardMeal = $data['rewardMeal'] ?? null;
         $freeDrinks = $data['freeDrinks'] ?? [];
+        $freeDesserts = $data['freeDesserts'] ?? [];
         $purchaseType = $data['purchaseType'] ?? null;
         $paymentMethod = $data['paymentMethod'] ?? null;
         $userId = Auth::id() ?? $data['user_id'] ?? null;
@@ -256,6 +257,7 @@ class OrderService
             'phone' => $infos['phoneNumber'] ?? null,
             'adresse_livrsion' => $infos['address'] ?? null,
             'plan_id' => $planId,
+            'membership_id' => $membershipId,
             'method_payement' => $paymentMethod,
             'user_id' => $userId,
             'date_order' => now(),
@@ -292,6 +294,11 @@ class OrderService
             $this->attachFreeDrinksToOrder($order, $freeDrinks, $membershipId);
         }
 
+        // Handle free desserts if provided
+        if (!empty($freeDesserts)) {
+            $this->attachFreeDrinksToOrder($order, $freeDesserts, $membershipId);
+        }
+
         // Create subscription if purchaseType is subscription
         if ($purchaseType === 'subscription' && $plan && $userId) {
             $this->createSubscriptionForOrder($order, $plan, $userId);
@@ -309,6 +316,8 @@ class OrderService
         if ($user) {
             $this->addRewardPointsToUser($user, $rewardPoints);
         }
+
+      
 
         // Send order confirmation email
         try {

@@ -23,6 +23,7 @@ class Order extends Model
         'adresse_livrsion',
         'user_id',
         'plan_id',
+        'membership_id',
         'method_payement',
         'reward_point',
         'statue',

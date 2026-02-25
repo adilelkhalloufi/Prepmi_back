@@ -38,9 +38,7 @@
     Route::get('plans', [PlanController::class, 'index']);
     // Public Category Routes
     Route::get('categories', [CategoryController::class, 'index']);
-    Route::get('categories/active', [CategoryController::class, 'active']);
-    Route::get('categories/slug/{slug}', [CategoryController::class, 'getBySlug']);
-    Route::get('categories/{id}', [CategoryController::class, 'show']);
+
 
     // Public Team Partnership and Collaboration Routes
     Route::post('team-partnerships', [\App\Http\Controllers\TeamPartnershipController::class, 'store']);
@@ -48,32 +46,18 @@
 
     // Public Meal Routes
     Route::get('meals', [MealController::class, 'index']);
-    Route::get('meals/categories', [MealController::class, 'getCategories']);
-    Route::get('meals/featured', [MealController::class, 'featured']);
-    Route::get('meals/diet', [MealController::class, 'getByDiet']);
-    Route::get('meals/slug/{slug}', [MealController::class, 'getBySlug']);
-    Route::get('meals/{id}', [MealController::class, 'show']);
 
-    // Public Weekly Menu Routes
-    Route::get('weekly-menus', [WeeklyMenuController::class, 'index']);
-    Route::get('weekly-menus/current', [WeeklyMenuController::class, 'getCurrentWeek']);
-    Route::get('weekly-menus/upcoming', [WeeklyMenuController::class, 'getUpcoming']);
-    Route::get('weekly-menus/{id}', [WeeklyMenuController::class, 'show']);
-    Route::get('weekly-menus/{id}/meals', [WeeklyMenuController::class, 'getMeals']);
+
+ 
 
     // Public Order Routes
     Route::post('orders', [OrderController::class, 'store']);
 
     // Public Membership Plan Routes
     Route::get('membership-plans', [MembershipPlanController::class, 'index']);
-    Route::get('membership-plans/popular', [MembershipPlanController::class, 'popular']);
-    Route::get('membership-plans/{id}', [MembershipPlanController::class, 'show']);
 
     // Public Delivery Slot Routes
     Route::get('delivery-slots', [DeliverySlotController::class, 'index']);
-    Route::get('delivery-slots/available', [DeliverySlotController::class, 'getAvailableSlots']);
-    Route::get('delivery-slots/type/{type}', [DeliverySlotController::class, 'getByType']);
-    Route::get('delivery-slots/{deliverySlot}', [DeliverySlotController::class, 'show']);
 
     Route::get('settings', [SettingController::class, 'index']);
     // Protected routes
@@ -92,17 +76,6 @@
         // User rewards (authenticated user)
         Route::get('rewards', [RewardController::class, 'myRewards']);
 
-        // Subscription Routes
-        // Route::get('subscriptions', [SubscriptionController::class, 'index']);
-        // Route::get('subscriptions/stats', [SubscriptionController::class, 'stats']);
-        // Route::get('subscriptions/{subscription}', [SubscriptionController::class, 'show']);
-        // Route::put('subscriptions/{subscription}', [SubscriptionController::class, 'update']);
-        // Route::post('subscriptions/{subscription}/pause', [SubscriptionController::class, 'pause']);
-        // Route::post('subscriptions/{subscription}/resume', [SubscriptionController::class, 'resume']);
-        // Route::post('subscriptions/{subscription}/cancel', [SubscriptionController::class, 'cancel']);
-        // Route::post('subscriptions/{subscription}/reactivate', [SubscriptionController::class, 'reactivate']);
-        // Route::post('subscriptions/{subscription}/toggle-auto-renew', [SubscriptionController::class, 'toggleAutoRenew']);
-
         Route::get('meals_dashboard', [MealController::class, 'index2']);
         // Dashboard stats (authenticated user)
         Route::get('dashboard', [DashboardController::class, 'stats']);
@@ -111,9 +84,7 @@
         Route::get('nutrition-summary', [UserNutritionSummaryController::class, 'index']);
 
         // Membership Routes (User)
-        Route::get('memberships/current/{userId}', [MembershipController::class, 'getCurrentMembership']);
         Route::get('memberships/{id}', [MembershipController::class, 'show']);
-        Route::post('memberships', [MembershipController::class, 'store']);
         Route::post('memberships/{id}/cancel', [MembershipController::class, 'cancel']);
         Route::post('memberships/{id}/freeze', [MembershipController::class, 'freeze']);
         Route::post('memberships/{id}/unfreeze', [MembershipController::class, 'unfreeze']);
@@ -136,29 +107,18 @@
         Route::post('categories', [CategoryController::class, 'store']);
         Route::put('categories/{id}', [CategoryController::class, 'update']);
         Route::delete('categories/{id}', [CategoryController::class, 'destroy']);
-        Route::post('categories/upload-image', [CategoryController::class, 'uploadImage']);
-        Route::delete('categories/delete-image', [CategoryController::class, 'deleteImage']);
-
+ 
         // Protected Meal Routes (Admin/Manager only)
         Route::post('meals', [MealController::class, 'store']);
         Route::put('meals/{id}', [MealController::class, 'update']);
         Route::delete('meals/{id}', [MealController::class, 'destroy']);
-        Route::post('meals/{id}/restore', [MealController::class, 'restore']);
-        Route::delete('meals/{id}/force', [MealController::class, 'forceDelete']);
-
+ 
         // Image Upload Routes
         Route::post('meals/upload-image', [MealController::class, 'uploadImage']);
         Route::post('meals/upload-gallery', [MealController::class, 'uploadGalleryImages']);
         Route::delete('meals/delete-image', [MealController::class, 'deleteImage']);
 
-        // Protected Weekly Menu Routes (Admin/Manager only)
-        Route::post('weekly-menus', [WeeklyMenuController::class, 'store']);
-        Route::put('weekly-menus/{id}', [WeeklyMenuController::class, 'update']);
-        Route::delete('weekly-menus/{id}', [WeeklyMenuController::class, 'destroy']);
-        Route::post('weekly-menus/{id}/meals', [WeeklyMenuController::class, 'attachMeals']);
-        Route::delete('weekly-menus/{id}/meals/{mealId}', [WeeklyMenuController::class, 'detachMeal']);
-        Route::post('weekly-menus/{id}/publish', [WeeklyMenuController::class, 'publish']);
-
+  
         // User Management Routes (Admin only)
         Route::get('users', [UserController::class, 'index']);
         Route::post('users', [UserController::class, 'store']);

@@ -20,6 +20,7 @@ class MembershipController extends Controller
      */
     public function index(Request $request)
     {
+        // return "fdsf";
         $query = Membership::with(['user', 'membershipPlan']);
 
         // If not admin, filter to only show authenticated user's memberships
@@ -63,6 +64,22 @@ class MembershipController extends Controller
         } else {
             $memberships = $query->get();
         }
+
+        // Check if user has already received free desserts this month
+        // and adjust free_desserts_quantity accordingly
+        $memberships->getCollection()->transform(function ($membership) {
+            if ($membership->membershipPlan) {
+                // Check if user has already received desserts THIS month
+                $hasReceivedThisMonth = $membership->last_desserts_received_at && 
+                    Carbon::parse($membership->last_desserts_received_at)->isSameMonth(Carbon::now());
+                
+                if ($hasReceivedThisMonth) {
+                    // Set free_desserts_quantity to 0 if already received this month
+                    $membership->membershipPlan->free_desserts_quantity = 0;
+                }
+            }
+            return $membership;
+        });
 
         return response()->json($memberships);
     }
@@ -167,6 +184,16 @@ class MembershipController extends Controller
             return response()->json([
                 'message' => 'Membership not found'
             ], 404);
+        }
+
+        // Check if user has already received free desserts this month
+        if ($membership->membershipPlan) {
+            $hasReceivedThisMonth = $membership->last_desserts_received_at && 
+                Carbon::parse($membership->last_desserts_received_at)->isSameMonth(Carbon::now());
+            
+            if ($hasReceivedThisMonth) {
+                $membership->membershipPlan->free_desserts_quantity = 0;
+            }
         }
 
         return response()->json($membership);
@@ -426,6 +453,16 @@ class MembershipController extends Controller
             return response()->json([
                 'message' => 'No active membership found for this user'
             ], 404);
+        }
+
+        // Check if user has already received free desserts this month
+        if ($membership->membershipPlan) {
+            $hasReceivedThisMonth = $membership->last_desserts_received_at && 
+                Carbon::parse($membership->last_desserts_received_at)->isSameMonth(Carbon::now());
+            
+            if ($hasReceivedThisMonth) {
+                $membership->membershipPlan->free_desserts_quantity = 0;
+            }
         }
 
         return response()->json($membership);
