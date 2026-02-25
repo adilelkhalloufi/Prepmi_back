@@ -7,6 +7,7 @@ use App\Enum\UserRole;
 use App\Models\Membership;
 use App\Models\MembershipPlan;
 use App\Models\MembershipFreezeHistory;
+use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -66,15 +67,21 @@ class MembershipController extends Controller
         }
 
         // Check if user has already received free desserts this month
-        // and adjust free_desserts_quantity accordingly
+        // and adjust free_desserts_quantity accordingly (only in response, not database)
         $memberships->getCollection()->transform(function ($membership) {
-            if ($membership->membershipPlan) {
-                // Check if user has already received desserts THIS month
-                $hasReceivedThisMonth = $membership->last_desserts_received_at && 
-                    Carbon::parse($membership->last_desserts_received_at)->isSameMonth(Carbon::now());
+            if ($membership->membershipPlan && $membership->user_id) {
+                // Check user's orders this month for free desserts (identified by membership_id in pivot)
+                $hasUsedFreeDesserts = \App\Models\Order::where('user_id', $membership->user_id)
+                    ->whereYear('created_at', Carbon::now()->year)
+                    ->whereMonth('created_at', Carbon::now()->month)
+                    ->whereHas('meals', function ($q) {
+                        $q->where('type_id', 4) // DESSERTS
+                          ->whereNotNull('membership_id'); // Free desserts have membership_id
+                    })
+                    ->exists();
                 
-                if ($hasReceivedThisMonth) {
-                    // Set free_desserts_quantity to 0 if already received this month
+                if ($hasUsedFreeDesserts) {
+                    // Set free_desserts_quantity to 0 in response only (not saved to DB)
                     $membership->membershipPlan->free_desserts_quantity = 0;
                 }
             }
@@ -186,12 +193,18 @@ class MembershipController extends Controller
             ], 404);
         }
 
-        // Check if user has already received free desserts this month
-        if ($membership->membershipPlan) {
-            $hasReceivedThisMonth = $membership->last_desserts_received_at && 
-                Carbon::parse($membership->last_desserts_received_at)->isSameMonth(Carbon::now());
+        // Check user's orders this month for free desserts
+        if ($membership->membershipPlan && $membership->user_id) {
+            $hasUsedFreeDesserts = \App\Models\Order::where('user_id', $membership->user_id)
+                ->whereYear('created_at', Carbon::now()->year)
+                ->whereMonth('created_at', Carbon::now()->month)
+                ->whereHas('meals', function ($q) {
+                    $q->where('type_id', 4) // DESSERTS
+                      ->whereNotNull('membership_id'); // Free desserts have membership_id
+                })
+                ->exists();
             
-            if ($hasReceivedThisMonth) {
+            if ($hasUsedFreeDesserts) {
                 $membership->membershipPlan->free_desserts_quantity = 0;
             }
         }
@@ -455,12 +468,18 @@ class MembershipController extends Controller
             ], 404);
         }
 
-        // Check if user has already received free desserts this month
-        if ($membership->membershipPlan) {
-            $hasReceivedThisMonth = $membership->last_desserts_received_at && 
-                Carbon::parse($membership->last_desserts_received_at)->isSameMonth(Carbon::now());
+        // Check user's orders this month for free desserts
+        if ($membership->membershipPlan && $membership->user_id) {
+            $hasUsedFreeDesserts = \App\Models\Order::where('user_id', $membership->user_id)
+                ->whereYear('created_at', Carbon::now()->year)
+                ->whereMonth('created_at', Carbon::now()->month)
+                ->whereHas('meals', function ($q) {
+                    $q->where('type_id', 4) // DESSERTS
+                      ->whereNotNull('membership_id'); // Free desserts have membership_id
+                })
+                ->exists();
             
-            if ($hasReceivedThisMonth) {
+            if ($hasUsedFreeDesserts) {
                 $membership->membershipPlan->free_desserts_quantity = 0;
             }
         }
