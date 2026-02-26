@@ -66,25 +66,21 @@ class MembershipController extends Controller
             $memberships = $query->get();
         }
 
-        // Check if user has already received free desserts this month
-        // and adjust free_desserts_quantity accordingly (only in response, not database)
+        // Add free desserts count for current month to each membership
         $memberships->getCollection()->transform(function ($membership) {
-            if ($membership->membershipPlan && $membership->user_id) {
-                // Check user's orders this month for free desserts (identified by membership_id in pivot)
-                $hasUsedFreeDesserts = \App\Models\Order::where('user_id', $membership->user_id)
-                    ->whereYear('created_at', Carbon::now()->year)
-                    ->whereMonth('created_at', Carbon::now()->month)
-                    ->whereHas('meals', function ($q) {
-                        $q->where('type_id', 4) // DESSERTS
-                          ->whereNotNull('membership_id'); // Free desserts have membership_id
-                    })
-                    ->exists();
+            $freeDessertCount = Order::where('user_id', $membership->user_id)
+                ->whereYear('created_at', Carbon::now()->year)
+                ->whereMonth('created_at', Carbon::now()->month)
                 
-                if ($hasUsedFreeDesserts) {
-                    // Set free_desserts_quantity to 0 in response only (not saved to DB)
-                    $membership->membershipPlan->free_desserts_quantity = 0;
-                }
-            }
+                ->with(['orderMeals' => function ($q) use ($membership) {
+                    $q->where('membership_id', $membership->id);
+                }])
+                ->get()
+                ->sum(function ($order) {
+                    return $order->orderMeals->sum('quantity');
+                });
+            
+            $membership->free_desserts_used_this_month = $freeDessertCount;
             return $membership;
         });
 
