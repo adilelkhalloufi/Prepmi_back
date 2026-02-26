@@ -84,6 +84,8 @@
         Route::get('nutrition-summary', [UserNutritionSummaryController::class, 'index']);
 
         // Membership Routes (User)
+                Route::post('memberships', [MembershipController::class, 'store']);
+
         Route::get('memberships/{id}', [MembershipController::class, 'show']);
         Route::post('memberships/{id}/cancel', [MembershipController::class, 'cancel']);
         Route::post('memberships/{id}/freeze', [MembershipController::class, 'freeze']);
