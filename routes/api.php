@@ -48,7 +48,7 @@
     Route::get('meals', [MealController::class, 'index']);
 
 
- 
+
 
     // Public Order Routes
     Route::post('orders', [OrderController::class, 'store']);
@@ -84,7 +84,7 @@
         Route::get('nutrition-summary', [UserNutritionSummaryController::class, 'index']);
 
         // Membership Routes (User)
-                Route::post('memberships', [MembershipController::class, 'store']);
+        Route::post('memberships', [MembershipController::class, 'store']);
 
         Route::get('memberships/{id}', [MembershipController::class, 'show']);
         Route::post('memberships/{id}/cancel', [MembershipController::class, 'cancel']);
@@ -100,6 +100,7 @@
 
         Route::get('total-points-earned', [AuthController::class, 'TotalPointsEarned']);
         Route::post('logout', [AuthController::class, 'logout']);
+        Route::post('change-password', [AuthController::class, 'changePassword']);
 
         // Meal Preparation Routes (Admin/Manager/Chef)
         Route::get('meal-preparations', [MealPreparationController::class, 'index']);
@@ -109,18 +110,18 @@
         Route::post('categories', [CategoryController::class, 'store']);
         Route::put('categories/{id}', [CategoryController::class, 'update']);
         Route::delete('categories/{id}', [CategoryController::class, 'destroy']);
- 
+
         // Protected Meal Routes (Admin/Manager only)
         Route::post('meals', [MealController::class, 'store']);
         Route::put('meals/{id}', [MealController::class, 'update']);
         Route::delete('meals/{id}', [MealController::class, 'destroy']);
- 
+
         // Image Upload Routes
         Route::post('meals/upload-image', [MealController::class, 'uploadImage']);
         Route::post('meals/upload-gallery', [MealController::class, 'uploadGalleryImages']);
         Route::delete('meals/delete-image', [MealController::class, 'deleteImage']);
 
-  
+
         // User Management Routes (Admin only)
         Route::get('users', [UserController::class, 'index']);
         Route::post('users', [UserController::class, 'store']);

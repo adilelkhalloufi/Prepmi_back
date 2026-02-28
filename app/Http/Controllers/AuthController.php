@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Actions\User\CreateUser;
 use App\Enum\ProfilStatus;
 use App\Enum\UserRole;
+use App\Http\Requests\ChangePasswordRequest;
 use App\Mail\CodeVerification;
 use App\Models\User;
 use App\Services\SettingService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
@@ -129,6 +131,31 @@ class AuthController extends Controller
         ]);
 
         return response()->json($user);
+    }
+
+    public function changePassword(ChangePasswordRequest $request)
+    {
+        $user = auth()->user();
+
+        // Verify old password
+        if (!Hash::check($request->old_password, $user->password)) {
+            return response()->json([
+                'message' => 'The old password is incorrect.',
+                'errors' => [
+                    'old_password' => ['The old password is incorrect.']
+                ]
+            ], 422);
+        }
+
+        // Update to new password
+        $user->update([
+            'password' => Hash::make($request->new_password),
+        ]);
+
+        return response()->json([
+            'message' => 'Password changed successfully.',
+            'user' => $user
+        ], 200);
     }
 
     public function forgetPassword(Request $request)
