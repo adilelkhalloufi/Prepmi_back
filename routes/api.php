@@ -30,7 +30,7 @@
     Route::post('register', [AuthController::class, 'register']);
     Route::post('forgot-password', [AuthController::class, 'forgetPassword']);
     Route::post('forgot-password/reset', [AuthController::class, 'verifyCodeResetPassword']);
-
+    
     // Media Upload
     Route::post('media/upload', [MediaController::class, 'uploadImage']);
 

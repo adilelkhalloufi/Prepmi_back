@@ -18,9 +18,9 @@ class MediaController extends Controller
 
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $path = $image->store('images', 'public');
+            $path = $image->store('images', 'public_uploads');
             
-            $url = Storage::url($path);
+            $url = Storage::disk('public_uploads')->url($path);
             
             return response()->json([
                 'success' => true,

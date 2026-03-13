@@ -133,7 +133,7 @@ class MealController extends Controller
         if ($request->hasFile('image_path')) {
             $image = $request->file('image_path');
             $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
-            $imagePath = $image->storeAs('meals/images', $imageName, 'public');
+            $imagePath = $image->storeAs('meals/images', $imageName, 'public_uploads');
             $validated['image_path'] = $imagePath;
         }
 
@@ -142,7 +142,7 @@ class MealController extends Controller
             $galleryPaths = [];
             foreach ($request->file('gallery_images') as $galleryImage) {
                 $galleryName = time() . '_' . uniqid() . '.' . $galleryImage->getClientOriginalExtension();
-                $galleryPath = $galleryImage->storeAs('meals/gallery', $galleryName, 'public');
+                $galleryPath = $galleryImage->storeAs('meals/gallery', $galleryName, 'public_uploads');
                 $galleryPaths[] = $galleryPath;
             }
             $validated['gallery_images'] = $galleryPaths;
@@ -190,13 +190,13 @@ class MealController extends Controller
         // Handle main image upload
         if ($request->hasFile('image_path')) {
             // Delete old image if exists
-            if ($meal->image_path && Storage::disk('public')->exists($meal->image_path)) {
-                Storage::disk('public')->delete($meal->image_path);
+            if ($meal->image_path && Storage::disk('public_uploads')->exists($meal->image_path)) {
+                Storage::disk('public_uploads')->delete($meal->image_path);
             }
 
             $image = $request->file('image_path');
             $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
-            $imagePath = $image->storeAs('meals/images', $imageName, 'public');
+            $imagePath = $image->storeAs('meals/images', $imageName, 'public_uploads');
             $validated['image_path'] = $imagePath;
         }
 
@@ -205,8 +205,8 @@ class MealController extends Controller
             // Delete old gallery images if exist
             if ($meal->gallery_images && is_array($meal->gallery_images)) {
                 foreach ($meal->gallery_images as $oldImage) {
-                    if (Storage::disk('public')->exists($oldImage)) {
-                        Storage::disk('public')->delete($oldImage);
+                    if (Storage::disk('public_uploads')->exists($oldImage)) {
+                        Storage::disk('public_uploads')->delete($oldImage);
                     }
                 }
             }
@@ -214,7 +214,7 @@ class MealController extends Controller
             $galleryPaths = [];
             foreach ($request->file('gallery_images') as $galleryImage) {
                 $galleryName = time() . '_' . uniqid() . '.' . $galleryImage->getClientOriginalExtension();
-                $galleryPath = $galleryImage->storeAs('meals/gallery', $galleryName, 'public');
+                $galleryPath = $galleryImage->storeAs('meals/gallery', $galleryName, 'public_uploads');
                 $galleryPaths[] = $galleryPath;
             }
             $validated['gallery_images'] = $galleryPaths;
@@ -394,12 +394,12 @@ class MealController extends Controller
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
-            $imagePath = $image->storeAs('meals/images', $imageName, 'public');
+            $imagePath = $image->storeAs('meals/images', $imageName, 'public_uploads');
 
             return response()->json([
                 'message' => 'Image uploaded successfully',
                 'path' => $imagePath,
-                'url' => Storage::url($imagePath)
+                'url' => Storage::disk('public_uploads')->url($imagePath)
             ], 201);
         }
 
@@ -421,11 +421,11 @@ class MealController extends Controller
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
                 $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
-                $imagePath = $image->storeAs('meals/gallery', $imageName, 'public');
+                $imagePath = $image->storeAs('meals/gallery', $imageName, 'public_uploads');
 
                 $uploadedImages[] = [
                     'path' => $imagePath,
-                    'url' => Storage::url($imagePath)
+                    'url' => Storage::disk('public_uploads')->url($imagePath)
                 ];
             }
         }
@@ -447,8 +447,8 @@ class MealController extends Controller
 
         $path = $request->input('path');
 
-        if (Storage::disk('public')->exists($path)) {
-            Storage::disk('public')->delete($path);
+        if (Storage::disk('public_uploads')->exists($path)) {
+            Storage::disk('public_uploads')->delete($path);
 
             return response()->json([
                 'message' => 'Image deleted successfully'
